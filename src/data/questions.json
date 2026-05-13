@@ -1,0 +1,46 @@
+[
+  {
+    "id": "J01",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "easy",
+    "points": 10,
+    "question": "台湾の行政・交通の中心として知られる都市はどこですか？",
+    "choices": ["台北", "台中", "高雄", "台南"],
+    "answerIndex": 0,
+    "explanation": "台北は台湾北部にあり、行政機関や交通網が集まる中心都市です。"
+  },
+  {
+    "id": "J02",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "normal",
+    "points": 15,
+    "question": "台湾で広く使われているIC交通カードの名前として正しいものはどれですか？",
+    "choices": ["悠遊カード", "Suica", "Octopus", "T-money"],
+    "answerIndex": 0,
+    "explanation": "悠遊カードは台湾の公共交通や買い物で使える代表的なICカードです。"
+  },
+  {
+    "id": "C01",
+    "side": "Culture",
+    "language": "ja",
+    "difficulty": "easy",
+    "points": 10,
+    "question": "台湾の夜市でよく見られる、小さな屋台が集まる食文化を何と呼びますか？",
+    "choices": ["夜市", "茶会", "縁日", "朝市"],
+    "answerIndex": 0,
+    "explanation": "夜市では屋台料理、ゲーム、買い物などを楽しむことができ、台湾の身近な文化の一つです。"
+  },
+  {
+    "id": "C02",
+    "side": "Culture",
+    "language": "ja",
+    "difficulty": "normal",
+    "points": 15,
+    "question": "台湾で親しまれている飲み物「珍珠奶茶」は、日本語では一般に何と呼ばれますか？",
+    "choices": ["タピオカミルクティー", "抹茶ラテ", "烏龍茶", "豆乳"],
+    "answerIndex": 0,
+    "explanation": "珍珠奶茶はタピオカ入りのミルクティーで、台湾発祥の飲み物として知られています。"
+  }
+]
