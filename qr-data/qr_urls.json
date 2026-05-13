@@ -1,0 +1,50 @@
+[
+  {
+    "type": "question",
+    "id": "J01",
+    "title": "台湾の行政・交通の中心として知られる都市はどこですか？",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J01",
+    "points": "10",
+    "language": "ja"
+  },
+  {
+    "type": "question",
+    "id": "J02",
+    "title": "台湾で広く使われているIC交通カードの名前として正しいものはどれですか？",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J02",
+    "points": "15",
+    "language": "ja"
+  },
+  {
+    "type": "question",
+    "id": "C01",
+    "title": "台湾の夜市でよく見られる、小さな屋台が集まる食文化を何と呼びますか？",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C01",
+    "points": "10",
+    "language": "ja"
+  },
+  {
+    "type": "question",
+    "id": "C02",
+    "title": "台湾で親しまれている飲み物「珍珠奶茶」は、日本語では一般に何と呼ばれま...",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C02",
+    "points": "15",
+    "language": "ja"
+  },
+  {
+    "type": "treasure",
+    "id": "T01",
+    "title": "Treasure QR T01",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T01",
+    "points": "translation-key +1",
+    "language": "all"
+  },
+  {
+    "type": "treasure",
+    "id": "T02",
+    "title": "Treasure QR T02",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T02",
+    "points": "translation-key +1",
+    "language": "all"
+  }
+]
