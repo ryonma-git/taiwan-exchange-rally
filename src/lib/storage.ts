@@ -1,4 +1,5 @@
 export const STORAGE_KEY = 'taiwan-exchange-rally:v1'
+export const INITIAL_TRANSLATION_KEYS = 3
 
 export type AnswerRecord = {
   questionId: string
@@ -19,6 +20,9 @@ export type RallyState = {
   answerHistory: AnswerRecord[]
   answeredQuestionIds: string[]
   questionSetSignature: string
+  translationKeysRemaining: number
+  translationKeysUsedQuestionIds: string[]
+  claimedTreasureIds: string[]
 }
 
 export function createEmptyRallyState(questionSetSignature: string): RallyState {
@@ -28,6 +32,9 @@ export function createEmptyRallyState(questionSetSignature: string): RallyState 
     answerHistory: [],
     answeredQuestionIds: [],
     questionSetSignature,
+    translationKeysRemaining: INITIAL_TRANSLATION_KEYS,
+    translationKeysUsedQuestionIds: [],
+    claimedTreasureIds: [],
   }
 }
 
@@ -52,6 +59,14 @@ export function loadRallyState(questionSetSignature: string): RallyState {
     const answerHistory = Array.isArray(parsedValue.answerHistory)
       ? dedupeAnswerHistory(parsedValue.answerHistory.filter(isAnswerRecord))
       : []
+    const translationKeysUsedQuestionIds = Array.isArray(
+      parsedValue.translationKeysUsedQuestionIds,
+    )
+      ? createUniqueStrings(parsedValue.translationKeysUsedQuestionIds)
+      : []
+    const claimedTreasureIds = Array.isArray(parsedValue.claimedTreasureIds)
+      ? createUniqueStrings(parsedValue.claimedTreasureIds)
+      : []
 
     return {
       teamName:
@@ -63,6 +78,12 @@ export function loadRallyState(questionSetSignature: string): RallyState {
       answerHistory,
       answeredQuestionIds: createAnsweredQuestionIds(answerHistory),
       questionSetSignature,
+      translationKeysRemaining: calculateTranslationKeysRemaining(
+        translationKeysUsedQuestionIds,
+        claimedTreasureIds,
+      ),
+      translationKeysUsedQuestionIds,
+      claimedTreasureIds,
     }
   } catch {
     return createEmptyRallyState(questionSetSignature)
@@ -111,6 +132,22 @@ function createAnsweredQuestionIds(answerHistory: AnswerRecord[]) {
   return Array.from(new Set(answerHistory.map((record) => record.questionId)))
 }
 
+function createUniqueStrings(values: unknown[]) {
+  return Array.from(new Set(values.filter(isString)))
+}
+
+function calculateTranslationKeysRemaining(
+  translationKeysUsedQuestionIds: string[],
+  claimedTreasureIds: string[],
+) {
+  return Math.max(
+    0,
+    INITIAL_TRANSLATION_KEYS +
+      claimedTreasureIds.length -
+      translationKeysUsedQuestionIds.length,
+  )
+}
+
 function dedupeAnswerHistory(answerHistory: AnswerRecord[]) {
   const seenQuestionIds = new Set<string>()
   const dedupedHistory: AnswerRecord[] = []
@@ -125,6 +162,10 @@ function dedupeAnswerHistory(answerHistory: AnswerRecord[]) {
   }
 
   return dedupedHistory
+}
+
+function isString(value: unknown): value is string {
+  return typeof value === 'string'
 }
 
 function isAnswerRecord(value: unknown): value is AnswerRecord {

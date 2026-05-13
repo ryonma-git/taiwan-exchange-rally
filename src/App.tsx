@@ -1,6 +1,13 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type FormEvent,
+} from 'react'
 import questionsRaw from './data/questions.json?raw'
 import {
+  INITIAL_TRANSLATION_KEYS,
   STORAGE_KEY,
   clearRallyState,
   createEmptyRallyState,
@@ -20,16 +27,20 @@ type Question = {
   choices: string[]
   answerIndex: number
   explanation: string
+  translationText?: string
 }
 
 type ScreenMode = 'home' | 'result'
+type TreasureStatus = 'claimed' | 'already-claimed' | 'invalid'
 
 const EVENT_NAME = '台湾交流会 校内QRクイズラリー'
 const STORAGE_ERROR_MESSAGE =
   'この端末では保存に失敗しました。先生に知らせてください。'
+const NO_TRANSLATION_KEYS_MESSAGE = '翻訳の鍵はもう残っていません。'
 const questions = JSON.parse(questionsRaw) as Question[]
 const questionMap = new Map(questions.map((question) => [question.id, question]))
 const questionSetSignature = createQuestionSetSignature(questionsRaw)
+const allowedTreasureIds = ['T01', 'T02']
 
 function createQuestionSetSignature(value: string) {
   let hash = 2166136261
@@ -47,10 +58,20 @@ function readQuestionIdFromUrl() {
   return value?.trim().toUpperCase() || null
 }
 
-function removeQuestionFromUrl() {
+function readTreasureIdFromUrl() {
+  const value = new URLSearchParams(window.location.search).get('treasure')
+  return value?.trim().toUpperCase() || null
+}
+
+function removeRallyParamsFromUrl() {
   const url = new URL(window.location.href)
   url.searchParams.delete('q')
+  url.searchParams.delete('treasure')
   window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`)
+}
+
+function isAllowedTreasureId(value: string) {
+  return allowedTreasureIds.includes(value)
 }
 
 function formatAnsweredAt(value: string) {
@@ -71,6 +92,22 @@ function calculateTotalScore(answerHistory: AnswerRecord[]) {
 
 function createAnsweredQuestionIds(answerHistory: AnswerRecord[]) {
   return Array.from(new Set(answerHistory.map((record) => record.questionId)))
+}
+
+function createUniqueIds(values: string[]) {
+  return Array.from(new Set(values))
+}
+
+function calculateTranslationKeysRemaining(
+  translationKeysUsedQuestionIds: string[],
+  claimedTreasureIds: string[],
+) {
+  return Math.max(
+    0,
+    INITIAL_TRANSLATION_KEYS +
+      claimedTreasureIds.length -
+      translationKeysUsedQuestionIds.length,
+  )
 }
 
 function mergeAnswerHistories(
@@ -95,14 +132,42 @@ function mergeAnswerHistories(
 function rebuildRallyState(
   state: RallyState,
   answerHistory: AnswerRecord[],
+  translationKeysUsedQuestionIds = state.translationKeysUsedQuestionIds,
+  claimedTreasureIds = state.claimedTreasureIds,
 ): RallyState {
+  const nextTranslationKeysUsedQuestionIds = createUniqueIds(
+    translationKeysUsedQuestionIds,
+  )
+  const nextClaimedTreasureIds = createUniqueIds(claimedTreasureIds)
+
   return {
     ...state,
     totalScore: calculateTotalScore(answerHistory),
     answerHistory,
     answeredQuestionIds: createAnsweredQuestionIds(answerHistory),
     questionSetSignature,
+    translationKeysRemaining: calculateTranslationKeysRemaining(
+      nextTranslationKeysUsedQuestionIds,
+      nextClaimedTreasureIds,
+    ),
+    translationKeysUsedQuestionIds: nextTranslationKeysUsedQuestionIds,
+    claimedTreasureIds: nextClaimedTreasureIds,
   }
+}
+
+function mergeRallyStates(latestState: RallyState, currentState: RallyState) {
+  return rebuildRallyState(
+    {
+      ...latestState,
+      teamName: latestState.teamName || currentState.teamName,
+    },
+    mergeAnswerHistories(latestState.answerHistory, currentState.answerHistory),
+    [
+      ...latestState.translationKeysUsedQuestionIds,
+      ...currentState.translationKeysUsedQuestionIds,
+    ],
+    [...latestState.claimedTreasureIds, ...currentState.claimedTreasureIds],
+  )
 }
 
 function App() {
@@ -116,10 +181,28 @@ function App() {
   const [questionId, setQuestionId] = useState<string | null>(() =>
     readQuestionIdFromUrl(),
   )
+  const [treasureId, setTreasureId] = useState<string | null>(() =>
+    readTreasureIdFromUrl(),
+  )
+  const [processedTreasureId, setProcessedTreasureId] = useState<string | null>(
+    null,
+  )
+  const [treasureStatus, setTreasureStatus] = useState<TreasureStatus | null>(
+    null,
+  )
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [feedback, setFeedback] = useState<AnswerRecord | null>(null)
+  const [translationNotice, setTranslationNotice] = useState('')
 
   const activeQuestion = questionId ? questionMap.get(questionId) : undefined
+  const activeTreasureId =
+    treasureId && isAllowedTreasureId(treasureId) ? treasureId : undefined
+  const currentTreasureStatus = !activeTreasureId
+    ? 'invalid'
+    : treasureStatus ??
+      (rallyState.claimedTreasureIds.includes(activeTreasureId)
+        ? 'already-claimed'
+        : 'pending')
   const answeredRecord = useMemo(
     () =>
       activeQuestion
@@ -130,24 +213,44 @@ function App() {
     [activeQuestion, rallyState.answerHistory],
   )
   const displayedRecord = feedback ?? answeredRecord
+  const hasUsedTranslationKey = activeQuestion
+    ? rallyState.translationKeysUsedQuestionIds.includes(activeQuestion.id)
+    : false
+  const hasQuestionTranslation = Boolean(
+    activeQuestion?.translationText?.trim(),
+  )
+  const shouldShowTranslation = hasQuestionTranslation && hasUsedTranslationKey
   const hasTeamName = rallyState.teamName.trim().length > 0
   const screen = !hasTeamName
     ? 'start'
     : screenMode === 'result'
       ? 'result'
-      : questionId
-        ? 'question'
-        : 'home'
+      : treasureId
+        ? 'treasure'
+        : questionId
+          ? 'question'
+          : 'home'
   const correctCount = rallyState.answerHistory.filter(
     (record) => record.isCorrect,
   ).length
 
+  const persistState = useCallback((nextState: RallyState) => {
+    setRallyState(nextState)
+    const wasSaved = saveRallyState(nextState)
+    setStorageWarning(wasSaved ? '' : STORAGE_ERROR_MESSAGE)
+    return wasSaved
+  }, [])
+
   useEffect(() => {
     const handlePopState = () => {
       setQuestionId(readQuestionIdFromUrl())
+      setTreasureId(readTreasureIdFromUrl())
+      setProcessedTreasureId(null)
+      setTreasureStatus(null)
       setScreenMode('home')
       setSelectedIndex(null)
       setFeedback(null)
+      setTranslationNotice('')
     }
 
     window.addEventListener('popstate', handlePopState)
@@ -176,12 +279,44 @@ function App() {
     return () => window.removeEventListener('storage', handleStorage)
   }, [])
 
-  const persistState = (nextState: RallyState) => {
-    setRallyState(nextState)
-    const wasSaved = saveRallyState(nextState)
-    setStorageWarning(wasSaved ? '' : STORAGE_ERROR_MESSAGE)
-    return wasSaved
-  }
+  useEffect(() => {
+    if (!hasTeamName || !treasureId || processedTreasureId === treasureId) {
+      return undefined
+    }
+
+    const timer = window.setTimeout(() => {
+      if (!isAllowedTreasureId(treasureId)) {
+        setTreasureStatus('invalid')
+        setProcessedTreasureId(treasureId)
+        return
+      }
+
+      const latestState = loadRallyState(questionSetSignature)
+      const baseState = mergeRallyStates(latestState, rallyState)
+
+      if (baseState.claimedTreasureIds.includes(treasureId)) {
+        setRallyState(baseState)
+        setTeamNameInput(baseState.teamName)
+        setStorageWarning('')
+        setTreasureStatus('already-claimed')
+        setProcessedTreasureId(treasureId)
+        return
+      }
+
+      const nextState = rebuildRallyState(
+        baseState,
+        baseState.answerHistory,
+        baseState.translationKeysUsedQuestionIds,
+        [...baseState.claimedTreasureIds, treasureId],
+      )
+
+      persistState(nextState)
+      setTreasureStatus('claimed')
+      setProcessedTreasureId(treasureId)
+    }, 0)
+
+    return () => window.clearTimeout(timer)
+  }, [hasTeamName, persistState, processedTreasureId, rallyState, treasureId])
 
   const handleStart = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -193,17 +328,11 @@ function App() {
     }
 
     const latestState = loadRallyState(questionSetSignature)
-    const mergedHistory = mergeAnswerHistories(
-      latestState.answerHistory,
-      rallyState.answerHistory,
-    )
-    const nextState = rebuildRallyState(
-      {
-        ...latestState,
-        teamName: nextTeamName,
-      },
-      mergedHistory,
-    )
+    const mergedState = mergeRallyStates(latestState, rallyState)
+    const nextState = {
+      ...mergedState,
+      teamName: nextTeamName,
+    }
 
     persistState(nextState)
     setTeamNameInput(nextTeamName)
@@ -212,11 +341,15 @@ function App() {
   }
 
   const handleGoHome = () => {
-    removeQuestionFromUrl()
+    removeRallyParamsFromUrl()
     setQuestionId(null)
+    setTreasureId(null)
+    setProcessedTreasureId(null)
+    setTreasureStatus(null)
     setScreenMode('home')
     setSelectedIndex(null)
     setFeedback(null)
+    setTranslationNotice('')
   }
 
   const handleSubmitAnswer = () => {
@@ -251,23 +384,13 @@ function App() {
       return
     }
 
-    const baseHistory = mergeAnswerHistories(
-      latestState.answerHistory,
-      rallyState.answerHistory,
-    )
-    const alreadyMergedRecord = baseHistory.find(
+    const baseState = mergeRallyStates(latestState, rallyState)
+    const alreadyMergedRecord = baseState.answerHistory.find(
       (record) => record.questionId === activeQuestion.id,
     )
 
     if (alreadyMergedRecord) {
-      const mergedState = rebuildRallyState(
-        {
-          ...latestState,
-          teamName: latestState.teamName || rallyState.teamName,
-        },
-        baseHistory,
-      )
-      persistState(mergedState)
+      persistState(baseState)
       setFeedback(alreadyMergedRecord)
       return
     }
@@ -286,17 +409,50 @@ function App() {
       correctChoice: activeQuestion.choices[activeQuestion.answerIndex],
       explanation: activeQuestion.explanation,
     }
-    const nextHistory = [...baseHistory, record]
-    const nextState = rebuildRallyState(
-      {
-        ...latestState,
-        teamName: latestState.teamName || rallyState.teamName,
-      },
-      nextHistory,
-    )
+    const nextHistory = [...baseState.answerHistory, record]
+    const nextState = rebuildRallyState(baseState, nextHistory)
 
     persistState(nextState)
     setFeedback(record)
+  }
+
+  const handleUseTranslationKey = () => {
+    if (!activeQuestion?.translationText) {
+      return
+    }
+
+    const latestState = loadRallyState(questionSetSignature)
+    const baseState = mergeRallyStates(latestState, rallyState)
+
+    if (baseState.translationKeysUsedQuestionIds.includes(activeQuestion.id)) {
+      persistState(baseState)
+      setTranslationNotice('')
+      return
+    }
+
+    if (baseState.translationKeysRemaining <= 0) {
+      setRallyState(baseState)
+      setTranslationNotice(NO_TRANSLATION_KEYS_MESSAGE)
+      return
+    }
+
+    const isConfirmed = window.confirm(
+      '翻訳の鍵を1つ使って、この問題の翻訳を表示します。よろしいですか？',
+    )
+
+    if (!isConfirmed) {
+      return
+    }
+
+    const nextState = rebuildRallyState(
+      baseState,
+      baseState.answerHistory,
+      [...baseState.translationKeysUsedQuestionIds, activeQuestion.id],
+      baseState.claimedTreasureIds,
+    )
+
+    persistState(nextState)
+    setTranslationNotice('')
   }
 
   const handleReset = () => {
@@ -323,9 +479,13 @@ function App() {
     setStorageWarning(wasCleared ? '' : STORAGE_ERROR_MESSAGE)
     setScreenMode('home')
     setQuestionId(null)
+    setTreasureId(null)
+    setProcessedTreasureId(null)
+    setTreasureStatus(null)
     setSelectedIndex(null)
     setFeedback(null)
-    removeQuestionFromUrl()
+    setTranslationNotice('')
+    removeRallyParamsFromUrl()
   }
 
   return (
@@ -387,6 +547,10 @@ function App() {
               <strong>
                 {rallyState.answeredQuestionIds.length}/{questions.length}
               </strong>
+            </div>
+            <div>
+              <span>翻訳の鍵</span>
+              <strong>残り: {rallyState.translationKeysRemaining}</strong>
             </div>
           </div>
 
@@ -452,7 +616,7 @@ function App() {
                       className={
                         selectedIndex === index ? 'choice selected' : 'choice'
                       }
-                      key={choice}
+                      key={`${activeQuestion.id}-${index}`}
                     >
                       <input
                         type="radio"
@@ -475,6 +639,41 @@ function App() {
                   回答する
                 </button>
               </section>
+
+              {hasQuestionTranslation && (
+                <section className="translation-panel">
+                  <p className="translation-guidance">
+                    まずはチームの友だちに聞いてみましょう。どうしても分からないときに使えます。
+                  </p>
+                  {!hasUsedTranslationKey && (
+                    <>
+                      <button
+                        type="button"
+                        className="translation-button"
+                        disabled={rallyState.translationKeysRemaining <= 0}
+                        onClick={handleUseTranslationKey}
+                      >
+                        🔑 翻訳の鍵を使う（残り:{' '}
+                        {rallyState.translationKeysRemaining}）
+                      </button>
+                      {rallyState.translationKeysRemaining <= 0 && (
+                        <p className="translation-notice">
+                          {NO_TRANSLATION_KEYS_MESSAGE}
+                        </p>
+                      )}
+                    </>
+                  )}
+                  {translationNotice && (
+                    <p className="translation-notice">{translationNotice}</p>
+                  )}
+                  {shouldShowTranslation && (
+                    <div className="translation-text">
+                      <h2>翻訳 / Translation</h2>
+                      <p>{activeQuestion.translationText}</p>
+                    </div>
+                  )}
+                </section>
+              )}
 
               {answeredRecord && !feedback && (
                 <p className="answered-note">
@@ -508,6 +707,51 @@ function App() {
         </section>
       )}
 
+      {screen === 'treasure' && (
+        <section className="treasure-screen" aria-labelledby="treasure-title">
+          <div className="top-bar">
+            <div>
+              <p className="eyebrow">{rallyState.teamName}</p>
+              <h1 id="treasure-title">Treasure QR</h1>
+            </div>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={handleGoHome}
+            >
+              Home
+            </button>
+          </div>
+
+          <section className="treasure-panel">
+            <p className="treasure-code">{treasureId ?? 'Unknown'}</p>
+            {currentTreasureStatus === 'claimed' && (
+              <h2>宝箱を見つけました！翻訳の鍵を1つ手に入れました</h2>
+            )}
+            {currentTreasureStatus === 'already-claimed' && (
+              <h2>この宝箱はすでに開けています</h2>
+            )}
+            {currentTreasureStatus === 'invalid' && (
+              <h2>宝箱が見つかりません</h2>
+            )}
+            {currentTreasureStatus === 'pending' && (
+              <h2>宝箱を確認しています</h2>
+            )}
+            <p>
+              現在の翻訳の鍵の残り本数:{' '}
+              <strong>{rallyState.translationKeysRemaining}</strong>
+            </p>
+            <button
+              type="button"
+              className="primary-button"
+              onClick={handleGoHome}
+            >
+              Homeへ戻る
+            </button>
+          </section>
+        </section>
+      )}
+
       {screen === 'result' && (
         <section className="result-screen" aria-labelledby="result-title">
           <div className="top-bar">
@@ -537,6 +781,21 @@ function App() {
               <span>回答済み問題数</span>
               <strong>{rallyState.answeredQuestionIds.length}</strong>
             </div>
+            <div>
+              <span>翻訳の鍵 残り</span>
+              <strong>{rallyState.translationKeysRemaining}</strong>
+            </div>
+          </section>
+
+          <section className="key-section" aria-labelledby="key-title">
+            <h2 id="key-title">翻訳の鍵</h2>
+            <p>残り: {rallyState.translationKeysRemaining}</p>
+            <p>
+              使用した問題ID:{' '}
+              {rallyState.translationKeysUsedQuestionIds.length > 0
+                ? rallyState.translationKeysUsedQuestionIds.join(', ')
+                : 'なし'}
+            </p>
           </section>
 
           <section className="history-section" aria-labelledby="history-title">
