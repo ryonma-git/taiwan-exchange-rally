@@ -1,18 +1,23 @@
 :root {
-  --bg: #f7f4ee;
+  --bg: #fff8f0;
   --surface: #ffffff;
-  --surface-strong: #10233f;
-  --text: #1e2733;
-  --muted: #667085;
-  --border: #d9dee7;
-  --primary: #d64545;
-  --primary-dark: #a92f35;
-  --teal: #1d8177;
-  --gold: #f3b23c;
+  --surface-soft: #fff3e7;
+  --surface-strong: #13345b;
+  --text: #1e2a38;
+  --muted: #667386;
+  --border: #e3d8cb;
+  --primary: #d9424a;
+  --primary-dark: #a72d3b;
+  --blue: #2367a5;
+  --teal: #1b8f84;
+  --gold: #f2b844;
+  --sakura: #f7b7c7;
+  --plum: #bf3150;
   --green: #248a58;
   --red-soft: #fde8e8;
   --green-soft: #e6f4ec;
-  --shadow: 0 18px 45px rgba(16, 35, 63, 0.12);
+  --blue-soft: #eaf3fb;
+  --shadow: 0 18px 45px rgba(19, 52, 91, 0.14);
   --radius: 8px;
   font-family:
     system-ui,
@@ -21,7 +26,11 @@
     'Segoe UI',
     sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background:
+    linear-gradient(135deg, rgba(217, 66, 74, 0.08) 0 25%, transparent 25% 50%, rgba(35, 103, 165, 0.08) 50% 75%, transparent 75%),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.7) 0 18px, rgba(255, 243, 231, 0.7) 18px 36px),
+    var(--bg);
+  background-size: 58px 58px, auto, auto;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -44,10 +53,11 @@ input {
 }
 
 button {
-  min-height: 48px;
+  min-height: 56px;
   border: 0;
   border-radius: var(--radius);
   cursor: pointer;
+  box-shadow: 0 8px 20px rgba(19, 52, 91, 0.12);
 }
 
 button:disabled {
@@ -63,7 +73,7 @@ p {
 
 h1 {
   color: var(--surface-strong);
-  font-size: 2.45rem;
+  font-size: 3.15rem;
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -84,6 +94,7 @@ h2 {
   min-height: 100svh;
   margin: 0 auto;
   padding: 28px;
+  background: rgba(255, 248, 240, 0.78);
 }
 
 .start-screen,
@@ -100,8 +111,28 @@ h2 {
   justify-content: center;
 }
 
+.hero-copy {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.start-screen,
+.home-screen {
+  position: relative;
+}
+
+.start-screen::before,
+.home-screen::before {
+  content: '';
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), white, var(--blue), var(--sakura), var(--teal));
+}
+
 .eyebrow {
-  color: var(--teal);
+  color: var(--plum);
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -111,7 +142,7 @@ h2 {
 .lead {
   max-width: 620px;
   color: var(--muted);
-  font-size: 1.08rem;
+  font-size: 1.15rem;
   line-height: 1.65;
 }
 
@@ -122,7 +153,7 @@ h2 {
   padding: 24px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.96);
   box-shadow: var(--shadow);
 }
 
@@ -175,13 +206,24 @@ h2 {
   gap: 18px;
 }
 
+.team-name-label {
+  display: inline-flex;
+  margin-top: 14px;
+  padding: 8px 12px;
+  border: 1px solid rgba(35, 103, 165, 0.2);
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: var(--surface-strong);
+  font-weight: 900;
+}
+
 .primary-button,
 .secondary-button,
 .danger-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 18px;
+  padding: 14px 20px;
   font-weight: 800;
 }
 
@@ -226,8 +268,16 @@ h2 {
   min-height: 132px;
   padding: 22px;
   border-radius: var(--radius);
-  background: var(--surface-strong);
+  background: linear-gradient(135deg, var(--surface-strong), var(--blue));
   color: white;
+}
+
+.score-band > div:nth-child(2) {
+  background: linear-gradient(135deg, var(--teal), #136f66);
+}
+
+.score-band > div:nth-child(3) {
+  background: linear-gradient(135deg, var(--plum), var(--primary));
 }
 
 .score-band span,
@@ -245,6 +295,10 @@ h2 {
   line-height: 1;
 }
 
+.score-band > div:nth-child(3) strong {
+  font-size: 2.35rem;
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -255,11 +309,51 @@ h2 {
   padding: 22px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 26px rgba(19, 52, 91, 0.08);
+}
+
+.info-grid article::before,
+.translation-panel::before,
+.treasure-panel::before {
+  content: '';
+  display: block;
+  width: 72px;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), var(--sakura), var(--blue));
+}
+
+.safety-card {
+  border-color: rgba(242, 184, 68, 0.55);
+  background: #fffaf0;
+}
+
+.safety-card::before {
+  background: linear-gradient(90deg, var(--gold), var(--teal));
 }
 
 .info-grid h2 {
   margin-bottom: 10px;
+}
+
+.card-icon {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  margin: 14px 0 12px;
+  border-radius: 16px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-weight: 1000;
+  box-shadow: inset 0 -5px 0 rgba(35, 103, 165, 0.08);
+}
+
+.safety-card .card-icon {
+  background: #fff4cf;
+  color: #9a6714;
 }
 
 .info-grid p,
@@ -339,7 +433,8 @@ h2 {
   padding: 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 26px rgba(19, 52, 91, 0.08);
 }
 
 .translation-guidance,
@@ -353,8 +448,8 @@ h2 {
 .translation-button {
   justify-self: start;
   border: 1px solid rgba(29, 129, 119, 0.35);
-  background: #eef8f6;
-  color: var(--teal);
+  background: linear-gradient(135deg, #fff7d7, #eaf8f5);
+  color: #116d65;
   font-weight: 900;
 }
 
@@ -364,7 +459,7 @@ h2 {
   padding: 16px;
   border-left: 6px solid var(--teal);
   border-radius: var(--radius);
-  background: #eef8f6;
+  background: linear-gradient(135deg, #eef8f6, #fff7d7);
 }
 
 .translation-text p {
@@ -381,11 +476,19 @@ h2 {
 }
 
 .treasure-panel {
+  border-color: rgba(242, 184, 68, 0.7);
+  background:
+    linear-gradient(135deg, rgba(242, 184, 68, 0.16), rgba(255, 255, 255, 0.96) 42%),
+    var(--surface);
   box-shadow: var(--shadow);
 }
 
+.treasure-panel::before {
+  background: linear-gradient(90deg, var(--gold), var(--primary), var(--blue));
+}
+
 .treasure-code {
-  color: var(--teal);
+  color: var(--plum);
   font-weight: 900;
 }
 

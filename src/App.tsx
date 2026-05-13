@@ -33,7 +33,8 @@ type Question = {
 type ScreenMode = 'home' | 'result'
 type TreasureStatus = 'claimed' | 'already-claimed' | 'invalid'
 
-const EVENT_NAME = '台湾交流会 校内QRクイズラリー'
+const EVENT_NAME = 'Japan–Taiwan School Discovery Rally'
+const EVENT_SUBTITLE = '台湾交流会 校内QRクイズラリー'
 const STORAGE_ERROR_MESSAGE =
   'この端末では保存に失敗しました。先生に知らせてください。'
 const NO_TRANSLATION_KEYS_MESSAGE = '翻訳の鍵はもう残っていません。'
@@ -498,11 +499,13 @@ function App() {
 
       {screen === 'start' && (
         <section className="start-screen" aria-labelledby="start-title">
-          <p className="eyebrow">School Exchange Rally</p>
-          <h1 id="start-title">{EVENT_NAME}</h1>
-          <p className="lead">
-            班名を入力して、校内のQRポイントを回りながらクイズに挑戦します。
-          </p>
+          <div className="hero-copy">
+            <p className="eyebrow">{EVENT_SUBTITLE}</p>
+            <h1 id="start-title">{EVENT_NAME}</h1>
+            <p className="lead">
+              班名を入力して、校内のQRポイントを回りながらクイズに挑戦します。
+            </p>
+          </div>
           <form className="start-form" onSubmit={handleStart}>
             <label htmlFor="team-name">班名</label>
             <input
@@ -523,10 +526,11 @@ function App() {
 
       {screen === 'home' && (
         <section className="home-screen" aria-labelledby="home-title">
-          <div className="top-bar">
+          <div className="top-bar home-hero">
             <div>
-              <p className="eyebrow">{EVENT_NAME}</p>
-              <h1 id="home-title">{rallyState.teamName}</h1>
+              <p className="eyebrow">{EVENT_SUBTITLE}</p>
+              <h1 id="home-title">{EVENT_NAME}</h1>
+              <p className="team-name-label">{rallyState.teamName}</p>
             </div>
             <button
               type="button"
@@ -556,13 +560,19 @@ function App() {
 
           <section className="info-grid" aria-label="ラリー案内">
             <article>
+              <span className="card-icon" aria-hidden="true">
+                QR
+              </span>
               <h2>QR案内</h2>
               <p>
                 iPadの標準カメラでQRコードを読み取り、Safariで開いてください。
                 画面に表示された問題を選んで回答します。
               </p>
             </article>
-            <article>
+            <article className="safety-card">
+              <span className="card-icon" aria-hidden="true">
+                !
+              </span>
               <h2>安全注意</h2>
               <p>
                 廊下では走らず、周りを見ながら移動してください。
