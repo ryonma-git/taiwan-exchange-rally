@@ -1,7 +1,7 @@
 type,id,title,url,points,language
-question,J01,台湾の行政・交通の中心として知られる都市はどこですか？,https://example.com/taiwan-rally/?q=J01,10,ja
-question,J02,台湾で広く使われているIC交通カードの名前として正しいものはどれですか？,https://example.com/taiwan-rally/?q=J02,15,ja
-question,C01,台湾の夜市でよく見られる、小さな屋台が集まる食文化を何と呼びますか？,https://example.com/taiwan-rally/?q=C01,10,ja
-question,C02,台湾で親しまれている飲み物「珍珠奶茶」は、日本語では一般に何と呼ばれま...,https://example.com/taiwan-rally/?q=C02,15,ja
-treasure,T01,Treasure QR T01,https://example.com/taiwan-rally/?treasure=T01,translation-key +1,all
-treasure,T02,Treasure QR T02,https://example.com/taiwan-rally/?treasure=T02,translation-key +1,all
+question,J01,台湾の行政・交通の中心として知られる都市はどこですか？,https://ryonma-git.github.io/taiwan-exchange-rally/?q=J01,10,ja
+question,J02,台湾で広く使われているIC交通カードの名前として正しいものはどれですか？,https://ryonma-git.github.io/taiwan-exchange-rally/?q=J02,15,ja
+question,C01,台湾の夜市でよく見られる、小さな屋台が集まる食文化を何と呼びますか？,https://ryonma-git.github.io/taiwan-exchange-rally/?q=C01,10,ja
+question,C02,台湾で親しまれている飲み物「珍珠奶茶」は、日本語では一般に何と呼ばれま...,https://ryonma-git.github.io/taiwan-exchange-rally/?q=C02,15,ja
+treasure,T01,Treasure QR T01,https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T01,translation-key +1,all
+treasure,T02,Treasure QR T02,https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T02,translation-key +1,all
