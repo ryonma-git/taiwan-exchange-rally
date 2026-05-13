@@ -336,6 +336,10 @@ function waitForStream(stream) {
 
 function findFont() {
   const candidates = [
+    '/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf',
+    '/usr/share/fonts/opentype/ipafont-gothic/ipagp.ttf',
+    '/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf',
+    '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
     '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
     '/Library/Fonts/NotoSansJP-Regular.otf',
     '/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc',
