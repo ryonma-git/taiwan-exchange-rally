@@ -51,9 +51,13 @@ const questionMap = new Map(questions.map((question) => [question.id, question])
 const questionIdByPublicCode = createQuestionCodeMap(questions)
 const publicCodeByQuestionId = invertQuestionCodeMap(questionIdByPublicCode)
 const questionSetSignature = createQuestionSetSignature(questionsRaw)
-const allowedTreasureIds = ['T01', 'T02']
+const treasures = [{ id: 'T01' }, { id: 'T02' }]
+const allowedTreasureIds = treasures.map((treasure) => treasure.id)
+const treasureIdByPublicCode = createQuestionCodeMap(treasures)
+const publicCodeByTreasureId = invertQuestionCodeMap(treasureIdByPublicCode)
 const assetBaseUrl = import.meta.env.BASE_URL
 const UNKNOWN_QUESTION_PREFIX = '__unknown_question__:'
+const UNKNOWN_TREASURE_PREFIX = '__unknown_treasure__:'
 
 function getAssetUrl(path: string) {
   return `${assetBaseUrl}${path.replace(/^\//, '')}`
@@ -127,8 +131,20 @@ function getQuestionDisplayCode(questionId: string | null) {
 }
 
 function readTreasureIdFromUrl() {
-  const value = new URLSearchParams(window.location.search).get('treasure')
-  return value?.trim().toUpperCase() || null
+  const value = new URLSearchParams(window.location.search)
+    .get('treasure')
+    ?.trim()
+
+  if (!value) {
+    return null
+  }
+
+  const publicCode = value.toUpperCase()
+
+  return (
+    treasureIdByPublicCode.get(publicCode) ??
+    `${UNKNOWN_TREASURE_PREFIX}${value}`
+  )
 }
 
 function removeRallyParamsFromUrl() {
@@ -140,6 +156,18 @@ function removeRallyParamsFromUrl() {
 
 function isAllowedTreasureId(value: string) {
   return allowedTreasureIds.includes(value)
+}
+
+function getTreasureDisplayCode(treasureId: string | null) {
+  if (!treasureId) {
+    return 'Unknown'
+  }
+
+  if (treasureId.startsWith(UNKNOWN_TREASURE_PREFIX)) {
+    return treasureId.slice(UNKNOWN_TREASURE_PREFIX.length)
+  }
+
+  return publicCodeByTreasureId.get(treasureId) ?? treasureId
 }
 
 function formatAnsweredAt(value: string) {
@@ -1153,7 +1181,7 @@ function App() {
               alt=""
               aria-hidden="true"
             />
-            <p className="treasure-code">{treasureId ?? 'Unknown'}</p>
+            <p className="treasure-code">{getTreasureDisplayCode(treasureId)}</p>
             {currentTreasureStatus === 'claimed' && (
               <h2>
                 <BilingualText

@@ -8,11 +8,11 @@ const DEFAULT_BASE_URL = 'https://example.com/taiwan-rally'
 const TREASURES = [
   {
     id: 'T01',
-    title: 'Treasure QR T01',
+    title: 'Treasure QR',
   },
   {
     id: 'T02',
-    title: 'Treasure QR T02',
+    title: 'Treasure QR',
   },
 ]
 
@@ -28,6 +28,7 @@ const baseUrl = normalizeBaseUrl(
 
 const questions = JSON.parse(await readFile(questionsPath, 'utf8'))
 const questionCodeById = createQuestionCodeById(questions)
+const treasureCodeById = createQuestionCodeById(TREASURES)
 const rows = [
   ...questions.map((question) => {
     const publicCode = questionCodeById.get(question.id) ?? question.id
@@ -41,14 +42,18 @@ const rows = [
       language: question.language ?? '',
     }
   }),
-  ...TREASURES.map((treasure) => ({
-    type: 'treasure',
-    id: treasure.id,
-    title: treasure.title,
-    url: createUrl('treasure', treasure.id),
-    points: 'translation-key +1',
-    language: 'all',
-  })),
+  ...TREASURES.map((treasure) => {
+    const publicCode = treasureCodeById.get(treasure.id) ?? treasure.id
+
+    return {
+      type: 'treasure',
+      id: publicCode,
+      title: createTreasureTitle(publicCode),
+      url: createUrl('treasure', publicCode),
+      points: 'translation-key +1',
+      language: 'all',
+    }
+  }),
 ]
 
 await mkdir(outputDir, { recursive: true })
@@ -103,6 +108,10 @@ function createUrl(paramName, id) {
 
 function createQrTitle(question, publicCode) {
   return `${publicCode} ${question.side ?? 'Question'} QR`
+}
+
+function createTreasureTitle(publicCode) {
+  return `Treasure QR ${publicCode}`
 }
 
 function createCsv(items) {

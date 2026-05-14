@@ -33,17 +33,17 @@
   },
   {
     "type": "treasure",
-    "id": "T01",
-    "title": "Treasure QR T01",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T01",
+    "id": "Tあ",
+    "title": "Treasure QR Tあ",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T%E3%81%82",
     "points": "translation-key +1",
     "language": "all"
   },
   {
     "type": "treasure",
-    "id": "T02",
-    "title": "Treasure QR T02",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T02",
+    "id": "Tい",
+    "title": "Treasure QR Tい",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T%E3%81%84",
     "points": "translation-key +1",
     "language": "all"
   }

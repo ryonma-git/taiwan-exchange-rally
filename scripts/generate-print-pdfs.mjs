@@ -12,11 +12,11 @@ const DEFAULT_BASE_URL = 'https://example.com/taiwan-rally'
 const TREASURES = [
   {
     id: 'T01',
-    title: 'Treasure QR T01',
+    title: 'Treasure QR',
   },
   {
     id: 'T02',
-    title: 'Treasure QR T02',
+    title: 'Treasure QR',
   },
 ]
 
@@ -47,6 +47,7 @@ await mkdir(outputDir, { recursive: true })
 
 const questions = JSON.parse(await readFile(questionsPath, 'utf8'))
 const questionCodeById = createQuestionCodeById(questions)
+const treasureCodeById = createQuestionCodeById(TREASURES)
 const qrRows = createQrRows(questions)
 const treasureRows = qrRows.filter((row) => row.type === 'treasure')
 const emojiAssets = await loadEmojiAssets()
@@ -110,19 +111,27 @@ function createQrRows(items) {
         language: question.language ?? '',
       }
     }),
-    ...TREASURES.map((treasure) => ({
-      type: 'treasure',
-      id: treasure.id,
-      title: treasure.title,
-      url: createUrl('treasure', treasure.id),
-      points: 'Translation Key +1',
-      language: 'all',
-    })),
+    ...TREASURES.map((treasure) => {
+      const publicCode = treasureCodeById.get(treasure.id) ?? treasure.id
+
+      return {
+        type: 'treasure',
+        id: publicCode,
+        title: createTreasureTitle(publicCode),
+        url: createUrl('treasure', publicCode),
+        points: 'Translation Key +1',
+        language: 'all',
+      }
+    }),
   ]
 }
 
 function createQrTitle(question, publicCode) {
   return `${publicCode} ${question.side ?? 'Question'} QR`
+}
+
+function createTreasureTitle(publicCode) {
+  return `Treasure QR ${publicCode}`
 }
 
 function createShortQuestionTitle(question) {
@@ -428,10 +437,18 @@ async function createAnswerSheetPdf(items) {
     .roundedRect(42, 220, 512, 78, 8)
     .fillAndStroke('#fffaf0', COLORS.border)
   doc.fillColor(COLORS.navy).fontSize(12).text('翻訳の鍵・宝箱QR / 翻譯鑰匙・寶箱QR', 58, 236)
+  const treasureCodes = TREASURES.map(
+    (treasure) => treasureCodeById.get(treasure.id) ?? treasure.id,
+  ).join('・')
+
   doc
     .fillColor(COLORS.muted)
     .fontSize(10)
-    .text('開始時の鍵: 3 / 宝箱取得: T01・T02 / 使用した問題ID: / 開始鑰匙: 3 / 寶箱: T01・T02 / 使用題目ID:', 58, 260)
+    .text(
+      `開始時の鍵: 3 / 宝箱取得: ${treasureCodes} / 使用した問題ID: / 開始鑰匙: 3 / 寶箱: ${treasureCodes} / 使用題目ID:`,
+      58,
+      260,
+    )
   doc.moveTo(266, 276).lineTo(532, 276).stroke(COLORS.border)
 
   let y = 330
