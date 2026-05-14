@@ -95,6 +95,7 @@ npm run generate:qr
 ```text
 public/qr-data/qr_urls.csv
 public/qr-data/qr_urls.json
+public/qr-data/samples/*.png
 ```
 
 本番URLが決まったら、`--base` で差し替えて再生成します。
@@ -113,7 +114,7 @@ RALLY_BASE_URL=https://deployed-url.example/taiwan-rally npm run generate:qr
 
 ## Generate Print PDFs
 
-QRカードPDFと紙バックアップ用の回答記録用紙PDFを生成します。
+印刷用PDFを生成します。QRカードはA4に2枚配置し、問題文全文は載せず、ID・種類・点数・QR・URLだけを表示します。問題文を掲示する場合は、別ファイルの掲示用PDFを使います。
 
 ```bash
 npm run generate:pdf
@@ -123,6 +124,8 @@ npm run generate:pdf
 
 ```text
 dist-print/qr_cards.pdf
+dist-print/treasure_cards.pdf
+dist-print/question_posters.pdf
 dist-print/answer_sheet.pdf
 ```
 
@@ -132,7 +135,7 @@ QR URL一覧とPDFをまとめて生成する場合:
 npm run generate:print
 ```
 
-本番URLでQRカードPDFを作る場合:
+本番URLでQRカードPDFと掲示用PDFを作る場合:
 
 ```bash
 npm run generate:pdf -- --base https://deployed-url.example/taiwan-rally
@@ -171,4 +174,12 @@ npm run generate:pdf -- --base https://deployed-url.example/taiwan-rally
 
 Webがブロックされた場合は、[dist-print/answer_sheet.pdf](dist-print/answer_sheet.pdf) を印刷して使います。チーム名、メンバー、問題ID、答え、得点、先生チェック欄、翻訳の鍵、宝箱QR欄を手書きで記録する運用にします。
 
-QRカードは [dist-print/qr_cards.pdf](dist-print/qr_cards.pdf) を印刷して使います。
+QRカードは [dist-print/qr_cards.pdf](dist-print/qr_cards.pdf) を印刷して使います。各カードはA5程度の大きさで、問題名・点数・QR・URLだけを載せています。宝箱だけ印刷する場合は [dist-print/treasure_cards.pdf](dist-print/treasure_cards.pdf) を使います。後日QR部分が白抜きのモックデザインを使う場合は、このQR枠を差し替える前提で調整します。
+
+紙掲示用の問題文は [dist-print/question_posters.pdf](dist-print/question_posters.pdf) を印刷して使います。こちらはA4 1枚に1問ずつ、問題文と選択肢を全文で表示します。
+
+## Asset Credits
+
+- Emoji SVG assets: Google Noto Emoji, SIL Open Font License 1.1.
+  - Source: https://github.com/googlefonts/noto-emoji
+  - Local files: `public/assets/noto-emoji/`

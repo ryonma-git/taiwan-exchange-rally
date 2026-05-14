@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import QRCode from 'qrcode'
 
 const DEFAULT_BASE_URL = 'https://example.com/taiwan-rally'
 const TREASURES = [
@@ -18,6 +19,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '..')
 const questionsPath = path.join(repoRoot, 'src/data/questions.json')
 const outputDir = path.join(repoRoot, 'public/qr-data')
+const sampleQrDir = path.join(outputDir, 'samples')
 
 const baseUrl = normalizeBaseUrl(
   getArgValue('--base') ?? process.env.RALLY_BASE_URL ?? DEFAULT_BASE_URL,
@@ -28,7 +30,7 @@ const rows = [
   ...questions.map((question) => ({
     type: 'question',
     id: question.id,
-    title: createQuestionTitle(question),
+    title: createQrTitle(question),
     url: createUrl('q', question.id),
     points: String(question.points ?? ''),
     language: question.language ?? '',
@@ -44,16 +46,19 @@ const rows = [
 ]
 
 await mkdir(outputDir, { recursive: true })
+await mkdir(sampleQrDir, { recursive: true })
 await writeFile(
   path.join(outputDir, 'qr_urls.json'),
   `${JSON.stringify(rows, null, 2)}\n`,
 )
 await writeFile(path.join(outputDir, 'qr_urls.csv'), createCsv(rows))
+await Promise.all(rows.map((row) => writeSampleQrPng(row)))
 
 console.log(`Generated ${rows.length} QR URLs`)
 console.log(`Base URL: ${baseUrl}`)
 console.log('Wrote public/qr-data/qr_urls.json')
 console.log('Wrote public/qr-data/qr_urls.csv')
+console.log('Wrote public/qr-data/samples/*.png')
 
 function getArgValue(name) {
   const inlineArg = process.argv.find((arg) => arg.startsWith(`${name}=`))
@@ -89,9 +94,8 @@ function createUrl(paramName, id) {
   return url.toString()
 }
 
-function createQuestionTitle(question) {
-  const source = String(question.question ?? question.id).replace(/\s+/g, ' ')
-  return source.length > 36 ? `${source.slice(0, 35)}...` : source
+function createQrTitle(question) {
+  return `${question.id} ${question.side ?? 'Question'} QR`
 }
 
 function createCsv(items) {
@@ -104,6 +108,17 @@ function createCsv(items) {
   ]
 
   return `${lines.join('\n')}\n`
+}
+
+async function writeSampleQrPng(row) {
+  const pngBuffer = await QRCode.toBuffer(row.url, {
+    errorCorrectionLevel: 'M',
+    margin: 2,
+    type: 'png',
+    width: 960,
+  })
+
+  await writeFile(path.join(sampleQrDir, `${row.id}.png`), pngBuffer)
 }
 
 function csvEscape(value) {

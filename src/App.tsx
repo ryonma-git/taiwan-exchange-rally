@@ -42,6 +42,11 @@ const questions = JSON.parse(questionsRaw) as Question[]
 const questionMap = new Map(questions.map((question) => [question.id, question]))
 const questionSetSignature = createQuestionSetSignature(questionsRaw)
 const allowedTreasureIds = ['T01', 'T02']
+const assetBaseUrl = import.meta.env.BASE_URL
+
+function getAssetUrl(path: string) {
+  return `${assetBaseUrl}${path.replace(/^\//, '')}`
+}
 
 function createQuestionSetSignature(value: string) {
   let hash = 2166136261
@@ -505,6 +510,17 @@ function App() {
             <p className="lead">
               班名を入力して、校内のQRポイントを回りながらクイズに挑戦します。
             </p>
+            <div className="hero-assets" aria-hidden="true">
+              <img
+                src={getAssetUrl('assets/noto-emoji/cherry-blossom.svg')}
+                alt=""
+              />
+              <img src={getAssetUrl('assets/noto-emoji/school.svg')} alt="" />
+              <img
+                src={getAssetUrl('assets/noto-emoji/sparkles.svg')}
+                alt=""
+              />
+            </div>
           </div>
           <form className="start-form" onSubmit={handleStart}>
             <label htmlFor="team-name">班名</label>
@@ -531,6 +547,13 @@ function App() {
               <p className="eyebrow">{EVENT_SUBTITLE}</p>
               <h1 id="home-title">{EVENT_NAME}</h1>
               <p className="team-name-label">{rallyState.teamName}</p>
+            </div>
+            <div className="home-assets" aria-hidden="true">
+              <img
+                src={getAssetUrl('assets/noto-emoji/cherry-blossom.svg')}
+                alt=""
+              />
+              <img src={getAssetUrl('assets/noto-emoji/school.svg')} alt="" />
             </div>
             <button
               type="button"
@@ -570,8 +593,11 @@ function App() {
               </p>
             </article>
             <article className="safety-card">
-              <span className="card-icon" aria-hidden="true">
-                !
+              <span className="card-icon image-icon" aria-hidden="true">
+                <img
+                  src={getAssetUrl('assets/noto-emoji/sparkles.svg')}
+                  alt=""
+                />
               </span>
               <h2>安全注意</h2>
               <p>
@@ -734,6 +760,24 @@ function App() {
           </div>
 
           <section className="treasure-panel">
+            <img
+              className="treasure-sparkle"
+              src={getAssetUrl('assets/noto-emoji/sparkles.svg')}
+              alt=""
+              aria-hidden="true"
+            />
+            <div className="treasure-visual" aria-hidden="true">
+              <span className="treasure-lid" />
+              <span className="treasure-body" />
+              <span className="treasure-band" />
+              <span className="treasure-lock" />
+            </div>
+            <img
+              className="treasure-key"
+              src={getAssetUrl('assets/noto-emoji/key.svg')}
+              alt=""
+              aria-hidden="true"
+            />
             <p className="treasure-code">{treasureId ?? 'Unknown'}</p>
             {currentTreasureStatus === 'claimed' && (
               <h2>宝箱を見つけました！翻訳の鍵を1つ手に入れました</h2>
@@ -778,22 +822,20 @@ function App() {
             </button>
           </div>
 
-          <section className="result-summary" aria-label="結果サマリー">
-            <div className="total-score">
+          <section className="result-capture-card" aria-label="集計用結果">
+            <p className="eyebrow">Final Result / 集計用スクショ</p>
+            <h2>{rallyState.teamName}</h2>
+            <div className="final-score">
               <span>合計点</span>
               <strong>{rallyState.totalScore}</strong>
+              <small>points</small>
             </div>
-            <div>
-              <span>正解数</span>
-              <strong>{correctCount}</strong>
-            </div>
-            <div>
-              <span>回答済み問題数</span>
-              <strong>{rallyState.answeredQuestionIds.length}</strong>
-            </div>
-            <div>
-              <span>翻訳の鍵 残り</span>
-              <strong>{rallyState.translationKeysRemaining}</strong>
+            <div className="final-small-stats">
+              <span>
+                解いた問題数 {rallyState.answeredQuestionIds.length}/
+                {questions.length}
+              </span>
+              <span>正解数 {correctCount}</span>
             </div>
           </section>
 

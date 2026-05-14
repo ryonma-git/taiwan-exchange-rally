@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import PDFDocument from 'pdfkit'
 import QRCode from 'qrcode'
 import { createWriteStream } from 'node:fs'
+import SVGtoPDF from 'svg-to-pdfkit'
 
 const DEFAULT_BASE_URL = 'https://example.com/taiwan-rally'
 const TREASURES = [
@@ -44,11 +45,17 @@ await mkdir(outputDir, { recursive: true })
 
 const questions = JSON.parse(await readFile(questionsPath, 'utf8'))
 const qrRows = createQrRows(questions)
+const treasureRows = qrRows.filter((row) => row.type === 'treasure')
+const emojiAssets = await loadEmojiAssets()
 
-await createQrCardsPdf(qrRows)
+await createQrCardsPdf(qrRows, 'qr_cards.pdf', 'QR Cards')
+await createQrCardsPdf(treasureRows, 'treasure_cards.pdf', 'Treasure Cards')
+await createQuestionPostersPdf(questions)
 await createAnswerSheetPdf(questions)
 
 console.log('Generated dist-print/qr_cards.pdf')
+console.log('Generated dist-print/treasure_cards.pdf')
+console.log('Generated dist-print/question_posters.pdf')
 console.log('Generated dist-print/answer_sheet.pdf')
 console.log(`Base URL: ${baseUrl}`)
 
@@ -91,7 +98,7 @@ function createQrRows(items) {
     ...items.map((question) => ({
       type: 'question',
       id: question.id,
-      title: createQuestionTitle(question),
+      title: createQrTitle(question),
       url: createUrl('q', question.id),
       points: `${question.points ?? ''} points`,
       language: question.language ?? '',
@@ -107,40 +114,77 @@ function createQrRows(items) {
   ]
 }
 
-function createQuestionTitle(question) {
+function createQrTitle(question) {
+  return `${question.id} ${question.side ?? 'Question'} QR`
+}
+
+function createShortQuestionTitle(question) {
   const source = String(question.question ?? question.id).replace(/\s+/g, ' ')
   return source.length > 34 ? `${source.slice(0, 33)}...` : source
 }
 
-async function createQrCardsPdf(rows) {
-  const { doc, stream } = createDocument(path.join(outputDir, 'qr_cards.pdf'))
+async function loadEmojiAssets() {
+  const assetDir = path.join(repoRoot, 'public/assets/noto-emoji')
+  const assets = {
+    cherry: 'cherry-blossom.svg',
+    key: 'key.svg',
+    school: 'school.svg',
+    sparkles: 'sparkles.svg',
+  }
+  const entries = await Promise.all(
+    Object.entries(assets).map(async ([name, fileName]) => [
+      name,
+      await readFile(path.join(assetDir, fileName), 'utf8'),
+    ]),
+  )
+
+  return Object.fromEntries(entries)
+}
+
+function drawEmoji(doc, name, x, y, size, opacity = 1) {
+  const svg = emojiAssets[name]
+
+  if (!svg) {
+    return
+  }
+
+  doc.save()
+  doc.opacity(opacity)
+  SVGtoPDF(doc, svg, x, y, {
+    preserveAspectRatio: 'xMidYMid meet',
+    width: size,
+    height: size,
+  })
+  doc.restore()
+}
+
+async function createQrCardsPdf(rows, outputFileName, headerLabel) {
+  const { doc, stream } = createDocument(path.join(outputDir, outputFileName))
   const page = {
     width: doc.page.width,
     height: doc.page.height,
-    margin: 34,
+    margin: 28,
   }
-  const gap = 14
-  const cardWidth = (page.width - page.margin * 2 - gap) / 2
-  const cardHeight = 238
-  const cardsPerPage = 6
+  const gap = 18
+  const cardWidth = page.width - page.margin * 2
+  const cardHeight = (page.height - page.margin * 2 - gap) / 2
+  const cardsPerPage = 2
 
-  drawPdfHeader(doc, 'Japan-Taiwan School Discovery Rally', 'QR Cards')
+  drawPdfHeader(doc, 'Japan-Taiwan School Discovery Rally', headerLabel)
 
   for (let index = 0; index < rows.length; index += 1) {
     if (index > 0 && index % cardsPerPage === 0) {
       doc.addPage()
-      drawPdfHeader(doc, 'Japan-Taiwan School Discovery Rally', 'QR Cards')
+      drawPdfHeader(doc, 'Japan-Taiwan School Discovery Rally', headerLabel)
     }
 
     const pageIndex = index % cardsPerPage
-    const col = pageIndex % 2
-    const row = Math.floor(pageIndex / 2)
-    const x = page.margin + col * (cardWidth + gap)
-    const y = 88 + row * (cardHeight + gap)
+    const x = page.margin
+    const y = 76 + pageIndex * (cardHeight + gap)
     const qrBuffer = await QRCode.toBuffer(rows[index].url, {
       errorCorrectionLevel: 'M',
       margin: 1,
-      width: 184,
+      width: 520,
     })
 
     drawQrCard(doc, rows[index], qrBuffer, x, y, cardWidth, cardHeight)
@@ -152,46 +196,207 @@ async function createQrCardsPdf(rows) {
 
 function drawQrCard(doc, row, qrBuffer, x, y, width, height) {
   const isTreasure = row.type === 'treasure'
+
+  if (isTreasure) {
+    drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height)
+    return
+  }
+
   const accent = isTreasure ? COLORS.gold : COLORS.blue
   const fill = isTreasure ? '#fff8dc' : COLORS.white
+  const qrSize = 220
+  const qrX = x + width - qrSize - 34
+  const qrY = y + 82
 
   doc
     .save()
-    .roundedRect(x, y, width, height, 10)
+    .roundedRect(x, y, width, height, 12)
     .fillAndStroke(fill, COLORS.border)
     .restore()
 
-  doc.rect(x, y, width, 12).fill(accent)
+  doc.rect(x, y, width, 16).fill(accent)
+  drawEmoji(doc, 'cherry', x + width - 86, y + 22, 42, 0.72)
   doc
     .fillColor(COLORS.navy)
-    .fontSize(10)
-    .text(isTreasure ? '宝箱 / Treasure' : '問題 / Question', x + 14, y + 24)
-  doc.fillColor(accent).fontSize(27).text(row.id, x + 14, y + 42)
+    .fontSize(15)
+    .text(isTreasure ? '宝箱 / Treasure QR' : '問題 / Question QR', x + 30, y + 42)
+  doc.fillColor(accent).fontSize(52).text(row.id, x + 30, y + 72)
+  doc
+    .fillColor(COLORS.navy)
+    .fontSize(22)
+    .text(row.title, x + 30, y + 134, {
+      width: qrX - x - 54,
+      height: 62,
+    })
+  doc.fillColor(COLORS.muted).fontSize(15).text(row.points, x + 30, y + 200)
+
+  // If a custom card mock image is added later, keep this QR box as the swap target.
+  doc.roundedRect(qrX - 10, qrY - 10, qrSize + 20, qrSize + 20, 10).fill(COLORS.white)
+  doc.image(qrBuffer, qrX, qrY, { width: qrSize, height: qrSize })
+  doc
+    .fillColor(COLORS.navy)
+    .fontSize(13)
+    .text('Scan with iPad Camera', qrX - 4, qrY + qrSize + 14, {
+      width: qrSize + 8,
+      align: 'center',
+    })
   doc
     .fillColor(COLORS.muted)
-    .fontSize(10)
-    .text(row.points, x + 14, y + 78)
+    .fontSize(8.5)
+    .text(row.url, x + 30, y + height - 54, {
+      width: width - 60,
+      height: 30,
+    })
+}
+
+function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
+  const qrSize = 232
+  const qrX = x + width - qrSize - 30
+  const qrY = y + 66
+  const leftWidth = qrX - x - 44
+
+  doc
+    .save()
+    .roundedRect(x, y, width, height, 18)
+    .fillAndStroke('#fff2c2', '#e4a62c')
+    .restore()
+
+  doc.rect(x, y, width, 22).fill(COLORS.gold)
+  doc.rect(x, y + height - 22, width, 22).fill(COLORS.red)
+  drawConfetti(doc, x + 24, y + 44, leftWidth, 56)
+  drawEmoji(doc, 'sparkles', x + leftWidth - 10, y + 46, 48, 0.92)
+  drawEmoji(doc, 'key', x + 224, y + 214, 62, 0.96)
+
+  doc.fillColor(COLORS.navy).fontSize(15).text('宝箱 / Treasure QR', x + 34, y + 42)
+  doc.fillColor(COLORS.red).fontSize(58).text(row.id, x + 34, y + 70)
+  doc.fillColor(COLORS.navy).fontSize(26).text('翻訳の鍵 +1', x + 34, y + 136, {
+    width: leftWidth,
+  })
+  doc.fillColor(COLORS.muted).fontSize(13).text('見つけたらiPadカメラでスキャン', x + 34, y + 172, {
+    width: leftWidth,
+  })
+
+  drawTreasureChest(doc, x + 56, y + 214, 170, 118)
+
+  doc
+    .roundedRect(qrX - 14, qrY - 14, qrSize + 28, qrSize + 28, 16)
+    .fillAndStroke(COLORS.white, '#e4a62c')
+  doc.image(qrBuffer, qrX, qrY, { width: qrSize, height: qrSize })
   doc
     .fillColor(COLORS.navy)
-    .fontSize(11)
-    .text(row.title, x + 14, y + 96, {
-      width: width - 28,
-      height: 34,
+    .fontSize(13)
+    .text('Scan with iPad Camera', qrX - 4, qrY + qrSize + 14, {
+      width: qrSize + 8,
+      align: 'center',
+    })
+  doc
+    .fillColor(COLORS.muted)
+    .fontSize(8.5)
+    .text(row.url, x + 30, y + height - 54, {
+      width: width - 60,
+      height: 30,
+    })
+}
+
+function drawTreasureChest(doc, x, y, width, height) {
+  const lidHeight = height * 0.42
+  const bodyY = y + lidHeight - 4
+  const bodyHeight = height - lidHeight
+
+  doc
+    .roundedRect(x + 12, bodyY, width - 24, bodyHeight, 12)
+    .fillAndStroke('#bf6f2c', '#7c4319')
+  doc
+    .roundedRect(x + 20, y, width - 40, lidHeight + 12, 18)
+    .fillAndStroke(COLORS.gold, '#9a6714')
+  doc.rect(x + width / 2 - 10, y + 6, 20, height - 18).fill(COLORS.red)
+  doc.rect(x + 24, bodyY + 16, width - 48, 9).fill('#f7c65a')
+  doc
+    .roundedRect(x + width / 2 - 23, bodyY + 30, 46, 34, 7)
+    .fillAndStroke('#fff8dc', '#9a6714')
+  doc.circle(x + width / 2, bodyY + 44, 4).fill('#9a6714')
+  doc.rect(x + width / 2 - 2, bodyY + 44, 4, 12).fill('#9a6714')
+}
+
+function drawConfetti(doc, x, y, width, height) {
+  const pieces = [
+    [0.03, 0.16, COLORS.red],
+    [0.18, 0.62, COLORS.blue],
+    [0.36, 0.2, COLORS.teal],
+    [0.58, 0.7, COLORS.plum],
+    [0.82, 0.28, COLORS.red],
+    [0.94, 0.66, COLORS.blue],
+  ]
+
+  pieces.forEach(([xRatio, yRatio, color], index) => {
+    const pieceX = x + width * xRatio
+    const pieceY = y + height * yRatio
+    const size = index % 2 === 0 ? 9 : 7
+
+    doc
+      .save()
+      .translate(pieceX, pieceY)
+      .rotate(index % 2 === 0 ? 18 : -24)
+      .rect(-size / 2, -size / 2, size, size)
+      .fill(color)
+      .restore()
+  })
+}
+
+async function createQuestionPostersPdf(items) {
+  const { doc, stream } = createDocument(path.join(outputDir, 'question_posters.pdf'))
+
+  for (let index = 0; index < items.length; index += 1) {
+    if (index > 0) {
+      doc.addPage()
+    }
+
+    drawPdfHeader(doc, 'Japan-Taiwan School Discovery Rally', 'Question Poster')
+    drawQuestionPoster(doc, items[index])
+  }
+
+  doc.end()
+  await waitForStream(stream)
+}
+
+function drawQuestionPoster(doc, question) {
+  doc
+    .roundedRect(42, 86, 512, 690, 14)
+    .fillAndStroke(COLORS.white, COLORS.border)
+  doc.rect(42, 86, 512, 18).fill(question.id.startsWith('C') ? COLORS.red : COLORS.blue)
+  drawEmoji(doc, question.id.startsWith('C') ? 'school' : 'cherry', 456, 124, 68, 0.9)
+  doc.fillColor(COLORS.muted).fontSize(14).text('問題 / Question', 66, 130)
+  doc.fillColor(COLORS.navy).fontSize(54).text(question.id, 66, 152)
+  doc
+    .fillColor(COLORS.navy)
+    .fontSize(18)
+    .text(`${question.points ?? ''} points / ${question.language ?? ''}`, 66, 214)
+  doc
+    .fillColor(COLORS.navy)
+    .fontSize(26)
+    .text(question.question, 66, 270, {
+      width: 464,
+      lineGap: 7,
     })
 
-  doc.image(qrBuffer, x + 18, y + 132, { width: 84, height: 84 })
-  doc
-    .fillColor(COLORS.navy)
-    .fontSize(11)
-    .text('Scan with iPad Camera', x + 112, y + 146, {
-      width: width - 126,
+  let y = 420
+  question.choices.forEach((choice, index) => {
+    doc
+      .roundedRect(66, y, 464, 54, 10)
+      .fillAndStroke('#fff8f0', COLORS.border)
+    doc.fillColor(COLORS.blue).fontSize(18).text(`${index + 1}`, 84, y + 16)
+    doc.fillColor(COLORS.navy).fontSize(18).text(choice, 128, y + 16, {
+      width: 380,
     })
+    y += 70
+  })
+
   doc
     .fillColor(COLORS.muted)
-    .fontSize(7.5)
-    .text(row.url, x + 112, y + 178, {
-      width: width - 126,
-      height: 36,
+    .fontSize(10)
+    .text('答えはWebアプリで選んでください。', 66, 720, {
+      width: 464,
+      align: 'right',
     })
 }
 
@@ -281,7 +486,7 @@ function drawAnswerTableRow(doc, question, y) {
   doc.text(question.id, columns[0].x + 4, y + 10, {
     width: columns[0].width - 8,
   })
-  doc.text(createQuestionTitle(question), columns[1].x + 4, y + 7, {
+  doc.text(createShortQuestionTitle(question), columns[1].x + 4, y + 7, {
     width: columns[1].width - 8,
     height: 22,
   })
