@@ -1,7 +1,8 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import QRCode from 'qrcode'
+import { createQuestionCodeById } from './question-code-utils.mjs'
 
 const DEFAULT_BASE_URL = 'https://example.com/taiwan-rally'
 const TREASURES = [
@@ -26,15 +27,20 @@ const baseUrl = normalizeBaseUrl(
 )
 
 const questions = JSON.parse(await readFile(questionsPath, 'utf8'))
+const questionCodeById = createQuestionCodeById(questions)
 const rows = [
-  ...questions.map((question) => ({
-    type: 'question',
-    id: question.id,
-    title: createQrTitle(question),
-    url: createUrl('q', question.id),
-    points: String(question.points ?? ''),
-    language: question.language ?? '',
-  })),
+  ...questions.map((question) => {
+    const publicCode = questionCodeById.get(question.id) ?? question.id
+
+    return {
+      type: 'question',
+      id: publicCode,
+      title: createQrTitle(question, publicCode),
+      url: createUrl('q', publicCode),
+      points: String(question.points ?? ''),
+      language: question.language ?? '',
+    }
+  }),
   ...TREASURES.map((treasure) => ({
     type: 'treasure',
     id: treasure.id,
@@ -46,6 +52,7 @@ const rows = [
 ]
 
 await mkdir(outputDir, { recursive: true })
+await rm(sampleQrDir, { recursive: true, force: true })
 await mkdir(sampleQrDir, { recursive: true })
 await writeFile(
   path.join(outputDir, 'qr_urls.json'),
@@ -94,8 +101,8 @@ function createUrl(paramName, id) {
   return url.toString()
 }
 
-function createQrTitle(question) {
-  return `${question.id} ${question.side ?? 'Question'} QR`
+function createQrTitle(question, publicCode) {
+  return `${publicCode} ${question.side ?? 'Question'} QR`
 }
 
 function createCsv(items) {

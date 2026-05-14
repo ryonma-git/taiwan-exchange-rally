@@ -6,6 +6,7 @@ import PDFDocument from 'pdfkit'
 import QRCode from 'qrcode'
 import { createWriteStream } from 'node:fs'
 import SVGtoPDF from 'svg-to-pdfkit'
+import { createQuestionCodeById } from './question-code-utils.mjs'
 
 const DEFAULT_BASE_URL = 'https://example.com/taiwan-rally'
 const TREASURES = [
@@ -45,6 +46,7 @@ const fontPath = findFont()
 await mkdir(outputDir, { recursive: true })
 
 const questions = JSON.parse(await readFile(questionsPath, 'utf8'))
+const questionCodeById = createQuestionCodeById(questions)
 const qrRows = createQrRows(questions)
 const treasureRows = qrRows.filter((row) => row.type === 'treasure')
 const emojiAssets = await loadEmojiAssets()
@@ -96,14 +98,18 @@ function createUrl(paramName, id) {
 
 function createQrRows(items) {
   return [
-    ...items.map((question) => ({
-      type: 'question',
-      id: question.id,
-      title: createQrTitle(question),
-      url: createUrl('q', question.id),
-      points: `${question.points ?? ''} points`,
-      language: question.language ?? '',
-    })),
+    ...items.map((question) => {
+      const publicCode = questionCodeById.get(question.id) ?? question.id
+
+      return {
+        type: 'question',
+        id: publicCode,
+        title: createQrTitle(question, publicCode),
+        url: createUrl('q', publicCode),
+        points: `${question.points ?? ''} points`,
+        language: question.language ?? '',
+      }
+    }),
     ...TREASURES.map((treasure) => ({
       type: 'treasure',
       id: treasure.id,
@@ -115,8 +121,8 @@ function createQrRows(items) {
   ]
 }
 
-function createQrTitle(question) {
-  return `${question.id} ${question.side ?? 'Question'} QR`
+function createQrTitle(question, publicCode) {
+  return `${publicCode} ${question.side ?? 'Question'} QR`
 }
 
 function createShortQuestionTitle(question) {

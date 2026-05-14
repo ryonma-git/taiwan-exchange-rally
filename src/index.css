@@ -171,12 +171,31 @@ h2 {
   text-transform: uppercase;
 }
 
+.bilingual-text {
+  display: inline-flex;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.24;
+}
+
+button .bilingual-text,
+h1 .bilingual-text,
+h2 .bilingual-text,
+.score-band .bilingual-text,
+.result-capture-card .bilingual-text,
+.result-summary .bilingual-text {
+  align-items: center;
+  text-align: center;
+}
+
 .zh-line {
   display: block;
-  margin-top: 2px;
   font-size: 0.88em;
   font-weight: 800;
   line-height: 1.35;
+  opacity: 0.9;
 }
 
 .lead {
@@ -319,6 +338,8 @@ h2 {
   justify-content: center;
   padding: 14px 20px;
   font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .primary-button {

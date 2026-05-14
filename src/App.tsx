@@ -17,6 +17,10 @@ import {
   type AnswerRecord,
   type RallyState,
 } from './lib/storage'
+import {
+  createQuestionCodeMap,
+  invertQuestionCodeMap,
+} from './lib/questionCodes'
 
 type Question = {
   id: string
@@ -44,9 +48,12 @@ const RALLY_TIME_LIMIT_MINUTES = DEFAULT_TIME_LIMIT_MINUTES
 const WARNING_REMAINING_MS = 5 * 60 * 1000
 const questions = JSON.parse(questionsRaw) as Question[]
 const questionMap = new Map(questions.map((question) => [question.id, question]))
+const questionIdByPublicCode = createQuestionCodeMap(questions)
+const publicCodeByQuestionId = invertQuestionCodeMap(questionIdByPublicCode)
 const questionSetSignature = createQuestionSetSignature(questionsRaw)
 const allowedTreasureIds = ['T01', 'T02']
 const assetBaseUrl = import.meta.env.BASE_URL
+const UNKNOWN_QUESTION_PREFIX = '__unknown_question__:'
 
 function getAssetUrl(path: string) {
   return `${assetBaseUrl}${path.replace(/^\//, '')}`
@@ -54,10 +61,10 @@ function getAssetUrl(path: string) {
 
 function BilingualText({ ja, zh }: { ja: string; zh: string }) {
   return (
-    <>
+    <span className="bilingual-text">
       <span>{ja}</span>
       <span className="zh-line">{zh}</span>
-    </>
+    </span>
   )
 }
 
@@ -95,8 +102,28 @@ function createQuestionSetSignature(value: string) {
 }
 
 function readQuestionIdFromUrl() {
-  const value = new URLSearchParams(window.location.search).get('q')
-  return value?.trim().toUpperCase() || null
+  const value = new URLSearchParams(window.location.search).get('q')?.trim()
+
+  if (!value) {
+    return null
+  }
+
+  const publicCode = value.toUpperCase()
+
+  return (
+    questionIdByPublicCode.get(publicCode) ??
+    `${UNKNOWN_QUESTION_PREFIX}${value}`
+  )
+}
+
+function getQuestionPublicCode(questionId: string) {
+  return publicCodeByQuestionId.get(questionId) ?? questionId
+}
+
+function getQuestionDisplayCode(questionId: string | null) {
+  return questionId?.startsWith(UNKNOWN_QUESTION_PREFIX)
+    ? questionId.slice(UNKNOWN_QUESTION_PREFIX.length)
+    : questionId
 }
 
 function readTreasureIdFromUrl() {
@@ -684,7 +711,7 @@ function App() {
             />
             {teamNameError && <p className="form-error">{teamNameError}</p>}
             <button type="submit" className="primary-button">
-              <BilingualText ja="Start / 開始" zh="開始" />
+              <BilingualText ja="Start" zh="開始" />
             </button>
           </form>
 
@@ -698,10 +725,10 @@ function App() {
               }}
             >
               <BilingualText
-                ja={`先生用 時間設定（現在: ${
+                ja={`時間設定（現在: ${
                   rallyState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES
                 }分）`}
-                zh={`老師用時間設定（目前: ${
+                zh={`時間設定（目前: ${
                   rallyState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES
                 }分鐘）`}
               />
@@ -746,7 +773,10 @@ function App() {
                         setTimeLimitMessage('')
                       }}
                     >
-                      {minutes}分
+                      <BilingualText
+                        ja={`${minutes}分`}
+                        zh={`${minutes}分鐘`}
+                      />
                     </button>
                   ))}
                 </div>
@@ -786,7 +816,7 @@ function App() {
               className="secondary-button"
               onClick={() => setScreenMode('result')}
             >
-              <BilingualText ja="Result / 結果" zh="結果" />
+              <BilingualText ja="Result" zh="結果" />
             </button>
           </div>
 
@@ -890,7 +920,7 @@ function App() {
             <div>
               <p className="eyebrow">{rallyState.teamName}</p>
               <h1 id="question-title">
-                <BilingualText ja="Question / 問題" zh="題目" />
+                <BilingualText ja="Question" zh="題目" />
               </h1>
             </div>
             <button
@@ -898,7 +928,7 @@ function App() {
               className="secondary-button"
               onClick={handleGoHome}
             >
-              <BilingualText ja="Home / ホーム" zh="首頁" />
+              <BilingualText ja="Home" zh="首頁" />
             </button>
           </div>
 
@@ -909,8 +939,8 @@ function App() {
               </h2>
               <p>
                 <BilingualText
-                  ja={`URLの問題ID「${questionId}」に対応する問題データがありません。`}
-                  zh={`沒有找到URL題目ID「${questionId}」的題目資料。`}
+                  ja={`URLの問題ID「${getQuestionDisplayCode(questionId)}」に対応する問題データがありません。`}
+                  zh={`沒有找到URL題目ID「${getQuestionDisplayCode(questionId)}」的題目資料。`}
                 />
               </p>
             </section>
@@ -940,7 +970,7 @@ function App() {
           {activeQuestion && !isQuestionBlocked && (
             <>
               <section className="question-meta" aria-label="問題情報">
-                <span>{activeQuestion.id}</span>
+                <span>{getQuestionPublicCode(activeQuestion.id)}</span>
                 <span>{activeQuestion.side}</span>
                 <span>{activeQuestion.language}</span>
                 <span>{activeQuestion.difficulty}</span>
@@ -1092,7 +1122,7 @@ function App() {
             <div>
               <p className="eyebrow">{rallyState.teamName}</p>
               <h1 id="treasure-title">
-                <BilingualText ja="Treasure QR / 宝箱" zh="寶箱QR" />
+                <BilingualText ja="Treasure QR" zh="寶箱QR" />
               </h1>
             </div>
             <button
@@ -1100,7 +1130,7 @@ function App() {
               className="secondary-button"
               onClick={handleGoHome}
             >
-              <BilingualText ja="Home / ホーム" zh="首頁" />
+              <BilingualText ja="Home" zh="首頁" />
             </button>
           </div>
 
@@ -1173,7 +1203,7 @@ function App() {
             <div>
               <p className="eyebrow">{rallyState.teamName}</p>
               <h1 id="result-title">
-                <BilingualText ja="Result / 結果" zh="結果" />
+                <BilingualText ja="Result" zh="結果" />
               </h1>
             </div>
             <button
@@ -1181,14 +1211,14 @@ function App() {
               className="secondary-button"
               onClick={handleGoHome}
             >
-              <BilingualText ja="Home / ホーム" zh="首頁" />
+              <BilingualText ja="Home" zh="首頁" />
             </button>
           </div>
 
           <section className="result-capture-card" aria-label="集計用結果">
             <p className="eyebrow">
               <BilingualText
-                ja="Final Result / 集計用スクショ"
+                ja="Final Result"
                 zh="最終結果 / 截圖給老師"
               />
             </p>

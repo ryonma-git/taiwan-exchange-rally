@@ -7,7 +7,7 @@ Taiwan exchange school QR quiz rally web app.
 - Stack: React + TypeScript + Vite static app
 - Main data file: `src/data/questions.json`
 - App URL format:
-  - Question: `/?q=J01`
+  - Question: `/?q=J%E3%81%82` (`/?q=Jあ` also works when typed directly)
   - Treasure: `/?treasure=T01`
 - Deployment target: GitHub Pages
   - Public URL: `https://ryonma-git.github.io/taiwan-exchange-rally/`
@@ -23,6 +23,7 @@ Taiwan exchange school QR quiz rally web app.
 - J questions should be Japanese.
 - C questions should be Traditional Chinese / Taiwanese Mandarin.
 - `translationText` is a translation, not a hint.
+- Question URLs use public codes generated from `questions.json` order, such as `Jあ`, `Jい`, `Cあ`, `Cい`. The internal IDs like `J01` remain in `questions.json` and answer history.
 
 ## Important Commands
 
@@ -52,6 +53,7 @@ VITE_BASE_PATH=/taiwan-exchange-rally/ npm run build
 - Start screen with team name registration
 - Home screen with score, solved count, translation keys, timer, QR guidance, safety guidance
 - Question screen from `?q=...`
+- Old internal URLs such as `?q=J01` are intentionally not used for printed QR cards.
 - Fixed UI text is displayed with Japanese and Traditional Chinese side by side.
 - One answer per question
 - Confirm dialog before answer submission
@@ -76,7 +78,7 @@ VITE_BASE_PATH=/taiwan-exchange-rally/ npm run build
 - Before production QR printing, regenerate QR/PDF with the final deployment URL.
 - If `questions.json` changes, existing LocalStorage answer history resets automatically because the app stores a question-set signature.
 - Timer default is 20 minutes. It starts when the team starts the rally and blocks new unanswered questions after the limit.
-- Teachers can change the per-device time limit from the Start screen before pressing Start.
+- The per-device time limit can be changed from the Start screen before pressing Start.
 
 ## Verification Checklist
 
