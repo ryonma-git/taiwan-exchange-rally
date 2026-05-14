@@ -107,10 +107,11 @@ function readQuestionIdFromUrl() {
     return null
   }
 
-  const publicCode = value.toUpperCase()
+  const internalId = value.toUpperCase()
 
   return (
-    questionIdByPublicCode.get(publicCode) ??
+    (questionMap.has(internalId) ? internalId : undefined) ??
+    questionIdByPublicCode.get(value.toLowerCase()) ??
     `${UNKNOWN_QUESTION_PREFIX}${value}`
   )
 }
@@ -130,10 +131,11 @@ function readTreasureIdFromUrl() {
     return null
   }
 
-  const publicCode = value.toUpperCase()
+  const internalId = value.toUpperCase()
 
   return (
-    treasureIdByPublicCode.get(publicCode) ??
+    (allowedTreasureIds.includes(internalId) ? internalId : undefined) ??
+    treasureIdByPublicCode.get(value.toLowerCase()) ??
     `${UNKNOWN_TREASURE_PREFIX}${value}`
   )
 }

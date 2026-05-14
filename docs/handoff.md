@@ -25,6 +25,7 @@ Taiwan exchange school QR quiz rally web app.
 - `translationText` is a translation, not a hint.
 - Question URLs use opaque public codes generated from internal IDs. The internal IDs like `J01` remain in `questions.json`, QR card labels, question posters, and answer history.
 - Treasure URLs also use opaque public codes. The internal claimed IDs remain `T01` and `T02`.
+- Debug aliases are accepted by the app: `?q=J01` resolves to the same screen as the opaque URL for J01, and `?treasure=T01` resolves to the same screen as the opaque treasure URL. Generated QR lists and print PDFs must still output only opaque URLs.
 
 ## Important Commands
 

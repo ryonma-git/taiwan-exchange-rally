@@ -112,6 +112,8 @@ RALLY_BASE_URL=https://deployed-url.example/taiwan-rally npm run generate:qr
 
 出力行には `type,id,title,url,points,language` が含まれます。`id` は `J01` や `T01` のままです。URLの `q` / `treasure` だけが公開用コードになります。
 
+デバッグ用として、アプリは内部IDのURLも受け付けます。たとえば `?q=J01` と `?q=r15hn85q` は同じ問題を開きます。ただし、QR一覧・QRカード・紙PDFに出力するURLは公開用コードだけです。
+
 ## Generate Print PDFs
 
 印刷用PDFを生成します。QRカードはA4に2枚配置し、問題文全文は載せず、ID・種類・点数・QR・URLだけを表示します。問題文を掲示する場合は、別ファイルの掲示用PDFを使います。
