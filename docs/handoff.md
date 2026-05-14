@@ -7,8 +7,8 @@ Taiwan exchange school QR quiz rally web app.
 - Stack: React + TypeScript + Vite static app
 - Main data file: `src/data/questions.json`
 - App URL format:
-  - Question: `/?q=J%E3%81%82` (`/?q=Jあ` also works when typed directly)
-  - Treasure: `/?treasure=T%E3%81%82` (`/?treasure=Tあ` also works when typed directly)
+  - Question: `/?q=r15hn85q` for J01 in the current dummy data
+  - Treasure: `/?treasure=r16izxik` for T01 in the current treasure data
 - Deployment target: GitHub Pages
   - Public URL: `https://ryonma-git.github.io/taiwan-exchange-rally/`
   - Pages source: `gh-pages` branch
@@ -23,8 +23,8 @@ Taiwan exchange school QR quiz rally web app.
 - J questions should be Japanese.
 - C questions should be Traditional Chinese / Taiwanese Mandarin.
 - `translationText` is a translation, not a hint.
-- Question URLs use public codes generated from `questions.json` order, such as `Jあ`, `Jい`, `Cあ`, `Cい`. The internal IDs like `J01` remain in `questions.json` and answer history.
-- Treasure URLs also use public codes, such as `Tあ` and `Tい`. The internal claimed IDs remain `T01` and `T02`.
+- Question URLs use opaque public codes generated from internal IDs. The internal IDs like `J01` remain in `questions.json`, QR card labels, question posters, and answer history.
+- Treasure URLs also use opaque public codes. The internal claimed IDs remain `T01` and `T02`.
 
 ## Important Commands
 

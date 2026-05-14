@@ -1,7 +1,7 @@
 type,id,title,url,points,language
-question,Jあ,Jあ Japan QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=J%E3%81%82,10,ja
-question,Jい,Jい Japan QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=J%E3%81%84,15,ja
-question,Cあ,Cあ Culture QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=C%E3%81%82,10,zh-Hant
-question,Cい,Cい Culture QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=C%E3%81%84,15,zh-Hant
-treasure,Tあ,Treasure QR Tあ,https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T%E3%81%82,translation-key +1,all
-treasure,Tい,Treasure QR Tい,https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T%E3%81%84,translation-key +1,all
+question,J01,J01 Japan QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=r15hn85q,10,ja
+question,J02,J02 Japan QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=r157nmgr,15,ja
+question,C01,C01 Culture QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=r04e7xj5,10,zh-Hant
+question,C02,C02 Culture QR,https://ryonma-git.github.io/taiwan-exchange-rally/?q=r03k94g8,15,zh-Hant
+treasure,T01,Treasure QR T01,https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=r16izxik,translation-key +1,all
+treasure,T02,Treasure QR T02,https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=r17cyqlh,translation-key +1,all

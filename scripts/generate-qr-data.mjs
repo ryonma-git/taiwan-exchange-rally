@@ -35,8 +35,8 @@ const rows = [
 
     return {
       type: 'question',
-      id: publicCode,
-      title: createQrTitle(question, publicCode),
+      id: question.id,
+      title: createQrTitle(question),
       url: createUrl('q', publicCode),
       points: String(question.points ?? ''),
       language: question.language ?? '',
@@ -47,8 +47,8 @@ const rows = [
 
     return {
       type: 'treasure',
-      id: publicCode,
-      title: createTreasureTitle(publicCode),
+      id: treasure.id,
+      title: createTreasureTitle(treasure),
       url: createUrl('treasure', publicCode),
       points: 'translation-key +1',
       language: 'all',
@@ -106,12 +106,12 @@ function createUrl(paramName, id) {
   return url.toString()
 }
 
-function createQrTitle(question, publicCode) {
-  return `${publicCode} ${question.side ?? 'Question'} QR`
+function createQrTitle(question) {
+  return `${question.id} ${question.side ?? 'Question'} QR`
 }
 
-function createTreasureTitle(publicCode) {
-  return `Treasure QR ${publicCode}`
+function createTreasureTitle(treasure) {
+  return `Treasure QR ${treasure.id}`
 }
 
 function createCsv(items) {

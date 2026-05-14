@@ -1,6 +1,6 @@
 # Japan-Taiwan School Discovery Rally
 
-台湾交流会向けの校内QRクイズラリーWebアプリです。iPad標準カメラでQRコードを読み取り、Safariで `?q=J%E3%81%82` や `?treasure=T%E3%81%82` のURLを開いて使います。
+台湾交流会向けの校内QRクイズラリーWebアプリです。iPad標準カメラでQRコードを読み取り、Safariで `?q=r15hn85q` や `?treasure=r16izxik` のURLを開いて使います。
 
 ## Local Dev
 
@@ -57,7 +57,7 @@ http://localhost:4180/
 
 注意:
 
-- `id` は内部管理用です。QR URLでは生成スクリプトが `Jあ`、`Jい`、`Cあ`、`Cい` のような公開用コードに変換します。
+- `id` は画面・印刷物・回答記録で使う番号です。QR URLでは生成スクリプトが `r15hn85q` のような順番を推測しにくい公開用コードに変換します。
 - `answerIndex` は0始まりです。最初の選択肢が正解なら `0` です。
 - `translationText` は任意です。ある問題だけ翻訳の鍵ボタンが表示されます。
 - `questions.json` の内容が変わると、端末内の古い回答履歴は自動リセットされます。
@@ -73,13 +73,13 @@ https://example.com/taiwan-rally
 問題QR:
 
 ```text
-https://example.com/taiwan-rally/?q=J%E3%81%82
+https://example.com/taiwan-rally/?q=r15hn85q
 ```
 
 宝箱QR:
 
 ```text
-https://example.com/taiwan-rally/?treasure=T%E3%81%82
+https://example.com/taiwan-rally/?treasure=r16izxik
 ```
 
 ## Generate QR URL Data
@@ -110,7 +110,7 @@ npm run generate:qr -- --base https://deployed-url.example/taiwan-rally
 RALLY_BASE_URL=https://deployed-url.example/taiwan-rally npm run generate:qr
 ```
 
-出力行には `type,id,title,url,points,language` が含まれます。問題QRと宝箱QRの `id` は公開用コードです。宝箱QRは内部データとして `T01` と `T02` を持ち、出力時に `Tあ` と `Tい` に変換します。
+出力行には `type,id,title,url,points,language` が含まれます。`id` は `J01` や `T01` のままです。URLの `q` / `treasure` だけが公開用コードになります。
 
 ## Generate Print PDFs
 
@@ -154,8 +154,8 @@ npm run generate:pdf -- --base https://deployed-url.example/taiwan-rally
 学校iPadで次を確認します。
 
 - SafariでデプロイURLが開ける。
-- iPad標準カメラで問題QRを読み取り、Safariで `?q=J%E3%81%82` のようなURLが開く。
-- iPad標準カメラで宝箱QRを読み取り、Safariで `?treasure=T%E3%81%82` のようなURLが開く。
+- iPad標準カメラで問題QRを読み取り、Safariで `?q=r15hn85q` のようなURLが開く。
+- iPad標準カメラで宝箱QRを読み取り、Safariで `?treasure=r16izxik` のようなURLが開く。
 - 班名入力、回答、Result表示ができる。
 - 翻訳の鍵が使える。
 - 同じ問題に再回答できない。

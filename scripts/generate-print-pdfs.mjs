@@ -104,8 +104,8 @@ function createQrRows(items) {
 
       return {
         type: 'question',
-        id: publicCode,
-        title: createQrTitle(question, publicCode),
+        id: question.id,
+        title: createQrTitle(question),
         url: createUrl('q', publicCode),
         points: `${question.points ?? ''} points`,
         language: question.language ?? '',
@@ -116,8 +116,8 @@ function createQrRows(items) {
 
       return {
         type: 'treasure',
-        id: publicCode,
-        title: createTreasureTitle(publicCode),
+        id: treasure.id,
+        title: createTreasureTitle(treasure),
         url: createUrl('treasure', publicCode),
         points: 'Translation Key +1',
         language: 'all',
@@ -126,12 +126,12 @@ function createQrRows(items) {
   ]
 }
 
-function createQrTitle(question, publicCode) {
-  return `${publicCode} ${question.side ?? 'Question'} QR`
+function createQrTitle(question) {
+  return `${question.id} ${question.side ?? 'Question'} QR`
 }
 
-function createTreasureTitle(publicCode) {
-  return `Treasure QR ${publicCode}`
+function createTreasureTitle(treasure) {
+  return `Treasure QR ${treasure.id}`
 }
 
 function createShortQuestionTitle(question) {
@@ -437,9 +437,7 @@ async function createAnswerSheetPdf(items) {
     .roundedRect(42, 220, 512, 78, 8)
     .fillAndStroke('#fffaf0', COLORS.border)
   doc.fillColor(COLORS.navy).fontSize(12).text('翻訳の鍵・宝箱QR / 翻譯鑰匙・寶箱QR', 58, 236)
-  const treasureCodes = TREASURES.map(
-    (treasure) => treasureCodeById.get(treasure.id) ?? treasure.id,
-  ).join('・')
+  const treasureCodes = TREASURES.map((treasure) => treasure.id).join('・')
 
   doc
     .fillColor(COLORS.muted)

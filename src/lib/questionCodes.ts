@@ -1,41 +1,21 @@
-const QUESTION_CODE_SUFFIXES = [
-  'あ',
-  'い',
-  'う',
-  'え',
-  'お',
-  'か',
-  'き',
-  'く',
-  'け',
-  'こ',
-  'さ',
-  'し',
-  'す',
-  'せ',
-  'そ',
-  'た',
-  'ち',
-  'つ',
-  'て',
-  'と',
-]
+const PUBLIC_CODE_SALT = 'taiwan-rally-2026'
 
 type QuestionCodeSource = {
   id: string
 }
 
 export function createQuestionCodeMap(items: QuestionCodeSource[]) {
-  const prefixCounts = new Map<string, number>()
   const codeToId = new Map<string, string>()
 
   for (const item of items) {
-    const prefix = createCodePrefix(item.id)
-    const count = prefixCounts.get(prefix) ?? 0
-    const suffix = QUESTION_CODE_SUFFIXES[count] ?? String(count + 1)
-    const publicCode = `${prefix}${suffix}`
+    let publicCode = createPublicCode(item.id)
+    let attempt = 2
 
-    prefixCounts.set(prefix, count + 1)
+    while (codeToId.has(publicCode) && codeToId.get(publicCode) !== item.id) {
+      publicCode = `${createPublicCode(item.id)}${attempt}`
+      attempt += 1
+    }
+
     codeToId.set(publicCode, item.id)
   }
 
@@ -46,6 +26,14 @@ export function invertQuestionCodeMap(codeToId: Map<string, string>) {
   return new Map(Array.from(codeToId, ([code, id]) => [id, code]))
 }
 
-function createCodePrefix(id: string) {
-  return id.trim().charAt(0).toUpperCase() || 'Q'
+function createPublicCode(id: string) {
+  let hash = 2166136261
+  const source = `${PUBLIC_CODE_SALT}:${id.trim().toUpperCase()}`
+
+  for (let index = 0; index < source.length; index += 1) {
+    hash ^= source.charCodeAt(index)
+    hash = Math.imul(hash, 16777619)
+  }
+
+  return `r${(hash >>> 0).toString(36).padStart(7, '0')}`
 }

@@ -17,10 +17,7 @@ import {
   type AnswerRecord,
   type RallyState,
 } from './lib/storage'
-import {
-  createQuestionCodeMap,
-  invertQuestionCodeMap,
-} from './lib/questionCodes'
+import { createQuestionCodeMap } from './lib/questionCodes'
 
 type Question = {
   id: string
@@ -49,12 +46,10 @@ const WARNING_REMAINING_MS = 5 * 60 * 1000
 const questions = JSON.parse(questionsRaw) as Question[]
 const questionMap = new Map(questions.map((question) => [question.id, question]))
 const questionIdByPublicCode = createQuestionCodeMap(questions)
-const publicCodeByQuestionId = invertQuestionCodeMap(questionIdByPublicCode)
 const questionSetSignature = createQuestionSetSignature(questionsRaw)
 const treasures = [{ id: 'T01' }, { id: 'T02' }]
 const allowedTreasureIds = treasures.map((treasure) => treasure.id)
 const treasureIdByPublicCode = createQuestionCodeMap(treasures)
-const publicCodeByTreasureId = invertQuestionCodeMap(treasureIdByPublicCode)
 const assetBaseUrl = import.meta.env.BASE_URL
 const UNKNOWN_QUESTION_PREFIX = '__unknown_question__:'
 const UNKNOWN_TREASURE_PREFIX = '__unknown_treasure__:'
@@ -120,10 +115,6 @@ function readQuestionIdFromUrl() {
   )
 }
 
-function getQuestionPublicCode(questionId: string) {
-  return publicCodeByQuestionId.get(questionId) ?? questionId
-}
-
 function getQuestionDisplayCode(questionId: string | null) {
   return questionId?.startsWith(UNKNOWN_QUESTION_PREFIX)
     ? questionId.slice(UNKNOWN_QUESTION_PREFIX.length)
@@ -167,7 +158,7 @@ function getTreasureDisplayCode(treasureId: string | null) {
     return treasureId.slice(UNKNOWN_TREASURE_PREFIX.length)
   }
 
-  return publicCodeByTreasureId.get(treasureId) ?? treasureId
+  return treasureId
 }
 
 function formatAnsweredAt(value: string) {
@@ -998,7 +989,7 @@ function App() {
           {activeQuestion && !isQuestionBlocked && (
             <>
               <section className="question-meta" aria-label="問題情報">
-                <span>{getQuestionPublicCode(activeQuestion.id)}</span>
+                <span>{activeQuestion.id}</span>
                 <span>{activeQuestion.side}</span>
                 <span>{activeQuestion.language}</span>
                 <span>{activeQuestion.difficulty}</span>

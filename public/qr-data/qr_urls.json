@@ -1,49 +1,49 @@
 [
   {
     "type": "question",
-    "id": "Jあ",
-    "title": "Jあ Japan QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J%E3%81%82",
+    "id": "J01",
+    "title": "J01 Japan QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r15hn85q",
     "points": "10",
     "language": "ja"
   },
   {
     "type": "question",
-    "id": "Jい",
-    "title": "Jい Japan QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J%E3%81%84",
+    "id": "J02",
+    "title": "J02 Japan QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r157nmgr",
     "points": "15",
     "language": "ja"
   },
   {
     "type": "question",
-    "id": "Cあ",
-    "title": "Cあ Culture QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C%E3%81%82",
+    "id": "C01",
+    "title": "C01 Culture QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r04e7xj5",
     "points": "10",
     "language": "zh-Hant"
   },
   {
     "type": "question",
-    "id": "Cい",
-    "title": "Cい Culture QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C%E3%81%84",
+    "id": "C02",
+    "title": "C02 Culture QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r03k94g8",
     "points": "15",
     "language": "zh-Hant"
   },
   {
     "type": "treasure",
-    "id": "Tあ",
-    "title": "Treasure QR Tあ",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T%E3%81%82",
+    "id": "T01",
+    "title": "Treasure QR T01",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=r16izxik",
     "points": "translation-key +1",
     "language": "all"
   },
   {
     "type": "treasure",
-    "id": "Tい",
-    "title": "Treasure QR Tい",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=T%E3%81%84",
+    "id": "T02",
+    "title": "Treasure QR T02",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?treasure=r17cyqlh",
     "points": "translation-key +1",
     "language": "all"
   }
