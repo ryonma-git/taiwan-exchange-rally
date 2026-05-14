@@ -1,33 +1,33 @@
 [
   {
     "type": "question",
-    "id": "J01",
-    "title": "J01 Japan QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J01",
+    "id": "Jあ",
+    "title": "Jあ Japan QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J%E3%81%82",
     "points": "10",
     "language": "ja"
   },
   {
     "type": "question",
-    "id": "J02",
-    "title": "J02 Japan QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J02",
+    "id": "Jい",
+    "title": "Jい Japan QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=J%E3%81%84",
     "points": "15",
     "language": "ja"
   },
   {
     "type": "question",
-    "id": "C01",
-    "title": "C01 Culture QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C01",
+    "id": "Cあ",
+    "title": "Cあ Culture QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C%E3%81%82",
     "points": "10",
     "language": "zh-Hant"
   },
   {
     "type": "question",
-    "id": "C02",
-    "title": "C02 Culture QR",
-    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C02",
+    "id": "Cい",
+    "title": "Cい Culture QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=C%E3%81%84",
     "points": "15",
     "language": "zh-Hant"
   },
