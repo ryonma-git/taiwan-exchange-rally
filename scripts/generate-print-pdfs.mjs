@@ -49,8 +49,8 @@ const qrRows = createQrRows(questions)
 const treasureRows = qrRows.filter((row) => row.type === 'treasure')
 const emojiAssets = await loadEmojiAssets()
 
-await createQrCardsPdf(qrRows, 'qr_cards.pdf', 'QR Cards')
-await createQrCardsPdf(treasureRows, 'treasure_cards.pdf', 'Treasure Cards')
+await createQrCardsPdf(qrRows, 'qr_cards.pdf')
+await createQrCardsPdf(treasureRows, 'treasure_cards.pdf')
 await createQuestionPostersPdf(questions)
 await createAnswerSheetPdf(questions)
 
@@ -159,7 +159,7 @@ function drawEmoji(doc, name, x, y, size, opacity = 1) {
   doc.restore()
 }
 
-async function createQrCardsPdf(rows, outputFileName, headerLabel) {
+async function createQrCardsPdf(rows, outputFileName) {
   const { doc, stream } = createDocument(path.join(outputDir, outputFileName))
   const page = {
     width: doc.page.width,
@@ -171,17 +171,14 @@ async function createQrCardsPdf(rows, outputFileName, headerLabel) {
   const cardHeight = (page.height - page.margin * 2 - gap) / 2
   const cardsPerPage = 2
 
-  drawPdfHeader(doc, 'Japan-Taiwan School Discovery Rally', headerLabel)
-
   for (let index = 0; index < rows.length; index += 1) {
     if (index > 0 && index % cardsPerPage === 0) {
       doc.addPage()
-      drawPdfHeader(doc, 'Japan-Taiwan School Discovery Rally', headerLabel)
     }
 
     const pageIndex = index % cardsPerPage
     const x = page.margin
-    const y = 76 + pageIndex * (cardHeight + gap)
+    const y = page.margin + pageIndex * (cardHeight + gap)
     const qrBuffer = await QRCode.toBuffer(rows[index].url, {
       errorCorrectionLevel: 'M',
       margin: 1,
@@ -248,16 +245,17 @@ function drawQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc
     .fillColor(COLORS.muted)
     .fontSize(8.5)
-    .text(row.url, x + 30, y + height - 54, {
-      width: width - 60,
-      height: 30,
+    .text(row.url, qrX - 12, qrY + qrSize + 36, {
+      width: qrSize + 24,
+      height: 34,
+      align: 'center',
     })
 }
 
 function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
   const qrSize = 232
   const qrX = x + width - qrSize - 30
-  const qrY = y + 66
+  const qrY = y + 56
   const leftWidth = qrX - x - 44
 
   doc
@@ -270,7 +268,7 @@ function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc.rect(x, y + height - 22, width, 22).fill(COLORS.red)
   drawConfetti(doc, x + 24, y + 44, leftWidth, 56)
   drawEmoji(doc, 'sparkles', x + leftWidth - 10, y + 46, 48, 0.92)
-  drawEmoji(doc, 'key', x + 234, y + 220, 58, 0.96)
+  drawEmoji(doc, 'key', x + 214, y + 200, 52, 0.96)
 
   doc
     .fillColor(COLORS.navy)
@@ -290,9 +288,9 @@ function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
     width: leftWidth,
   })
 
-  doc.image(treasureChestPath, x + 36, y + 220, {
-    width: 210,
-    height: 210,
+  doc.image(treasureChestPath, x + 50, y + 206, {
+    width: 148,
+    height: 148,
   })
 
   doc
@@ -309,9 +307,10 @@ function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc
     .fillColor(COLORS.muted)
     .fontSize(8.5)
-    .text(row.url, x + 30, y + height - 54, {
-      width: width - 60,
-      height: 30,
+    .text(row.url, qrX - 12, qrY + qrSize + 36, {
+      width: qrSize + 24,
+      height: 34,
+      align: 'center',
     })
 }
 
