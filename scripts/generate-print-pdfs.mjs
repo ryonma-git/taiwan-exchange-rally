@@ -36,6 +36,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(__dirname, '..')
 const questionsPath = path.join(repoRoot, 'src/data/questions.json')
 const outputDir = path.join(repoRoot, 'dist-print')
+const treasureChestPath = path.join(repoRoot, 'public/assets/treasure-chest.png')
 const baseUrl = normalizeBaseUrl(
   getArgValue('--base') ?? process.env.RALLY_BASE_URL ?? DEFAULT_BASE_URL,
 )
@@ -219,7 +220,11 @@ function drawQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc
     .fillColor(COLORS.navy)
     .fontSize(15)
-    .text(isTreasure ? '宝箱 / Treasure QR' : '問題 / Question QR', x + 30, y + 42)
+    .text(
+      isTreasure ? '宝箱 / 寶箱 / Treasure QR' : '問題 / 題目 / Question QR',
+      x + 30,
+      y + 42,
+    )
   doc.fillColor(accent).fontSize(52).text(row.id, x + 30, y + 72)
   doc
     .fillColor(COLORS.navy)
@@ -265,18 +270,30 @@ function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc.rect(x, y + height - 22, width, 22).fill(COLORS.red)
   drawConfetti(doc, x + 24, y + 44, leftWidth, 56)
   drawEmoji(doc, 'sparkles', x + leftWidth - 10, y + 46, 48, 0.92)
-  drawEmoji(doc, 'key', x + 224, y + 214, 62, 0.96)
+  drawEmoji(doc, 'key', x + 234, y + 220, 58, 0.96)
 
-  doc.fillColor(COLORS.navy).fontSize(15).text('宝箱 / Treasure QR', x + 34, y + 42)
+  doc
+    .fillColor(COLORS.navy)
+    .fontSize(15)
+    .text('宝箱 / 寶箱 / Treasure QR', x + 34, y + 42)
   doc.fillColor(COLORS.red).fontSize(58).text(row.id, x + 34, y + 70)
   doc.fillColor(COLORS.navy).fontSize(26).text('翻訳の鍵 +1', x + 34, y + 136, {
     width: leftWidth,
   })
-  doc.fillColor(COLORS.muted).fontSize(13).text('見つけたらiPadカメラでスキャン', x + 34, y + 172, {
+  doc.fillColor(COLORS.muted).fontSize(11).text('翻譯鑰匙 +1', x + 34, y + 168, {
+    width: leftWidth,
+  })
+  doc.fillColor(COLORS.muted).fontSize(12).text('見つけたらiPadカメラでスキャン', x + 34, y + 190, {
+    width: leftWidth,
+  })
+  doc.fillColor(COLORS.muted).fontSize(10).text('找到後請用iPad相機掃描', x + 34, y + 208, {
     width: leftWidth,
   })
 
-  drawTreasureChest(doc, x + 56, y + 214, 170, 118)
+  doc.image(treasureChestPath, x + 36, y + 220, {
+    width: 210,
+    height: 210,
+  })
 
   doc
     .roundedRect(qrX - 14, qrY - 14, qrSize + 28, qrSize + 28, 16)
@@ -296,26 +313,6 @@ function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
       width: width - 60,
       height: 30,
     })
-}
-
-function drawTreasureChest(doc, x, y, width, height) {
-  const lidHeight = height * 0.42
-  const bodyY = y + lidHeight - 4
-  const bodyHeight = height - lidHeight
-
-  doc
-    .roundedRect(x + 12, bodyY, width - 24, bodyHeight, 12)
-    .fillAndStroke('#bf6f2c', '#7c4319')
-  doc
-    .roundedRect(x + 20, y, width - 40, lidHeight + 12, 18)
-    .fillAndStroke(COLORS.gold, '#9a6714')
-  doc.rect(x + width / 2 - 10, y + 6, 20, height - 18).fill(COLORS.red)
-  doc.rect(x + 24, bodyY + 16, width - 48, 9).fill('#f7c65a')
-  doc
-    .roundedRect(x + width / 2 - 23, bodyY + 30, 46, 34, 7)
-    .fillAndStroke('#fff8dc', '#9a6714')
-  doc.circle(x + width / 2, bodyY + 44, 4).fill('#9a6714')
-  doc.rect(x + width / 2 - 2, bodyY + 44, 4, 12).fill('#9a6714')
 }
 
 function drawConfetti(doc, x, y, width, height) {
@@ -365,7 +362,7 @@ function drawQuestionPoster(doc, question) {
     .fillAndStroke(COLORS.white, COLORS.border)
   doc.rect(42, 86, 512, 18).fill(question.id.startsWith('C') ? COLORS.red : COLORS.blue)
   drawEmoji(doc, question.id.startsWith('C') ? 'school' : 'cherry', 456, 124, 68, 0.9)
-  doc.fillColor(COLORS.muted).fontSize(14).text('問題 / Question', 66, 130)
+  doc.fillColor(COLORS.muted).fontSize(14).text('問題 / 題目 / Question', 66, 130)
   doc.fillColor(COLORS.navy).fontSize(54).text(question.id, 66, 152)
   doc
     .fillColor(COLORS.navy)
@@ -394,7 +391,7 @@ function drawQuestionPoster(doc, question) {
   doc
     .fillColor(COLORS.muted)
     .fontSize(10)
-    .text('答えはWebアプリで選んでください。', 66, 720, {
+    .text('答えはWebアプリで選んでください。／請在Web應用程式中選擇答案。', 66, 720, {
       width: 464,
       align: 'right',
     })
@@ -407,29 +404,29 @@ async function createAnswerSheetPdf(items) {
   doc
     .fillColor(COLORS.navy)
     .fontSize(15)
-    .text('紙バックアップ回答記録用紙', 42, 88)
+    .text('紙バックアップ回答記録用紙 / 紙本備用作答紀錄表', 42, 88)
   doc
     .fillColor(COLORS.muted)
     .fontSize(9)
     .text(
-      'Webが使えない場合に、先生が回答と得点を記録するための用紙です。',
+      'Webが使えない場合に、先生が回答と得点を記録するための用紙です。／無法使用Web時，老師可用此表記錄答案與分數。',
       42,
       110,
     )
 
-  drawFormLine(doc, 'チーム名', 42, 144, 218)
-  drawFormLine(doc, 'メンバー', 300, 144, 236)
-  drawFormLine(doc, '開始時刻', 42, 178, 160)
-  drawFormLine(doc, '先生確認', 252, 178, 160)
+  drawFormLine(doc, 'チーム名 / 隊名', 42, 144, 218)
+  drawFormLine(doc, 'メンバー / 成員', 300, 144, 236)
+  drawFormLine(doc, '開始時刻 / 開始時間', 42, 178, 160)
+  drawFormLine(doc, '先生確認 / 老師確認', 252, 178, 160)
 
   doc
     .roundedRect(42, 220, 512, 78, 8)
     .fillAndStroke('#fffaf0', COLORS.border)
-  doc.fillColor(COLORS.navy).fontSize(12).text('翻訳の鍵・宝箱QR', 58, 236)
+  doc.fillColor(COLORS.navy).fontSize(12).text('翻訳の鍵・宝箱QR / 翻譯鑰匙・寶箱QR', 58, 236)
   doc
     .fillColor(COLORS.muted)
     .fontSize(10)
-    .text('開始時の鍵: 3 / 宝箱取得: T01・T02 / 使用した問題ID:', 58, 260)
+    .text('開始時の鍵: 3 / 宝箱取得: T01・T02 / 使用した問題ID: / 開始鑰匙: 3 / 寶箱: T01・T02 / 使用題目ID:', 58, 260)
   doc.moveTo(266, 276).lineTo(532, 276).stroke(COLORS.border)
 
   let y = 330
@@ -505,10 +502,10 @@ function drawAnswerTableRow(doc, question, y) {
 function getAnswerColumns() {
   return [
     { label: 'ID', x: 42, width: 46 },
-    { label: '短いタイトル', x: 88, width: 198 },
-    { label: '答え', x: 286, width: 116 },
-    { label: '得点', x: 402, width: 54 },
-    { label: '先生チェック', x: 456, width: 98 },
+    { label: '題名', x: 88, width: 198 },
+    { label: '答え / 答案', x: 286, width: 116 },
+    { label: '得点 / 分數', x: 402, width: 54 },
+    { label: '先生 / 老師', x: 456, width: 98 },
   ]
 }
 

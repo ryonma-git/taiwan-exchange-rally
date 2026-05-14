@@ -23,9 +23,14 @@ export type RallyState = {
   translationKeysRemaining: number
   translationKeysUsedQuestionIds: string[]
   claimedTreasureIds: string[]
+  timerStartedAt: string | null
+  timeLimitMinutes: number
 }
 
-export function createEmptyRallyState(questionSetSignature: string): RallyState {
+export function createEmptyRallyState(
+  questionSetSignature: string,
+  timeLimitMinutes = 40,
+): RallyState {
   return {
     teamName: '',
     totalScore: 0,
@@ -35,6 +40,8 @@ export function createEmptyRallyState(questionSetSignature: string): RallyState 
     translationKeysRemaining: INITIAL_TRANSLATION_KEYS,
     translationKeysUsedQuestionIds: [],
     claimedTreasureIds: [],
+    timerStartedAt: null,
+    timeLimitMinutes,
   }
 }
 
@@ -67,6 +74,12 @@ export function loadRallyState(questionSetSignature: string): RallyState {
     const claimedTreasureIds = Array.isArray(parsedValue.claimedTreasureIds)
       ? createUniqueStrings(parsedValue.claimedTreasureIds)
       : []
+    const timeLimitMinutes =
+      typeof parsedValue.timeLimitMinutes === 'number' &&
+      Number.isFinite(parsedValue.timeLimitMinutes) &&
+      parsedValue.timeLimitMinutes > 0
+        ? parsedValue.timeLimitMinutes
+        : 40
 
     return {
       teamName:
@@ -84,6 +97,11 @@ export function loadRallyState(questionSetSignature: string): RallyState {
       ),
       translationKeysUsedQuestionIds,
       claimedTreasureIds,
+      timerStartedAt:
+        typeof parsedValue.timerStartedAt === 'string'
+          ? parsedValue.timerStartedAt
+          : null,
+      timeLimitMinutes,
     }
   } catch {
     return createEmptyRallyState(questionSetSignature)

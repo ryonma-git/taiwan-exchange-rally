@@ -30,14 +30,17 @@ type Question = {
   translationText?: string
 }
 
-type ScreenMode = 'home' | 'result'
+type ScreenMode = 'home' | 'result' | 'answer-result'
 type TreasureStatus = 'claimed' | 'already-claimed' | 'invalid'
 
 const EVENT_NAME = 'Japan–Taiwan School Discovery Rally'
-const EVENT_SUBTITLE = '台湾交流会 校内QRクイズラリー'
+const EVENT_SUBTITLE = '台湾交流会 校内QRクイズラリー / 臺灣交流會 校園QR問答闖關'
 const STORAGE_ERROR_MESSAGE =
-  'この端末では保存に失敗しました。先生に知らせてください。'
-const NO_TRANSLATION_KEYS_MESSAGE = '翻訳の鍵はもう残っていません。'
+  'この端末では保存に失敗しました。先生に知らせてください。／此裝置儲存失敗，請告訴老師。'
+const NO_TRANSLATION_KEYS_MESSAGE =
+  '翻訳の鍵はもう残っていません。／翻譯鑰匙已經用完了。'
+const RALLY_TIME_LIMIT_MINUTES = 40
+const WARNING_REMAINING_MS = 5 * 60 * 1000
 const questions = JSON.parse(questionsRaw) as Question[]
 const questionMap = new Map(questions.map((question) => [question.id, question]))
 const questionSetSignature = createQuestionSetSignature(questionsRaw)
@@ -46,6 +49,23 @@ const assetBaseUrl = import.meta.env.BASE_URL
 
 function getAssetUrl(path: string) {
   return `${assetBaseUrl}${path.replace(/^\//, '')}`
+}
+
+function BilingualText({ ja, zh }: { ja: string; zh: string }) {
+  return (
+    <>
+      <span>{ja}</span>
+      <span className="zh-line">{zh}</span>
+    </>
+  )
+}
+
+function formatRemainingTime(remainingMs: number) {
+  const totalSeconds = Math.max(0, Math.ceil(remainingMs / 1000))
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`
 }
 
 function createQuestionSetSignature(value: string) {
@@ -158,6 +178,8 @@ function rebuildRallyState(
     ),
     translationKeysUsedQuestionIds: nextTranslationKeysUsedQuestionIds,
     claimedTreasureIds: nextClaimedTreasureIds,
+    timerStartedAt: state.timerStartedAt,
+    timeLimitMinutes: state.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES,
   }
 }
 
@@ -166,6 +188,11 @@ function mergeRallyStates(latestState: RallyState, currentState: RallyState) {
     {
       ...latestState,
       teamName: latestState.teamName || currentState.teamName,
+      timerStartedAt: latestState.timerStartedAt || currentState.timerStartedAt,
+      timeLimitMinutes:
+        latestState.timeLimitMinutes ||
+        currentState.timeLimitMinutes ||
+        RALLY_TIME_LIMIT_MINUTES,
     },
     mergeAnswerHistories(latestState.answerHistory, currentState.answerHistory),
     [
@@ -199,6 +226,7 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [feedback, setFeedback] = useState<AnswerRecord | null>(null)
   const [translationNotice, setTranslationNotice] = useState('')
+  const [nowMs, setNowMs] = useState(() => Date.now())
 
   const activeQuestion = questionId ? questionMap.get(questionId) : undefined
   const activeTreasureId =
@@ -218,7 +246,6 @@ function App() {
         : undefined,
     [activeQuestion, rallyState.answerHistory],
   )
-  const displayedRecord = feedback ?? answeredRecord
   const hasUsedTranslationKey = activeQuestion
     ? rallyState.translationKeysUsedQuestionIds.includes(activeQuestion.id)
     : false
@@ -227,8 +254,27 @@ function App() {
   )
   const shouldShowTranslation = hasQuestionTranslation && hasUsedTranslationKey
   const hasTeamName = rallyState.teamName.trim().length > 0
+  const timerStartedAtMs = rallyState.timerStartedAt
+    ? Date.parse(rallyState.timerStartedAt)
+    : Number.NaN
+  const hasActiveTimer = Number.isFinite(timerStartedAtMs)
+  const timeLimitMs =
+    (rallyState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES) * 60 * 1000
+  const remainingMs = hasActiveTimer
+    ? Math.max(0, timerStartedAtMs + timeLimitMs - nowMs)
+    : timeLimitMs
+  const isTimeExpired = hasTeamName && hasActiveTimer && remainingMs <= 0
+  const isTimeWarning =
+    hasTeamName &&
+    hasActiveTimer &&
+    remainingMs > 0 &&
+    remainingMs <= WARNING_REMAINING_MS
+  const isQuestionBlocked =
+    Boolean(activeQuestion) && !answeredRecord && isTimeExpired
   const screen = !hasTeamName
     ? 'start'
+    : screenMode === 'answer-result' && feedback
+      ? 'answer-result'
     : screenMode === 'result'
       ? 'result'
       : treasureId
@@ -286,6 +332,39 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (!hasTeamName || !rallyState.timerStartedAt) {
+      return undefined
+    }
+
+    const timer = window.setInterval(() => setNowMs(Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  }, [hasTeamName, rallyState.timerStartedAt])
+
+  useEffect(() => {
+    if (!hasTeamName || rallyState.timerStartedAt) {
+      return undefined
+    }
+
+    const timer = window.setTimeout(() => {
+      const latestState = loadRallyState(questionSetSignature)
+      const baseState = mergeRallyStates(latestState, rallyState)
+
+      if (baseState.timerStartedAt) {
+        setRallyState(baseState)
+        return
+      }
+
+      persistState({
+        ...baseState,
+        timerStartedAt: new Date().toISOString(),
+        timeLimitMinutes: RALLY_TIME_LIMIT_MINUTES,
+      })
+    }, 0)
+
+    return () => window.clearTimeout(timer)
+  }, [hasTeamName, persistState, rallyState])
+
+  useEffect(() => {
     if (!hasTeamName || !treasureId || processedTreasureId === treasureId) {
       return undefined
     }
@@ -329,7 +408,7 @@ function App() {
     const nextTeamName = teamNameInput.trim()
 
     if (!nextTeamName) {
-      setTeamNameError('班名を入力してください。')
+      setTeamNameError('班名を入力してください。／請輸入隊名。')
       return
     }
 
@@ -338,6 +417,9 @@ function App() {
     const nextState = {
       ...mergedState,
       teamName: nextTeamName,
+      timerStartedAt: mergedState.timerStartedAt ?? new Date().toISOString(),
+      timeLimitMinutes:
+        mergedState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES,
     }
 
     persistState(nextState)
@@ -358,6 +440,10 @@ function App() {
     setTranslationNotice('')
   }
 
+  const handleCloseAnswerResult = () => {
+    handleGoHome()
+  }
+
   const handleSubmitAnswer = () => {
     if (!activeQuestion || selectedIndex === null) {
       return
@@ -365,12 +451,20 @@ function App() {
 
     if (answeredRecord) {
       setFeedback(answeredRecord)
+      setScreenMode('answer-result')
+      return
+    }
+
+    if (isTimeExpired) {
+      window.alert(
+        '制限時間が終了しました。新しい問題には回答できません。／時間已到，不能回答新的題目。',
+      )
       return
     }
 
     const selectedChoice = activeQuestion.choices[selectedIndex]
     const isConfirmed = window.confirm(
-      `「${selectedChoice}」で回答します。送信後は変更できません。よろしいですか？`,
+      `「${selectedChoice}」で回答します。送信後は変更できません。よろしいですか？\n要送出「${selectedChoice}」嗎？送出後不能修改。`,
     )
 
     if (!isConfirmed) {
@@ -387,6 +481,7 @@ function App() {
       setTeamNameInput(latestState.teamName)
       setStorageWarning('')
       setFeedback(latestAnsweredRecord)
+      setScreenMode('answer-result')
       return
     }
 
@@ -398,6 +493,7 @@ function App() {
     if (alreadyMergedRecord) {
       persistState(baseState)
       setFeedback(alreadyMergedRecord)
+      setScreenMode('answer-result')
       return
     }
 
@@ -420,6 +516,7 @@ function App() {
 
     persistState(nextState)
     setFeedback(record)
+    setScreenMode('answer-result')
   }
 
   const handleUseTranslationKey = () => {
@@ -443,7 +540,7 @@ function App() {
     }
 
     const isConfirmed = window.confirm(
-      '翻訳の鍵を1つ使って、この問題の翻訳を表示します。よろしいですか？',
+      '翻訳の鍵を1つ使って、この問題の翻訳を表示します。よろしいですか？\n要使用1把翻譯鑰匙，顯示這題的翻譯嗎？',
     )
 
     if (!isConfirmed) {
@@ -463,7 +560,7 @@ function App() {
 
   const handleReset = () => {
     const firstConfirmed = window.confirm(
-      '先生用リセットです。班名、点数、回答履歴をすべて消しますか？',
+      '先生用リセットです。班名、点数、回答履歴をすべて消しますか？\n這是老師用重置。要刪除隊名、分數和作答紀錄嗎？',
     )
 
     if (!firstConfirmed) {
@@ -471,7 +568,7 @@ function App() {
     }
 
     const secondConfirmed = window.confirm(
-      '本当にリセットします。この操作は元に戻せません。',
+      '本当にリセットします。この操作は元に戻せません。\n確定要重置嗎？此操作無法復原。',
     )
 
     if (!secondConfirmed) {
@@ -508,7 +605,10 @@ function App() {
             <p className="eyebrow">{EVENT_SUBTITLE}</p>
             <h1 id="start-title">{EVENT_NAME}</h1>
             <p className="lead">
-              班名を入力して、校内のQRポイントを回りながらクイズに挑戦します。
+              <BilingualText
+                ja="班名を入力して、校内のQRポイントを回りながらクイズに挑戦します。"
+                zh="請輸入隊名，掃描校園裡的QR點，挑戰問答闖關。"
+              />
             </p>
             <div className="hero-assets" aria-hidden="true">
               <img
@@ -523,18 +623,20 @@ function App() {
             </div>
           </div>
           <form className="start-form" onSubmit={handleStart}>
-            <label htmlFor="team-name">班名</label>
+            <label htmlFor="team-name">
+              <BilingualText ja="班名" zh="隊名" />
+            </label>
             <input
               id="team-name"
               type="text"
               value={teamNameInput}
               onChange={(event) => setTeamNameInput(event.target.value)}
-              placeholder="例: 3班"
+              placeholder="例: 3班 / 例如: 第3隊"
               autoComplete="off"
             />
             {teamNameError && <p className="form-error">{teamNameError}</p>}
             <button type="submit" className="primary-button">
-              Start
+              <BilingualText ja="Start / 開始" zh="開始" />
             </button>
           </form>
         </section>
@@ -560,36 +662,81 @@ function App() {
               className="secondary-button"
               onClick={() => setScreenMode('result')}
             >
-              Result
+              <BilingualText ja="Result / 結果" zh="結果" />
             </button>
           </div>
 
           <div className="score-band" aria-label="現在の成績">
             <div>
-              <span>合計点</span>
+              <span>
+                <BilingualText ja="合計点" zh="總分" />
+              </span>
               <strong>{rallyState.totalScore}</strong>
             </div>
             <div>
-              <span>回答済み</span>
+              <span>
+                <BilingualText ja="回答済み" zh="已作答" />
+              </span>
               <strong>
                 {rallyState.answeredQuestionIds.length}/{questions.length}
               </strong>
             </div>
             <div>
-              <span>翻訳の鍵</span>
-              <strong>残り: {rallyState.translationKeysRemaining}</strong>
+              <span>
+                <BilingualText ja="翻訳の鍵" zh="翻譯鑰匙" />
+              </span>
+              <strong>
+                <BilingualText
+                  ja={`残り: ${rallyState.translationKeysRemaining}`}
+                  zh={`剩下: ${rallyState.translationKeysRemaining}`}
+                />
+              </strong>
             </div>
           </div>
+
+          <section
+            className={isTimeWarning || isTimeExpired ? 'timer-panel urgent' : 'timer-panel'}
+            aria-live="polite"
+          >
+            <div>
+              <p className="eyebrow">
+                <BilingualText ja="制限時間" zh="時間限制" />
+              </p>
+              <strong>{formatRemainingTime(remainingMs)}</strong>
+            </div>
+            <p>
+              {isTimeExpired ? (
+                <BilingualText
+                  ja="時間終了です。新しい問題には回答できません。"
+                  zh="時間已到，不能回答新的題目。"
+                />
+              ) : isTimeWarning ? (
+                <BilingualText
+                  ja="残り5分を切りました。急いで集合場所へ戻りましょう。"
+                  zh="剩下不到5分鐘。請盡快回到集合地點。"
+                />
+              ) : (
+                <BilingualText
+                  ja="タイマーはStart時に始まります。"
+                  zh="計時器會從開始時啟動。"
+                />
+              )}
+            </p>
+          </section>
 
           <section className="info-grid" aria-label="ラリー案内">
             <article>
               <span className="card-icon" aria-hidden="true">
                 QR
               </span>
-              <h2>QR案内</h2>
+              <h2>
+                <BilingualText ja="QR案内" zh="QR說明" />
+              </h2>
               <p>
-                iPadの標準カメラでQRコードを読み取り、Safariで開いてください。
-                画面に表示された問題を選んで回答します。
+                <BilingualText
+                  ja="iPadの標準カメラでQRコードを読み取り、Safariで開いてください。画面に表示された問題を選んで回答します。"
+                  zh="請用iPad內建相機掃描QR碼，並用Safari開啟。看畫面上的題目後選擇答案。"
+                />
               </p>
             </article>
             <article className="safety-card">
@@ -599,10 +746,14 @@ function App() {
                   alt=""
                 />
               </span>
-              <h2>安全注意</h2>
+              <h2>
+                <BilingualText ja="安全注意" zh="安全提醒" />
+              </h2>
               <p>
-                廊下では走らず、周りを見ながら移動してください。
-                QRポイントの前では立ち止まり、通行のじゃまにならない場所で操作します。
+                <BilingualText
+                  ja="廊下では走らず、周りを見ながら移動してください。QRポイントの前では立ち止まり、通行のじゃまにならない場所で操作します。"
+                  zh="走廊上不要奔跑，移動時請注意周圍。在QR點前請停下來，站在不妨礙通行的地方操作。"
+                />
               </p>
             </article>
           </section>
@@ -614,27 +765,55 @@ function App() {
           <div className="top-bar">
             <div>
               <p className="eyebrow">{rallyState.teamName}</p>
-              <h1 id="question-title">Question</h1>
+              <h1 id="question-title">
+                <BilingualText ja="Question / 問題" zh="題目" />
+              </h1>
             </div>
             <button
               type="button"
               className="secondary-button"
               onClick={handleGoHome}
             >
-              Home
+              <BilingualText ja="Home / ホーム" zh="首頁" />
             </button>
           </div>
 
           {!activeQuestion && (
             <section className="notice-panel">
-              <h2>問題が見つかりません</h2>
+              <h2>
+                <BilingualText ja="問題が見つかりません" zh="找不到題目" />
+              </h2>
               <p>
-                URLの問題ID「{questionId}」に対応する問題データがありません。
+                <BilingualText
+                  ja={`URLの問題ID「${questionId}」に対応する問題データがありません。`}
+                  zh={`沒有找到URL題目ID「${questionId}」的題目資料。`}
+                />
               </p>
             </section>
           )}
 
-          {activeQuestion && (
+          {activeQuestion && isQuestionBlocked && (
+            <section className="notice-panel time-up-panel">
+              <h2>
+                <BilingualText ja="時間終了" zh="時間已到" />
+              </h2>
+              <p>
+                <BilingualText
+                  ja="制限時間が終了したため、新しい問題には回答できません。Homeに戻ってResultを確認してください。"
+                  zh="因為時間已到，不能回答新的題目。請回到首頁查看結果。"
+                />
+              </p>
+              <button
+                type="button"
+                className="primary-button"
+                onClick={handleGoHome}
+              >
+                <BilingualText ja="Homeへ戻る" zh="回首頁" />
+              </button>
+            </section>
+          )}
+
+          {activeQuestion && !isQuestionBlocked && (
             <>
               <section className="question-meta" aria-label="問題情報">
                 <span>{activeQuestion.id}</span>
@@ -672,14 +851,17 @@ function App() {
                   disabled={selectedIndex === null || Boolean(answeredRecord)}
                   onClick={handleSubmitAnswer}
                 >
-                  回答する
+                  <BilingualText ja="回答する" zh="送出答案" />
                 </button>
               </section>
 
               {hasQuestionTranslation && (
                 <section className="translation-panel">
                   <p className="translation-guidance">
-                    まずはチームの友だちに聞いてみましょう。どうしても分からないときに使えます。
+                    <BilingualText
+                      ja="まずはチームの友だちに聞いてみましょう。どうしても分からないときに使えます。"
+                      zh="請先問問隊友。真的不懂時，可以使用翻譯鑰匙。"
+                    />
                   </p>
                   {!hasUsedTranslationKey && (
                     <>
@@ -689,8 +871,10 @@ function App() {
                         disabled={rallyState.translationKeysRemaining <= 0}
                         onClick={handleUseTranslationKey}
                       >
-                        🔑 翻訳の鍵を使う（残り:{' '}
-                        {rallyState.translationKeysRemaining}）
+                        <BilingualText
+                          ja={`🔑 翻訳の鍵を使う（残り: ${rallyState.translationKeysRemaining}）`}
+                          zh={`🔑 使用翻譯鑰匙（剩下: ${rallyState.translationKeysRemaining}）`}
+                        />
                       </button>
                       {rallyState.translationKeysRemaining <= 0 && (
                         <p className="translation-notice">
@@ -704,7 +888,12 @@ function App() {
                   )}
                   {shouldShowTranslation && (
                     <div className="translation-text">
-                      <h2>翻訳 / Translation</h2>
+                      <h2>
+                        <BilingualText
+                          ja="翻訳 / Translation"
+                          zh="翻譯 / Translation"
+                        />
+                      </h2>
                       <p>{activeQuestion.translationText}</p>
                     </div>
                   )}
@@ -713,33 +902,63 @@ function App() {
 
               {answeredRecord && !feedback && (
                 <p className="answered-note">
-                  この問題は回答済みです。再回答はできません。
+                  <BilingualText
+                    ja="この問題は回答済みです。再回答はできません。"
+                    zh="這題已經作答，不能再次作答。"
+                  />
                 </p>
-              )}
-
-              {displayedRecord && (
-                <section
-                  className={
-                    displayedRecord.isCorrect
-                      ? 'feedback correct'
-                      : 'feedback incorrect'
-                  }
-                  aria-live="polite"
-                >
-                  <p className="feedback-result">
-                    {displayedRecord.isCorrect ? '正解' : '不正解'}
-                  </p>
-                  <p className="feedback-points">
-                    獲得点: {displayedRecord.pointsEarned}点
-                  </p>
-                  <p>
-                    正解: <strong>{displayedRecord.correctChoice}</strong>
-                  </p>
-                  <p>{displayedRecord.explanation}</p>
-                </section>
               )}
             </>
           )}
+        </section>
+      )}
+
+      {screen === 'answer-result' && feedback && (
+        <section
+          className={
+            feedback.isCorrect
+              ? 'answer-result-screen correct'
+              : 'answer-result-screen incorrect'
+          }
+          aria-labelledby="answer-result-title"
+        >
+          <div className="answer-result-card">
+            <div className="result-burst" aria-hidden="true">
+              {feedback.isCorrect ? '✓' : '!'}
+            </div>
+            <p className="eyebrow">
+              <BilingualText ja={feedback.questionId} zh="作答結果" />
+            </p>
+            <h1 id="answer-result-title">
+              {feedback.isCorrect ? (
+                <BilingualText ja="正解！" zh="答對了！" />
+              ) : (
+                <BilingualText ja="不正解" zh="答錯了" />
+              )}
+            </h1>
+            <p className="answer-points">
+              <BilingualText
+                ja={`獲得点: ${feedback.pointsEarned}点`}
+                zh={`獲得分數: ${feedback.pointsEarned}分`}
+              />
+            </p>
+            <div className="answer-explanation">
+              <p>
+                <BilingualText
+                  ja={`正解: ${feedback.correctChoice}`}
+                  zh={`正確答案: ${feedback.correctChoice}`}
+                />
+              </p>
+              <p>{feedback.explanation}</p>
+            </div>
+            <button
+              type="button"
+              className="primary-button"
+              onClick={handleCloseAnswerResult}
+            >
+              <BilingualText ja="了解してHomeへ" zh="OK，回首頁" />
+            </button>
+          </div>
         </section>
       )}
 
@@ -748,14 +967,16 @@ function App() {
           <div className="top-bar">
             <div>
               <p className="eyebrow">{rallyState.teamName}</p>
-              <h1 id="treasure-title">Treasure QR</h1>
+              <h1 id="treasure-title">
+                <BilingualText ja="Treasure QR / 宝箱" zh="寶箱QR" />
+              </h1>
             </div>
             <button
               type="button"
               className="secondary-button"
               onClick={handleGoHome}
             >
-              Home
+              <BilingualText ja="Home / ホーム" zh="首頁" />
             </button>
           </div>
 
@@ -767,10 +988,10 @@ function App() {
               aria-hidden="true"
             />
             <div className="treasure-visual" aria-hidden="true">
-              <span className="treasure-lid" />
-              <span className="treasure-body" />
-              <span className="treasure-band" />
-              <span className="treasure-lock" />
+              <img
+                src={getAssetUrl('assets/treasure-chest.png')}
+                alt=""
+              />
             </div>
             <img
               className="treasure-key"
@@ -780,27 +1001,43 @@ function App() {
             />
             <p className="treasure-code">{treasureId ?? 'Unknown'}</p>
             {currentTreasureStatus === 'claimed' && (
-              <h2>宝箱を見つけました！翻訳の鍵を1つ手に入れました</h2>
+              <h2>
+                <BilingualText
+                  ja="宝箱を見つけました！翻訳の鍵を1つ手に入れました"
+                  zh="找到寶箱了！獲得1把翻譯鑰匙"
+                />
+              </h2>
             )}
             {currentTreasureStatus === 'already-claimed' && (
-              <h2>この宝箱はすでに開けています</h2>
+              <h2>
+                <BilingualText
+                  ja="この宝箱はすでに開けています"
+                  zh="這個寶箱已經打開過了"
+                />
+              </h2>
             )}
             {currentTreasureStatus === 'invalid' && (
-              <h2>宝箱が見つかりません</h2>
+              <h2>
+                <BilingualText ja="宝箱が見つかりません" zh="找不到寶箱" />
+              </h2>
             )}
             {currentTreasureStatus === 'pending' && (
-              <h2>宝箱を確認しています</h2>
+              <h2>
+                <BilingualText ja="宝箱を確認しています" zh="正在確認寶箱" />
+              </h2>
             )}
             <p>
-              現在の翻訳の鍵の残り本数:{' '}
-              <strong>{rallyState.translationKeysRemaining}</strong>
+              <BilingualText
+                ja={`現在の翻訳の鍵の残り本数: ${rallyState.translationKeysRemaining}`}
+                zh={`目前翻譯鑰匙剩下: ${rallyState.translationKeysRemaining}`}
+              />
             </p>
             <button
               type="button"
               className="primary-button"
               onClick={handleGoHome}
             >
-              Homeへ戻る
+              <BilingualText ja="Homeへ戻る" zh="回首頁" />
             </button>
           </section>
         </section>
@@ -811,49 +1048,84 @@ function App() {
           <div className="top-bar">
             <div>
               <p className="eyebrow">{rallyState.teamName}</p>
-              <h1 id="result-title">Result</h1>
+              <h1 id="result-title">
+                <BilingualText ja="Result / 結果" zh="結果" />
+              </h1>
             </div>
             <button
               type="button"
               className="secondary-button"
               onClick={handleGoHome}
             >
-              Home
+              <BilingualText ja="Home / ホーム" zh="首頁" />
             </button>
           </div>
 
           <section className="result-capture-card" aria-label="集計用結果">
-            <p className="eyebrow">Final Result / 集計用スクショ</p>
+            <p className="eyebrow">
+              <BilingualText
+                ja="Final Result / 集計用スクショ"
+                zh="最終結果 / 截圖給老師"
+              />
+            </p>
             <h2>{rallyState.teamName}</h2>
             <div className="final-score">
-              <span>合計点</span>
+              <span>
+                <BilingualText ja="合計点" zh="總分" />
+              </span>
               <strong>{rallyState.totalScore}</strong>
-              <small>points</small>
+              <small>points / 分</small>
             </div>
             <div className="final-small-stats">
               <span>
-                解いた問題数 {rallyState.answeredQuestionIds.length}/
-                {questions.length}
+                <BilingualText
+                  ja={`解いた問題数 ${rallyState.answeredQuestionIds.length}/${questions.length}`}
+                  zh={`已完成題數 ${rallyState.answeredQuestionIds.length}/${questions.length}`}
+                />
               </span>
-              <span>正解数 {correctCount}</span>
+              <span>
+                <BilingualText
+                  ja={`正解数 ${correctCount}`}
+                  zh={`答對數 ${correctCount}`}
+                />
+              </span>
             </div>
           </section>
 
           <section className="key-section" aria-labelledby="key-title">
-            <h2 id="key-title">翻訳の鍵</h2>
-            <p>残り: {rallyState.translationKeysRemaining}</p>
+            <h2 id="key-title">
+              <BilingualText ja="翻訳の鍵" zh="翻譯鑰匙" />
+            </h2>
             <p>
-              使用した問題ID:{' '}
-              {rallyState.translationKeysUsedQuestionIds.length > 0
-                ? rallyState.translationKeysUsedQuestionIds.join(', ')
-                : 'なし'}
+              <BilingualText
+                ja={`残り: ${rallyState.translationKeysRemaining}`}
+                zh={`剩下: ${rallyState.translationKeysRemaining}`}
+              />
+            </p>
+            <p>
+              <BilingualText
+                ja={`使用した問題ID: ${
+                  rallyState.translationKeysUsedQuestionIds.length > 0
+                    ? rallyState.translationKeysUsedQuestionIds.join(', ')
+                    : 'なし'
+                }`}
+                zh={`使用過的題目ID: ${
+                  rallyState.translationKeysUsedQuestionIds.length > 0
+                    ? rallyState.translationKeysUsedQuestionIds.join(', ')
+                    : '無'
+                }`}
+              />
             </p>
           </section>
 
           <section className="history-section" aria-labelledby="history-title">
-            <h2 id="history-title">回答履歴</h2>
+            <h2 id="history-title">
+              <BilingualText ja="回答履歴" zh="作答紀錄" />
+            </h2>
             {rallyState.answerHistory.length === 0 ? (
-              <p className="empty-history">まだ回答がありません。</p>
+              <p className="empty-history">
+                <BilingualText ja="まだ回答がありません。" zh="還沒有作答紀錄。" />
+              </p>
             ) : (
               <ol className="history-list">
                 {rallyState.answerHistory.map((record) => (
@@ -864,9 +1136,14 @@ function App() {
                     </div>
                     <p>{record.question}</p>
                     <p>
-                      回答: {record.choice} /{' '}
-                      {record.isCorrect ? '正解' : '不正解'} /{' '}
-                      {record.pointsEarned}点
+                      <BilingualText
+                        ja={`回答: ${record.choice} / ${
+                          record.isCorrect ? '正解' : '不正解'
+                        } / ${record.pointsEarned}点`}
+                        zh={`答案: ${record.choice} / ${
+                          record.isCorrect ? '答對' : '答錯'
+                        } / ${record.pointsEarned}分`}
+                      />
                     </p>
                   </li>
                 ))}
@@ -879,7 +1156,7 @@ function App() {
             className="danger-button"
             onClick={handleReset}
           >
-            先生用リセット
+            <BilingualText ja="先生用リセット" zh="老師用重置" />
           </button>
         </section>
       )}
