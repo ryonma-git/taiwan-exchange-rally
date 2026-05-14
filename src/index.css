@@ -222,6 +222,60 @@ h2 {
   outline: 3px solid rgba(29, 129, 119, 0.18);
 }
 
+.time-settings {
+  display: grid;
+  max-width: 620px;
+  gap: 12px;
+}
+
+.time-settings-toggle {
+  justify-self: start;
+}
+
+.time-settings-panel {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  border: 2px solid rgba(35, 103, 165, 0.18);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 26px rgba(19, 52, 91, 0.08);
+}
+
+.time-settings-panel p,
+.time-settings-message {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.time-settings-panel label {
+  color: var(--surface-strong);
+  font-weight: 900;
+}
+
+.time-settings-panel input {
+  width: min(100%, 220px);
+  min-height: 54px;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.quick-time-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quick-time-buttons .secondary-button {
+  min-height: 44px;
+  padding: 8px 14px;
+}
+
 .form-error {
   color: var(--primary-dark);
   font-weight: 700;

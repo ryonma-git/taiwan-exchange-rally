@@ -11,6 +11,7 @@ import {
   STORAGE_KEY,
   clearRallyState,
   createEmptyRallyState,
+  DEFAULT_TIME_LIMIT_MINUTES,
   loadRallyState,
   saveRallyState,
   type AnswerRecord,
@@ -39,7 +40,7 @@ const STORAGE_ERROR_MESSAGE =
   'この端末では保存に失敗しました。先生に知らせてください。／此裝置儲存失敗，請告訴老師。'
 const NO_TRANSLATION_KEYS_MESSAGE =
   '翻訳の鍵はもう残っていません。／翻譯鑰匙已經用完了。'
-const RALLY_TIME_LIMIT_MINUTES = 40
+const RALLY_TIME_LIMIT_MINUTES = DEFAULT_TIME_LIMIT_MINUTES
 const WARNING_REMAINING_MS = 5 * 60 * 1000
 const questions = JSON.parse(questionsRaw) as Question[]
 const questionMap = new Map(questions.map((question) => [question.id, question]))
@@ -66,6 +67,20 @@ function formatRemainingTime(remainingMs: number) {
   const seconds = totalSeconds % 60
 
   return `${minutes}:${seconds.toString().padStart(2, '0')}`
+}
+
+function parseTimeLimitMinutes(value: string) {
+  const parsedValue = Number(value)
+
+  if (
+    !Number.isInteger(parsedValue) ||
+    parsedValue < 5 ||
+    parsedValue > 120
+  ) {
+    return null
+  }
+
+  return parsedValue
 }
 
 function createQuestionSetSignature(value: string) {
@@ -227,6 +242,11 @@ function App() {
   const [feedback, setFeedback] = useState<AnswerRecord | null>(null)
   const [translationNotice, setTranslationNotice] = useState('')
   const [nowMs, setNowMs] = useState(() => Date.now())
+  const [isTimeSettingsOpen, setIsTimeSettingsOpen] = useState(false)
+  const [timeLimitInput, setTimeLimitInput] = useState(() =>
+    String(rallyState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES),
+  )
+  const [timeLimitMessage, setTimeLimitMessage] = useState('')
 
   const activeQuestion = questionId ? questionMap.get(questionId) : undefined
   const activeTreasureId =
@@ -318,6 +338,9 @@ function App() {
       const nextState = loadRallyState(questionSetSignature)
       setRallyState(nextState)
       setTeamNameInput(nextState.teamName)
+      setTimeLimitInput(
+        String(nextState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES),
+      )
       setStorageWarning('')
 
       const currentQuestionId = readQuestionIdFromUrl()
@@ -357,7 +380,7 @@ function App() {
       persistState({
         ...baseState,
         timerStartedAt: new Date().toISOString(),
-        timeLimitMinutes: RALLY_TIME_LIMIT_MINUTES,
+        timeLimitMinutes: baseState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES,
       })
     }, 0)
 
@@ -442,6 +465,31 @@ function App() {
 
   const handleCloseAnswerResult = () => {
     handleGoHome()
+  }
+
+  const handleSaveTimeLimit = () => {
+    const nextTimeLimitMinutes = parseTimeLimitMinutes(timeLimitInput)
+
+    if (nextTimeLimitMinutes === null) {
+      setTimeLimitMessage(
+        '5〜120分の整数で入力してください。／請輸入5到120分鐘的整數。',
+      )
+      return
+    }
+
+    const latestState = loadRallyState(questionSetSignature)
+    const baseState = mergeRallyStates(latestState, rallyState)
+    const nextState: RallyState = {
+      ...baseState,
+      timeLimitMinutes: nextTimeLimitMinutes,
+      timerStartedAt: baseState.teamName ? baseState.timerStartedAt : null,
+    }
+
+    persistState(nextState)
+    setTimeLimitInput(String(nextTimeLimitMinutes))
+    setTimeLimitMessage(
+      `制限時間を${nextTimeLimitMinutes}分にしました。／時間限制已設定為${nextTimeLimitMinutes}分鐘。`,
+    )
   }
 
   const handleSubmitAnswer = () => {
@@ -639,6 +687,82 @@ function App() {
               <BilingualText ja="Start / 開始" zh="開始" />
             </button>
           </form>
+
+          <section className="time-settings">
+            <button
+              type="button"
+              className="secondary-button time-settings-toggle"
+              onClick={() => {
+                setIsTimeSettingsOpen((currentValue) => !currentValue)
+                setTimeLimitMessage('')
+              }}
+            >
+              <BilingualText
+                ja={`先生用 時間設定（現在: ${
+                  rallyState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES
+                }分）`}
+                zh={`老師用時間設定（目前: ${
+                  rallyState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES
+                }分鐘）`}
+              />
+            </button>
+
+            {isTimeSettingsOpen && (
+              <div className="time-settings-panel">
+                <div>
+                  <h2>
+                    <BilingualText ja="制限時間設定" zh="時間限制設定" />
+                  </h2>
+                  <p>
+                    <BilingualText
+                      ja="授業時間に合わせて、Start前にこの端末の制限時間を変更できます。"
+                      zh="可以依照課程時間，在開始前調整這台裝置的時間限制。"
+                    />
+                  </p>
+                </div>
+                <label htmlFor="time-limit-minutes">
+                  <BilingualText ja="制限時間（分）" zh="時間限制（分鐘）" />
+                </label>
+                <input
+                  id="time-limit-minutes"
+                  type="number"
+                  min="5"
+                  max="120"
+                  step="1"
+                  value={timeLimitInput}
+                  onChange={(event) => {
+                    setTimeLimitInput(event.target.value)
+                    setTimeLimitMessage('')
+                  }}
+                />
+                <div className="quick-time-buttons" aria-label="時間候補">
+                  {[15, 20, 30, 40].map((minutes) => (
+                    <button
+                      key={minutes}
+                      type="button"
+                      className="secondary-button"
+                      onClick={() => {
+                        setTimeLimitInput(String(minutes))
+                        setTimeLimitMessage('')
+                      }}
+                    >
+                      {minutes}分
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="primary-button"
+                  onClick={handleSaveTimeLimit}
+                >
+                  <BilingualText ja="時間を保存" zh="儲存時間" />
+                </button>
+                {timeLimitMessage && (
+                  <p className="time-settings-message">{timeLimitMessage}</p>
+                )}
+              </div>
+            )}
+          </section>
         </section>
       )}
 

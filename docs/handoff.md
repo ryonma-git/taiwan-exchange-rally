@@ -75,7 +75,8 @@ VITE_BASE_PATH=/taiwan-exchange-rally/ npm run build
 - If adding central collection, it needs an external endpoint such as Google Apps Script, Google Forms, Firebase, or Supabase, and school iPad allowlist testing.
 - Before production QR printing, regenerate QR/PDF with the final deployment URL.
 - If `questions.json` changes, existing LocalStorage answer history resets automatically because the app stores a question-set signature.
-- Timer currently starts when the team starts the rally and blocks new unanswered questions after the limit.
+- Timer default is 20 minutes. It starts when the team starts the rally and blocks new unanswered questions after the limit.
+- Teachers can change the per-device time limit from the Start screen before pressing Start.
 
 ## Verification Checklist
 

@@ -1,5 +1,6 @@
 export const STORAGE_KEY = 'taiwan-exchange-rally:v1'
 export const INITIAL_TRANSLATION_KEYS = 3
+export const DEFAULT_TIME_LIMIT_MINUTES = 20
 
 export type AnswerRecord = {
   questionId: string
@@ -29,7 +30,7 @@ export type RallyState = {
 
 export function createEmptyRallyState(
   questionSetSignature: string,
-  timeLimitMinutes = 40,
+  timeLimitMinutes = DEFAULT_TIME_LIMIT_MINUTES,
 ): RallyState {
   return {
     teamName: '',
@@ -79,7 +80,7 @@ export function loadRallyState(questionSetSignature: string): RallyState {
       Number.isFinite(parsedValue.timeLimitMinutes) &&
       parsedValue.timeLimitMinutes > 0
         ? parsedValue.timeLimitMinutes
-        : 40
+        : DEFAULT_TIME_LIMIT_MINUTES
 
     return {
       teamName:
