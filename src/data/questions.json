@@ -3,47 +3,640 @@
     "id": "J01",
     "side": "Japan",
     "language": "ja",
-    "difficulty": "easy",
+    "difficulty": "placeholder",
     "points": 10,
-    "question": "台湾の行政・交通の中心として知られる都市はどこですか？",
-    "choices": ["台北", "台中", "高雄", "台南"],
+    "question": "J01 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
     "answerIndex": 0,
-    "explanation": "台北は台湾北部にあり、行政機関や交通網が集まる中心都市です。",
-    "translationText": "題目：哪一個城市被稱為台灣的行政與交通中心？\n選項：台北 / 台中 / 高雄 / 台南"
+    "explanation": "本番問題に差し替えるまでの仮データです。"
   },
   {
     "id": "J02",
     "side": "Japan",
     "language": "ja",
-    "difficulty": "normal",
-    "points": 15,
-    "question": "台湾で広く使われているIC交通カードの名前として正しいものはどれですか？",
-    "choices": ["悠遊カード", "Suica", "Octopus", "T-money"],
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J02 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
     "answerIndex": 0,
-    "explanation": "悠遊カードは台湾の公共交通や買い物で使える代表的なICカードです。"
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J03",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J03 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J04",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J04 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J05",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J05 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J06",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J06 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J07",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J07 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J08",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J08 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J09",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J09 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J10",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J10 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J11",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J11 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J12",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J12 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J13",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J13 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J14",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J14 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J15",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J15 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J16",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J16 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J17",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J17 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J18",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J18 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J19",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J19 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
+  },
+  {
+    "id": "J20",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "J20 本番問題準備中です。",
+    "choices": [
+      "選択肢A",
+      "選択肢B",
+      "選択肢C",
+      "選択肢D"
+    ],
+    "answerIndex": 0,
+    "explanation": "本番問題に差し替えるまでの仮データです。"
   },
   {
     "id": "C01",
     "side": "Culture",
     "language": "zh-Hant",
-    "difficulty": "easy",
+    "difficulty": "placeholder",
     "points": 10,
-    "question": "在日本的小學，學生中午常常一起吃的學校餐叫做什麼？",
-    "choices": ["學校午餐", "夜市", "茶會", "早餐店"],
+    "question": "C01 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
     "answerIndex": 0,
-    "explanation": "在日本，很多小學會讓學生一起吃學校午餐，這也是學校生活的一部分。",
-    "translationText": "問題：日本の小学校で、児童が昼に一緒に食べる学校の食事を何と呼びますか？\n選択肢：学校給食 / 夜市 / 茶会 / 朝食店"
+    "explanation": "這是正式題目替換前的暫定資料。"
   },
   {
     "id": "C02",
     "side": "Culture",
     "language": "zh-Hant",
-    "difficulty": "normal",
-    "points": 15,
-    "question": "台灣常見的飲料「珍珠奶茶」裡面通常有什麼？",
-    "choices": ["粉圓", "玉米", "紅豆", "冰淇淋"],
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C02 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
     "answerIndex": 0,
-    "explanation": "珍珠奶茶通常會加入粉圓，也就是日本常說的タピオカ。",
-    "translationText": "問題：台湾でよく見られる飲み物「珍珠奶茶」には、ふつう何が入っていますか？\n選択肢：タピオカ / とうもろこし / あずき / アイスクリーム"
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C03",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C03 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C04",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C04 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C05",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C05 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C06",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C06 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C07",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C07 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C08",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C08 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C09",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C09 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C10",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C10 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C11",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C11 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C12",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C12 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C13",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C13 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C14",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C14 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C15",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C15 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C16",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C16 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C17",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C17 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C18",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C18 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C19",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C19 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "C20",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "placeholder",
+    "points": 10,
+    "question": "C20 正式題目準備中。",
+    "choices": [
+      "選項A",
+      "選項B",
+      "選項C",
+      "選項D"
+    ],
+    "answerIndex": 0,
+    "explanation": "這是正式題目替換前的暫定資料。"
   }
 ]
