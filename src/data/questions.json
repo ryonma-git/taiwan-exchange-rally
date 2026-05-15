@@ -638,5 +638,72 @@
     ],
     "answerIndex": 0,
     "explanation": "這是正式題目替換前的暫定資料。"
+  },
+  {
+    "id": "J21",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "easy",
+    "points": 10,
+    "question": "台湾の行政・交通の中心として知られる都市はどこですか？",
+    "choices": [
+      "台北",
+      "台中",
+      "高雄",
+      "台南"
+    ],
+    "answerIndex": 0,
+    "explanation": "台北は台湾北部にあり、行政機関や交通網が集まる中心都市です。",
+    "translationText": "題目：哪一個城市被稱為台灣的行政與交通中心？\n選項：台北 / 台中 / 高雄 / 台南"
+  },
+  {
+    "id": "J22",
+    "side": "Japan",
+    "language": "ja",
+    "difficulty": "normal",
+    "points": 15,
+    "question": "台湾で広く使われているIC交通カードの名前として正しいものはどれですか？",
+    "choices": [
+      "悠遊カード",
+      "Suica",
+      "Octopus",
+      "T-money"
+    ],
+    "answerIndex": 0,
+    "explanation": "悠遊カードは台湾の公共交通や買い物で使える代表的なICカードです。"
+  },
+  {
+    "id": "C21",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "easy",
+    "points": 10,
+    "question": "在日本的小學，學生中午常常一起吃的學校餐叫做什麼？",
+    "choices": [
+      "學校午餐",
+      "夜市",
+      "茶會",
+      "早餐店"
+    ],
+    "answerIndex": 0,
+    "explanation": "在日本，很多小學會讓學生一起吃學校午餐，這也是學校生活的一部分。",
+    "translationText": "問題：日本の小学校で、児童が昼に一緒に食べる学校の食事を何と呼びますか？\n選択肢：学校給食 / 夜市 / 茶会 / 朝食店"
+  },
+  {
+    "id": "C22",
+    "side": "Culture",
+    "language": "zh-Hant",
+    "difficulty": "normal",
+    "points": 15,
+    "question": "台灣常見的飲料「珍珠奶茶」裡面通常有什麼？",
+    "choices": [
+      "粉圓",
+      "玉米",
+      "紅豆",
+      "冰淇淋"
+    ],
+    "answerIndex": 0,
+    "explanation": "珍珠奶茶通常會加入粉圓，也就是日本常說的タピオカ。",
+    "translationText": "問題：台湾でよく見られる飲み物「珍珠奶茶」には、ふつう何が入っていますか？\n選択肢：タピオカ / とうもろこし / あずき / アイスクリーム"
   }
 ]
