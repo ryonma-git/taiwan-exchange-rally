@@ -320,6 +320,38 @@
     "language": "zh-Hant"
   },
   {
+    "type": "question",
+    "id": "J21",
+    "title": "J21 Japan QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r0zy1ha8",
+    "points": "10",
+    "language": "ja"
+  },
+  {
+    "type": "question",
+    "id": "J22",
+    "title": "J22 Japan QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r10s0ad5",
+    "points": "15",
+    "language": "ja"
+  },
+  {
+    "type": "question",
+    "id": "C21",
+    "title": "C21 Culture QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r0126e7j",
+    "points": "10",
+    "language": "zh-Hant"
+  },
+  {
+    "type": "question",
+    "id": "C22",
+    "title": "C22 Culture QR",
+    "url": "https://ryonma-git.github.io/taiwan-exchange-rally/?q=r01c5zwi",
+    "points": "15",
+    "language": "zh-Hant"
+  },
+  {
     "type": "treasure",
     "id": "T01",
     "title": "Treasure QR T01",
