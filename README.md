@@ -60,7 +60,38 @@ http://localhost:4180/
 - `id` は画面・印刷物・回答記録で使う番号です。QR URLでは生成スクリプトが `r15hn85q` のような順番を推測しにくい公開用コードに変換します。
 - `answerIndex` は0始まりです。最初の選択肢が正解なら `0` です。
 - `translationText` は任意です。ある問題だけ翻訳の鍵ボタンが表示されます。
+- Excelテンプレートでは `translationQuestion` と `translationChoice1`〜`translationChoice4` に分けて入力できます。`npm run import:questions` 実行時に `A. ...` 形式の `translationText` へ結合されます。
 - `questions.json` の内容が変わると、端末内の古い回答履歴は自動リセットされます。
+
+## Question Excel Template
+
+問題差し替え用Excelを生成します。
+
+```bash
+npm run generate:question-template
+```
+
+出力:
+
+```text
+dist-print/question_replacement_template.xlsx
+```
+
+入力済みExcelから `src/data/questions.json` を更新します。
+
+```bash
+npm run import:questions
+```
+
+テンプレート内の `translationQuestion` と `translationChoice1`〜`translationChoice4` は、取り込み時に次の形式で結合され、アプリの翻訳表示に使われます。
+
+```text
+翻訳された問題文
+A. 翻訳された選択肢1
+B. 翻訳された選択肢2
+C. 翻訳された選択肢3
+D. 翻訳された選択肢4
+```
 
 ## QR URL
 

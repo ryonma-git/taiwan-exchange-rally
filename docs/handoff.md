@@ -33,6 +33,8 @@ Taiwan exchange school QR quiz rally web app.
 npm run dev
 npm run lint
 npm run build
+npm run generate:question-template
+npm run import:questions
 npm run generate:qr -- --base https://ryonma-git.github.io/taiwan-exchange-rally/
 npm run generate:print -- --base https://ryonma-git.github.io/taiwan-exchange-rally/
 VITE_BASE_PATH=/taiwan-exchange-rally/ npm run build
@@ -43,7 +45,9 @@ VITE_BASE_PATH=/taiwan-exchange-rally/ npm run build
 - QR URL data:
   - `public/qr-data/qr_urls.csv`
   - `public/qr-data/qr_urls.json`
-  - `public/qr-data/samples/*.png`
+- `public/qr-data/samples/*.png`
+- Question replacement Excel:
+  - `dist-print/question_replacement_template.xlsx`
 - Print PDFs:
   - `dist-print/qr_cards.pdf`
   - `dist-print/treasure_cards.pdf`
@@ -61,6 +65,7 @@ VITE_BASE_PATH=/taiwan-exchange-rally/ npm run build
 - Confirm dialog before answer submission
 - Dedicated correct/incorrect result screen after answer submission
 - Translation Key feature with limited uses
+- Excel question imports combine `translationQuestion` and `translationChoice1`-`translationChoice4` into `translationText` using `A. ...` lines.
 - Treasure QR feature that grants one translation key once per treasure ID
 - Result screen optimized for screenshot collection
 - Teacher reset with two confirmations

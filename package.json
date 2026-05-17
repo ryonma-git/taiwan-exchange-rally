@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview --host 0.0.0.0 --port 4180",
+    "generate:question-template": "python3 scripts/generate-question-template.py",
+    "import:questions": "python3 scripts/import-questions-from-template.py",
     "generate:qr": "node scripts/generate-qr-data.mjs",
     "generate:pdf": "node scripts/generate-print-pdfs.mjs",
     "generate:print": "node scripts/generate-print.mjs"

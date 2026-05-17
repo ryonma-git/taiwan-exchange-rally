@@ -34,6 +34,10 @@ type Question = {
 
 type ScreenMode = 'home' | 'result' | 'answer-result'
 type TreasureStatus = 'claimed' | 'already-claimed' | 'invalid'
+type TranslationChoiceLine = {
+  label: string
+  text: string
+}
 
 const EVENT_NAME = 'Japan–Taiwan School Discovery Rally'
 const EVENT_SUBTITLE = '台湾交流会 校内QRクイズラリー / 臺灣交流會 校園QR問答闖關'
@@ -65,6 +69,55 @@ function BilingualText({ ja, zh }: { ja: string; zh: string }) {
       <span className="zh-line">{zh}</span>
     </span>
   )
+}
+
+function TranslationText({ text }: { text: string }) {
+  const { bodyLines, choiceLines } = parseTranslationText(text)
+
+  return (
+    <div className="translation-content">
+      {bodyLines.map((line) => (
+        <p key={line}>{line}</p>
+      ))}
+      {choiceLines.length > 0 && (
+        <ul className="translation-choice-list">
+          {choiceLines.map((choice) => (
+            <li key={`${choice.label}-${choice.text}`}>
+              <span>{choice.label}.</span>
+              <strong>{choice.text}</strong>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function parseTranslationText(value: string) {
+  const bodyLines: string[] = []
+  const choiceLines: TranslationChoiceLine[] = []
+
+  for (const rawLine of value.split(/\r?\n/)) {
+    const line = rawLine.trim()
+
+    if (!line) {
+      continue
+    }
+
+    const choiceMatch = /^([A-D])[\u002e\uff0e]\s*(.+)$/i.exec(line)
+
+    if (choiceMatch) {
+      choiceLines.push({
+        label: choiceMatch[1].toUpperCase(),
+        text: choiceMatch[2],
+      })
+      continue
+    }
+
+    bodyLines.push(line)
+  }
+
+  return { bodyLines, choiceLines }
 }
 
 function formatRemainingTime(remainingMs: number) {
@@ -317,9 +370,8 @@ function App() {
   const hasUsedTranslationKey = activeQuestion
     ? rallyState.translationKeysUsedQuestionIds.includes(activeQuestion.id)
     : false
-  const hasQuestionTranslation = Boolean(
-    activeQuestion?.translationText?.trim(),
-  )
+  const activeTranslationText = activeQuestion?.translationText?.trim() ?? ''
+  const hasQuestionTranslation = activeTranslationText.length > 0
   const shouldShowTranslation = hasQuestionTranslation && hasUsedTranslationKey
   const hasTeamName = rallyState.teamName.trim().length > 0
   const timerStartedAtMs = rallyState.timerStartedAt
@@ -1069,7 +1121,7 @@ function App() {
                           zh="翻譯 / Translation"
                         />
                       </h2>
-                      <p>{activeQuestion.translationText}</p>
+                      <TranslationText text={activeTranslationText} />
                     </div>
                   )}
                 </section>

@@ -1,5 +1,4 @@
 import json
-import re
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,11 +22,15 @@ HEADERS = [
     "choice4",
     "answerIndex",
     "explanation",
-    "translationText",
+    "translationQuestion",
+    "translationChoice1",
+    "translationChoice2",
+    "translationChoice3",
+    "translationChoice4",
     "notes",
 ]
 
-COLUMN_WIDTHS = [10, 14, 12, 14, 10, 42, 22, 22, 22, 22, 12, 42, 48, 26]
+COLUMN_WIDTHS = [10, 14, 12, 14, 10, 42, 22, 22, 22, 22, 12, 42, 42, 22, 22, 22, 22, 26]
 
 
 def main():
@@ -50,7 +53,7 @@ def main():
                 title="questions",
                 widths=COLUMN_WIDTHS,
                 frozen_rows=4,
-                auto_filter=f"A4:N{len(rows)}",
+                auto_filter=f"A4:{column_name(len(HEADERS))}{len(rows)}",
                 data_validations=question_data_validations(len(rows)),
             ),
         )
@@ -74,7 +77,7 @@ def build_question_rows(questions):
         ],
         [
             "使い方",
-            "choice1〜choice4に選択肢を入力し、answerIndexは正解の番号を0〜3で入力します。translationTextは任意です。",
+            "choice1〜choice4に選択肢を入力し、answerIndexは正解の番号を0〜3で入力します。翻訳はtranslationQuestionとtranslationChoice1〜4に入力します。",
         ],
         [
             "注意",
@@ -86,6 +89,10 @@ def build_question_rows(questions):
     for question in questions:
         choices = list(question.get("choices", []))
         choices += [""] * (4 - len(choices))
+        translation_question, translation_choices = split_translation_text(
+            question.get("translationText", "")
+        )
+        translation_choices += [""] * (4 - len(translation_choices))
         rows.append(
             [
                 question.get("id", ""),
@@ -100,7 +107,11 @@ def build_question_rows(questions):
                 choices[3],
                 question.get("answerIndex", ""),
                 question.get("explanation", ""),
-                question.get("translationText", ""),
+                translation_question,
+                translation_choices[0],
+                translation_choices[1],
+                translation_choices[2],
+                translation_choices[3],
                 "",
             ]
         )
@@ -120,7 +131,8 @@ def build_rules_rows():
         ["choice1〜choice4", "四択の選択肢です。"],
         ["answerIndex", "正解の選択肢番号です。choice1=0、choice2=1、choice3=2、choice4=3。"],
         ["explanation", "回答後に表示する解説です。"],
-        ["translationText", "任意です。翻訳の鍵を使ったときに表示する翻訳です。ヒントではなく翻訳として書きます。"],
+        ["translationQuestion", "任意です。翻訳の鍵を使ったときに表示する問題文の翻訳です。ヒントではなく翻訳として書きます。"],
+        ["translationChoice1〜translationChoice4", "任意です。翻訳の選択肢です。取り込み時に A. / B. / C. / D. の改行リストとして結合されます。"],
         ["notes", "作業メモ用です。アプリには取り込みません。"],
     ]
 
@@ -139,6 +151,41 @@ def build_lists_rows():
         ["answerIndex", 2, "choice3が正解"],
         ["answerIndex", 3, "choice4が正解"],
     ]
+
+
+def split_translation_text(value):
+    text = str(value or "").strip()
+    if not text:
+        return "", []
+
+    question_lines = []
+    choices = []
+
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        label_match = None
+        if len(line) >= 3 and line[0].upper() in "ABCD" and line[1] in (".", "．"):
+            label_match = line[0].upper(), line[2:].strip()
+
+        if label_match:
+            choices.append(label_match[1])
+            continue
+
+        if line.startswith(("題目：", "題目:", "問題：", "問題:")):
+            question_lines.append(line.split(":", 1)[-1] if ":" in line else line.split("：", 1)[-1])
+            continue
+
+        if line.startswith(("選項：", "選項:", "選択肢：", "選択肢:")):
+            value_part = line.split(":", 1)[-1] if ":" in line else line.split("：", 1)[-1]
+            choices.extend([part.strip() for part in value_part.split("/") if part.strip()])
+            continue
+
+        question_lines.append(line)
+
+    return "\n".join(question_lines).strip(), choices[:4]
 
 
 def write_package_parts(archive):
