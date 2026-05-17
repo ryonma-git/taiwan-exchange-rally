@@ -139,6 +139,11 @@ function createShortQuestionTitle(question) {
   return source.length > 34 ? `${source.slice(0, 33)}...` : source
 }
 
+function measureTextHeight(doc, text, fontSize, width, lineGap = 0) {
+  doc.fontSize(fontSize)
+  return doc.heightOfString(String(text ?? ''), { width, lineGap })
+}
+
 async function loadEmojiAssets() {
   const assetDir = path.join(repoRoot, 'public/assets/noto-emoji')
   const assets = {
@@ -371,6 +376,8 @@ async function createQuestionPostersPdf(items) {
 }
 
 function drawQuestionPoster(doc, question) {
+  const layout = createQuestionPosterLayout(doc, question)
+
   doc
     .roundedRect(42, 86, 512, 690, 14)
     .fillAndStroke(COLORS.white, COLORS.border)
@@ -384,22 +391,33 @@ function drawQuestionPoster(doc, question) {
     .text(`${question.points ?? ''} points / ${question.language ?? ''}`, 66, 214)
   doc
     .fillColor(COLORS.navy)
-    .fontSize(26)
+    .fontSize(layout.questionFontSize)
     .text(question.question, 66, 270, {
       width: 464,
-      lineGap: 7,
+      lineGap: layout.questionLineGap,
     })
 
-  let y = 420
+  let y = layout.choiceStartY
   question.choices.forEach((choice, index) => {
+    const rowHeight = layout.choiceHeights[index]
+    const labelY = y + (rowHeight - layout.choiceFontSize) / 2 - 1
+    const choiceY = y + 12
+
     doc
-      .roundedRect(66, y, 464, 54, 10)
+      .roundedRect(66, y, 464, rowHeight, 10)
       .fillAndStroke('#fff8f0', COLORS.border)
-    doc.fillColor(COLORS.blue).fontSize(18).text(`${index + 1}`, 84, y + 16)
-    doc.fillColor(COLORS.navy).fontSize(18).text(choice, 128, y + 16, {
+    doc
+      .fillColor(COLORS.blue)
+      .fontSize(layout.choiceFontSize)
+      .text(`${index + 1}`, 84, labelY, {
+        width: 28,
+        align: 'center',
+      })
+    doc.fillColor(COLORS.navy).fontSize(layout.choiceFontSize).text(choice, 128, choiceY, {
       width: 380,
+      lineGap: layout.choiceLineGap,
     })
-    y += 70
+    y += rowHeight + layout.choiceGap
   })
 
   doc
@@ -409,6 +427,104 @@ function drawQuestionPoster(doc, question) {
       width: 464,
       align: 'right',
     })
+}
+
+function createQuestionPosterLayout(doc, question) {
+  const questionText = String(question.question ?? '')
+  const choices = Array.isArray(question.choices) ? question.choices : []
+  const questionWidth = 464
+  const choiceWidth = 380
+  const questionY = 270
+  const maxBottomY = 704
+  const longestChoiceLength = choices.reduce(
+    (maxLength, choice) => Math.max(maxLength, String(choice ?? '').length),
+    0,
+  )
+  let questionFontSize =
+    questionText.length > 110 ? 17 : questionText.length > 86 ? 19 : questionText.length > 64 ? 21 : 25
+  let choiceFontSize =
+    longestChoiceLength > 72 ? 13 : longestChoiceLength > 54 ? 14 : longestChoiceLength > 36 ? 15 : 17
+  let choiceGap = 14
+  let layout
+
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    layout = measureQuestionPosterLayout(
+      doc,
+      question,
+      questionY,
+      questionWidth,
+      choiceWidth,
+      questionFontSize,
+      choiceFontSize,
+      choiceGap,
+    )
+
+    if (layout.bottomY <= maxBottomY) {
+      return layout
+    }
+
+    if (choiceFontSize > 11) {
+      choiceFontSize -= 1
+      continue
+    }
+
+    if (questionFontSize > 15) {
+      questionFontSize -= 1
+      continue
+    }
+
+    if (choiceGap > 8) {
+      choiceGap -= 2
+      continue
+    }
+
+    return layout
+  }
+
+  return layout
+}
+
+function measureQuestionPosterLayout(
+  doc,
+  question,
+  questionY,
+  questionWidth,
+  choiceWidth,
+  questionFontSize,
+  choiceFontSize,
+  choiceGap,
+) {
+  const questionLineGap = questionFontSize >= 21 ? 6 : 4
+  const choiceLineGap = choiceFontSize >= 15 ? 4 : 2
+  const questionHeight = measureTextHeight(
+    doc,
+    question.question,
+    questionFontSize,
+    questionWidth,
+    questionLineGap,
+  )
+  const choiceHeights = question.choices.map((choice) =>
+    Math.max(
+      46,
+      measureTextHeight(doc, choice, choiceFontSize, choiceWidth, choiceLineGap) + 24,
+    ),
+  )
+  const choiceStartY = Math.max(390, questionY + questionHeight + 26)
+  const bottomY =
+    choiceStartY +
+    choiceHeights.reduce((total, height) => total + height, 0) +
+    choiceGap * Math.max(0, choiceHeights.length - 1)
+
+  return {
+    questionFontSize,
+    questionLineGap,
+    choiceFontSize,
+    choiceLineGap,
+    choiceGap,
+    choiceHeights,
+    choiceStartY,
+    bottomY,
+  }
 }
 
 async function createAnswerSheetPdf(items) {

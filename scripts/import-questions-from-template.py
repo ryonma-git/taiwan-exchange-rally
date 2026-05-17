@@ -64,7 +64,7 @@ def read_shared_strings(archive):
     root = ET.fromstring(archive.read("xl/sharedStrings.xml"))
     strings = []
     for item in root.findall("x:si", NS):
-        strings.append("".join(text.text or "" for text in item.findall(".//x:t", NS)))
+        strings.append(read_text_runs_without_phonetics(item))
 
     return strings
 
@@ -73,7 +73,10 @@ def read_cell_value(cell, shared_strings):
     cell_type = cell.attrib.get("t")
 
     if cell_type == "inlineStr":
-        return "".join(text.text or "" for text in cell.findall(".//x:t", NS)).strip()
+        inline_string = cell.find("x:is", NS)
+        if inline_string is None:
+            return ""
+        return read_text_runs_without_phonetics(inline_string).strip()
 
     value = cell.find("x:v", NS)
     if value is None or value.text is None:
@@ -84,6 +87,24 @@ def read_cell_value(cell, shared_strings):
         return shared_strings[index].strip() if index < len(shared_strings) else ""
 
     return value.text.strip()
+
+
+def read_text_runs_without_phonetics(container):
+    parts = []
+
+    for child in list(container):
+        tag_name = child.tag.rsplit("}", 1)[-1]
+
+        if tag_name == "t":
+            parts.append(child.text or "")
+            continue
+
+        if tag_name == "r":
+            text = child.find("x:t", NS)
+            if text is not None:
+                parts.append(text.text or "")
+
+    return "".join(parts)
 
 
 def build_questions(rows):
