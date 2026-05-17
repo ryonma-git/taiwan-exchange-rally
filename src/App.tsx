@@ -30,6 +30,7 @@ type Question = {
   answerIndex: number
   explanation: string
   translationText?: string
+  translationExplanation?: string
 }
 
 type ScreenMode = 'home' | 'result' | 'answer-result'
@@ -658,6 +659,7 @@ function App() {
       choice: selectedChoice,
       correctChoice: activeQuestion.choices[activeQuestion.answerIndex],
       explanation: activeQuestion.explanation,
+      translationExplanation: activeQuestion.translationExplanation,
     }
     const nextHistory = [...baseState.answerHistory, record]
     const nextState = rebuildRallyState(baseState, nextHistory)
@@ -1177,6 +1179,14 @@ function App() {
                 />
               </p>
               <p>{feedback.explanation}</p>
+              {feedback.translationExplanation && (
+                <div className="translated-explanation">
+                  <p className="translated-explanation-label">
+                    <BilingualText ja="解説の翻訳" zh="解說翻譯" />
+                  </p>
+                  <p>{feedback.translationExplanation}</p>
+                </div>
+              )}
             </div>
             <button
               type="button"

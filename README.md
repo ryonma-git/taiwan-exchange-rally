@@ -61,6 +61,7 @@ http://localhost:4180/
 - `answerIndex` は0始まりです。最初の選択肢が正解なら `0` です。
 - `translationText` は任意です。ある問題だけ翻訳の鍵ボタンが表示されます。
 - Excelテンプレートでは `translationQuestion` と `translationChoice1`〜`translationChoice4` に分けて入力できます。`npm run import:questions` 実行時に `A. ...` 形式の `translationText` へ結合されます。
+- `translationExplanation` は回答結果画面で、通常の解説とあわせて表示する解説翻訳です。
 - `questions.json` の内容が変わると、端末内の古い回答履歴は自動リセットされます。
 
 ## Question Excel Template
@@ -92,6 +93,8 @@ B. 翻訳された選択肢2
 C. 翻訳された選択肢3
 D. 翻訳された選択肢4
 ```
+
+`translationExplanation` に入力した文章は、回答後の正解/不正解画面で解説の翻訳として表示されます。
 
 ## QR URL
 

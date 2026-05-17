@@ -28,9 +28,10 @@ HEADERS = [
     "translationChoice3",
     "translationChoice4",
     "notes",
+    "translationExplanation",
 ]
 
-COLUMN_WIDTHS = [10, 14, 12, 14, 10, 42, 22, 22, 22, 22, 12, 42, 42, 22, 22, 22, 22, 26]
+COLUMN_WIDTHS = [10, 14, 12, 14, 10, 42, 22, 22, 22, 22, 12, 42, 42, 22, 22, 22, 22, 26, 42]
 
 
 def main():
@@ -113,6 +114,7 @@ def build_question_rows(questions):
                 translation_choices[2],
                 translation_choices[3],
                 "",
+                question.get("translationExplanation", ""),
             ]
         )
 
@@ -134,6 +136,7 @@ def build_rules_rows():
         ["translationQuestion", "任意です。翻訳の鍵を使ったときに表示する問題文の翻訳です。ヒントではなく翻訳として書きます。"],
         ["translationChoice1〜translationChoice4", "任意です。翻訳の選択肢です。取り込み時に A. / B. / C. / D. の改行リストとして結合されます。"],
         ["notes", "作業メモ用です。アプリには取り込みません。"],
+        ["translationExplanation", "任意です。回答後の解説にあわせて表示する解説の翻訳です。"],
     ]
 
 

@@ -131,6 +131,10 @@ def build_questions(rows):
         if translation_text:
             question["translationText"] = translation_text
 
+        translation_explanation = str(record.get("translationexplanation", "")).strip()
+        if translation_explanation:
+            question["translationExplanation"] = translation_explanation
+
         questions.append(question)
 
     return questions

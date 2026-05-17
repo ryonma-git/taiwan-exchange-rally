@@ -13,6 +13,7 @@ export type AnswerRecord = {
   choice: string
   correctChoice: string
   explanation: string
+  translationExplanation?: string
 }
 
 export type RallyState = {
@@ -204,6 +205,8 @@ function isAnswerRecord(value: unknown): value is AnswerRecord {
     typeof record.question === 'string' &&
     typeof record.choice === 'string' &&
     typeof record.correctChoice === 'string' &&
-    typeof record.explanation === 'string'
+    typeof record.explanation === 'string' &&
+    (record.translationExplanation === undefined ||
+      typeof record.translationExplanation === 'string')
   )
 }

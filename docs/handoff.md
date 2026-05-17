@@ -66,6 +66,7 @@ VITE_BASE_PATH=/taiwan-exchange-rally/ npm run build
 - Dedicated correct/incorrect result screen after answer submission
 - Translation Key feature with limited uses
 - Excel question imports combine `translationQuestion` and `translationChoice1`-`translationChoice4` into `translationText` using `A. ...` lines.
+- Excel `translationExplanation` is imported into `questions.json` and shown on the answer result screen as the explanation translation.
 - Treasure QR feature that grants one translation key once per treasure ID
 - Result screen optimized for screenshot collection
 - Teacher reset with two confirmations

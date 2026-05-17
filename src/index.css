@@ -839,6 +839,23 @@ h2 .bilingual-text,
   line-height: 1.7;
 }
 
+.translated-explanation {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 14px;
+  border: 2px solid rgba(35, 103, 165, 0.16);
+  border-radius: 16px;
+  background: rgba(229, 242, 255, 0.72);
+  text-align: left;
+}
+
+.translated-explanation-label {
+  color: var(--surface-strong);
+  font-size: 0.98rem;
+  font-weight: 900;
+}
+
 @keyframes pop-burst {
   0% {
     opacity: 0;
