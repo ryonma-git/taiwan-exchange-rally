@@ -803,13 +803,6 @@ function App() {
                 zh={`距離開始還有 ${formatRemainingTime(RALLY_UNLOCK_AT_MS - nowMs)}`}
               />
             </p>
-            <button
-              type="button"
-              className="secondary-button"
-              onClick={handleGoHome}
-            >
-              <BilingualText ja="トップへ戻る" zh="回到首頁" />
-            </button>
           </div>
         </section>
       )}
