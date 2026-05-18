@@ -5,6 +5,7 @@ import {
   useState,
   type FormEvent,
 } from 'react'
+import debugQuestionsRaw from './data/debugQuestions.json?raw'
 import questionsRaw from './data/questions.json?raw'
 import {
   INITIAL_TRANSLATION_KEYS,
@@ -51,8 +52,16 @@ const WARNING_REMAINING_MS = 5 * 60 * 1000
 const RALLY_UNLOCK_AT_MS = Date.parse('2026-05-19T14:00:00+09:00')
 const RALLY_UNLOCK_LABEL = '2026年5月19日 14:00'
 const questions = JSON.parse(questionsRaw) as Question[]
-const questionMap = new Map(questions.map((question) => [question.id, question]))
+const debugQuestions = JSON.parse(debugQuestionsRaw) as Question[]
+const productionQuestionMap = new Map(
+  questions.map((question) => [question.id, question]),
+)
+const debugQuestionMap = new Map(
+  debugQuestions.map((question) => [question.id, question]),
+)
+const questionMap = new Map([...productionQuestionMap, ...debugQuestionMap])
 const questionIdByPublicCode = createQuestionCodeMap(questions)
+const debugQuestionIdByPublicCode = createQuestionCodeMap(debugQuestions)
 const questionSetSignature = createQuestionSetSignature(questionsRaw)
 const treasures = [{ id: 'T01' }, { id: 'T02' }]
 const allowedTreasureIds = treasures.map((treasure) => treasure.id)
@@ -63,6 +72,22 @@ const UNKNOWN_TREASURE_PREFIX = '__unknown_treasure__:'
 
 function getAssetUrl(path: string) {
   return `${assetBaseUrl}${path.replace(/^\//, '')}`
+}
+
+function RallyLogo({
+  className = '',
+  compact = false,
+}: {
+  className?: string
+  compact?: boolean
+}) {
+  return (
+    <img
+      className={`${compact ? 'rally-logo compact' : 'rally-logo'} ${className}`.trim()}
+      src={getAssetUrl('assets/generated/ishisho-wenchang-rally-logo.png')}
+      alt="石小 × 文昌 Japan-Taiwan School Discovery Rally"
+    />
+  )
 }
 
 function BilingualText({ ja, zh }: { ja: string; zh: string }) {
@@ -168,6 +193,7 @@ function readQuestionIdFromUrl() {
   return (
     (questionMap.has(internalId) ? internalId : undefined) ??
     questionIdByPublicCode.get(value.toLowerCase()) ??
+    debugQuestionIdByPublicCode.get(value.toLowerCase()) ??
     `${UNKNOWN_QUESTION_PREFIX}${value}`
   )
 }
@@ -353,6 +379,9 @@ function App() {
   const [timeLimitMessage, setTimeLimitMessage] = useState('')
 
   const activeQuestion = questionId ? questionMap.get(questionId) : undefined
+  const isActiveDebugQuestion = questionId
+    ? debugQuestionMap.has(questionId)
+    : false
   const activeTreasureId =
     treasureId && isAllowedTreasureId(treasureId) ? treasureId : undefined
   const currentTreasureStatus = !activeTreasureId
@@ -370,7 +399,9 @@ function App() {
         : undefined,
     [activeQuestion, rallyState.answerHistory],
   )
-  const hasUsedTranslationKey = activeQuestion
+  const hasUsedTranslationKey = isActiveDebugQuestion
+    ? true
+    : activeQuestion
     ? rallyState.translationKeysUsedQuestionIds.includes(activeQuestion.id)
     : false
   const activeTranslationText = activeQuestion?.translationText?.trim() ?? ''
@@ -393,12 +424,18 @@ function App() {
     remainingMs > 0 &&
     remainingMs <= WARNING_REMAINING_MS
   const isBeforeRallyLaunch = nowMs < RALLY_UNLOCK_AT_MS
-  const isQrEntryLocked = Boolean(questionId || treasureId) && isBeforeRallyLaunch
+  const isQrEntryLocked =
+    Boolean(questionId || treasureId) &&
+    isBeforeRallyLaunch &&
+    !isActiveDebugQuestion
   const isQuestionBlocked =
-    Boolean(activeQuestion) && !answeredRecord && isTimeExpired
+    Boolean(activeQuestion) &&
+    !answeredRecord &&
+    isTimeExpired &&
+    !isActiveDebugQuestion
   const screen = isQrEntryLocked
     ? 'launch-wait'
-    : !hasTeamName
+    : !hasTeamName && !isActiveDebugQuestion
     ? 'start'
     : screenMode === 'answer-result' && feedback
       ? 'answer-result'
@@ -631,7 +668,7 @@ function App() {
       return
     }
 
-    if (isTimeExpired) {
+    if (isTimeExpired && !isActiveDebugQuestion) {
       window.alert(
         '制限時間が終了しました。新しい問題には回答できません。／時間已到，不能回答新的題目。',
       )
@@ -644,6 +681,29 @@ function App() {
     )
 
     if (!isConfirmed) {
+      return
+    }
+
+    const isCorrect = selectedIndex === activeQuestion.answerIndex
+    const pointsEarned =
+      isCorrect && !isActiveDebugQuestion ? activeQuestion.points : 0
+    const record: AnswerRecord = {
+      questionId: activeQuestion.id,
+      selectedIndex,
+      correctIndex: activeQuestion.answerIndex,
+      isCorrect,
+      pointsEarned,
+      answeredAt: new Date().toISOString(),
+      question: activeQuestion.question,
+      choice: selectedChoice,
+      correctChoice: activeQuestion.choices[activeQuestion.answerIndex],
+      explanation: activeQuestion.explanation,
+      translationExplanation: activeQuestion.translationExplanation,
+    }
+
+    if (isActiveDebugQuestion) {
+      setFeedback(record)
+      setScreenMode('answer-result')
       return
     }
 
@@ -673,21 +733,6 @@ function App() {
       return
     }
 
-    const isCorrect = selectedIndex === activeQuestion.answerIndex
-    const pointsEarned = isCorrect ? activeQuestion.points : 0
-    const record: AnswerRecord = {
-      questionId: activeQuestion.id,
-      selectedIndex,
-      correctIndex: activeQuestion.answerIndex,
-      isCorrect,
-      pointsEarned,
-      answeredAt: new Date().toISOString(),
-      question: activeQuestion.question,
-      choice: selectedChoice,
-      correctChoice: activeQuestion.choices[activeQuestion.answerIndex],
-      explanation: activeQuestion.explanation,
-      translationExplanation: activeQuestion.translationExplanation,
-    }
     const nextHistory = [...baseState.answerHistory, record]
     const nextState = rebuildRallyState(baseState, nextHistory)
 
@@ -779,6 +824,7 @@ function App() {
       {screen === 'launch-wait' && (
         <section className="launch-wait-screen" aria-labelledby="launch-wait-title">
           <div className="launch-wait-card">
+            <RallyLogo className="launch-logo" />
             <div className="launch-wait-icons" aria-hidden="true">
               <img src={getAssetUrl('assets/noto-emoji/sparkles.svg')} alt="" />
               <img src={getAssetUrl('assets/noto-emoji/cherry-blossom.svg')} alt="" />
@@ -810,6 +856,7 @@ function App() {
       {screen === 'start' && (
         <section className="start-screen" aria-labelledby="start-title">
           <div className="hero-copy">
+            <RallyLogo className="start-logo" />
             <p className="eyebrow">{EVENT_SUBTITLE}</p>
             <h1 id="start-title">{EVENT_NAME}</h1>
             <p className="lead">
@@ -937,6 +984,7 @@ function App() {
               <h1 id="home-title">{EVENT_NAME}</h1>
               <p className="team-name-label">{rallyState.teamName}</p>
             </div>
+            <RallyLogo compact className="home-logo" />
             <div className="home-assets" aria-hidden="true">
               <img
                 src={getAssetUrl('assets/noto-emoji/cherry-blossom.svg')}
@@ -1056,6 +1104,16 @@ function App() {
                 <BilingualText ja="Question" zh="題目" />
               </h1>
             </div>
+            <RallyLogo compact className="top-logo" />
+            {isActiveDebugQuestion && (
+              <button
+                type="button"
+                className="secondary-button"
+                onClick={() => setScreenMode('result')}
+              >
+                <BilingualText ja="Result" zh="結果" />
+              </button>
+            )}
             <button
               type="button"
               className="secondary-button"
@@ -1210,6 +1268,7 @@ function App() {
           aria-labelledby="answer-result-title"
         >
           <div className="answer-result-card">
+            <RallyLogo compact className="answer-logo" />
             <div className="result-burst" aria-hidden="true">
               {feedback.isCorrect ? '✓' : '!'}
             </div>
@@ -1266,6 +1325,7 @@ function App() {
                 <BilingualText ja="Treasure QR" zh="寶箱QR" />
               </h1>
             </div>
+            <RallyLogo compact className="top-logo" />
             <button
               type="button"
               className="secondary-button"
@@ -1347,6 +1407,7 @@ function App() {
                 <BilingualText ja="Result" zh="結果" />
               </h1>
             </div>
+            <RallyLogo compact className="top-logo" />
             <button
               type="button"
               className="secondary-button"

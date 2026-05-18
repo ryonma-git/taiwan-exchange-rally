@@ -1,0 +1,28 @@
+[
+  {
+    "id": "J21",
+    "side": "デバッグ",
+    "language": "ja",
+    "difficulty": "sample",
+    "points": 0,
+    "question": "台湾の行政・交通の中心として知られる都市はどこですか？",
+    "choices": ["台北", "台中", "高雄", "台南"],
+    "answerIndex": 0,
+    "explanation": "台北は台湾の政治・行政・交通の中心として知られています。",
+    "translationText": "哪一個城市被稱為台灣的行政與交通中心？\nA. 台北\nB. 台中\nC. 高雄\nD. 台南",
+    "translationExplanation": "台北被認為是台灣政治、行政與交通的重要中心。"
+  },
+  {
+    "id": "C21",
+    "side": "Debug",
+    "language": "zh-Hant",
+    "difficulty": "sample",
+    "points": 0,
+    "question": "在日本的小學，學生中午常常一起吃的學校餐叫做什麼？",
+    "choices": ["學校午餐", "夜市", "茶會", "早餐店"],
+    "answerIndex": 0,
+    "explanation": "日本の小学校では、昼にみんなで食べる学校の食事を給食と呼びます。",
+    "translationText": "日本の小学校で、児童が昼に一緒に食べる学校の食事を何と呼びますか？\nA. 学校給食\nB. 夜市\nC. 茶会\nD. 朝食店",
+    "translationExplanation": "日本の小学校では、昼にみんなで食べる学校の食事を給食と呼びます。"
+  }
+]

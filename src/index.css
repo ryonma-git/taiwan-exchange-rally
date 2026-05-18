@@ -176,6 +176,47 @@ h2 {
   max-width: 760px;
 }
 
+.rally-logo {
+  display: block;
+  width: min(100%, 620px);
+  height: auto;
+  border: 3px solid rgba(255, 255, 255, 0.84);
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 16px 34px rgba(19, 52, 91, 0.13);
+}
+
+.rally-logo.compact {
+  width: 190px;
+  border-width: 2px;
+  border-radius: 14px;
+  box-shadow: 0 10px 20px rgba(19, 52, 91, 0.1);
+}
+
+.start-logo {
+  width: min(100%, 700px);
+}
+
+.launch-logo {
+  width: min(100%, 640px);
+  justify-self: center;
+}
+
+.home-logo,
+.top-logo {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.answer-logo {
+  width: min(100%, 360px);
+  justify-self: center;
+}
+
+.home-logo + .home-assets {
+  margin-left: 0;
+}
+
 .hero-assets,
 .home-assets {
   display: flex;
@@ -1057,6 +1098,7 @@ h2 .bilingual-text,
   .home-screen,
   .question-screen,
   .answer-result-screen,
+  .launch-wait-screen,
   .treasure-screen,
   .result-screen {
     min-height: calc(100svh - 36px);
@@ -1070,6 +1112,13 @@ h2 .bilingual-text,
   .history-list li > div {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .rally-logo.compact,
+  .home-logo,
+  .top-logo {
+    width: min(100%, 260px);
+    margin-left: 0;
   }
 
   .home-assets {
