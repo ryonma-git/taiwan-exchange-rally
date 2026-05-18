@@ -9,7 +9,7 @@ Error generating stack: `+e.message+`
 `).replace(Ad,``)}function Md(e,t){return t=jd(t),jd(e)===t}function $(e,t,n,r,i,a){switch(n){case`children`:typeof r==`string`?t===`body`||t===`textarea`&&r===``||Qt(e,r):(typeof r==`number`||typeof r==`bigint`)&&t!==`body`&&Qt(e,``+r);break;case`className`:It(e,`class`,r);break;case`tabIndex`:It(e,`tabindex`,r);break;case`dir`:case`role`:case`viewBox`:case`width`:case`height`:It(e,n,r);break;case`style`:tn(e,r,a);break;case`data`:if(t!==`object`){It(e,`data`,r);break}case`src`:case`href`:if(r===``&&(t!==`a`||n!==`href`)){e.removeAttribute(n);break}if(r==null||typeof r==`function`||typeof r==`symbol`||typeof r==`boolean`){e.removeAttribute(n);break}r=on(``+r),e.setAttribute(n,r);break;case`action`:case`formAction`:if(typeof r==`function`){e.setAttribute(n,`javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')`);break}else typeof a==`function`&&(n===`formAction`?(t!==`input`&&$(e,t,`name`,i.name,i,null),$(e,t,`formEncType`,i.formEncType,i,null),$(e,t,`formMethod`,i.formMethod,i,null),$(e,t,`formTarget`,i.formTarget,i,null)):($(e,t,`encType`,i.encType,i,null),$(e,t,`method`,i.method,i,null),$(e,t,`target`,i.target,i,null)));if(r==null||typeof r==`symbol`||typeof r==`boolean`){e.removeAttribute(n);break}r=on(``+r),e.setAttribute(n,r);break;case`onClick`:r!=null&&(e.onclick=sn);break;case`onScroll`:r!=null&&Q(`scroll`,e);break;case`onScrollEnd`:r!=null&&Q(`scrollend`,e);break;case`dangerouslySetInnerHTML`:if(r!=null){if(typeof r!=`object`||!(`__html`in r))throw Error(s(61));if(n=r.__html,n!=null){if(i.children!=null)throw Error(s(60));e.innerHTML=n}}break;case`multiple`:e.multiple=r&&typeof r!=`function`&&typeof r!=`symbol`;break;case`muted`:e.muted=r&&typeof r!=`function`&&typeof r!=`symbol`;break;case`suppressContentEditableWarning`:case`suppressHydrationWarning`:case`defaultValue`:case`defaultChecked`:case`innerHTML`:case`ref`:break;case`autoFocus`:break;case`xlinkHref`:if(r==null||typeof r==`function`||typeof r==`boolean`||typeof r==`symbol`){e.removeAttribute(`xlink:href`);break}n=on(``+r),e.setAttributeNS(`http://www.w3.org/1999/xlink`,`xlink:href`,n);break;case`contentEditable`:case`spellCheck`:case`draggable`:case`value`:case`autoReverse`:case`externalResourcesRequired`:case`focusable`:case`preserveAlpha`:r!=null&&typeof r!=`function`&&typeof r!=`symbol`?e.setAttribute(n,``+r):e.removeAttribute(n);break;case`inert`:case`allowFullScreen`:case`async`:case`autoPlay`:case`controls`:case`default`:case`defer`:case`disabled`:case`disablePictureInPicture`:case`disableRemotePlayback`:case`formNoValidate`:case`hidden`:case`loop`:case`noModule`:case`noValidate`:case`open`:case`playsInline`:case`readOnly`:case`required`:case`reversed`:case`scoped`:case`seamless`:case`itemScope`:r&&typeof r!=`function`&&typeof r!=`symbol`?e.setAttribute(n,``):e.removeAttribute(n);break;case`capture`:case`download`:!0===r?e.setAttribute(n,``):!1!==r&&r!=null&&typeof r!=`function`&&typeof r!=`symbol`?e.setAttribute(n,r):e.removeAttribute(n);break;case`cols`:case`rows`:case`size`:case`span`:r!=null&&typeof r!=`function`&&typeof r!=`symbol`&&!isNaN(r)&&1<=r?e.setAttribute(n,r):e.removeAttribute(n);break;case`rowSpan`:case`start`:r==null||typeof r==`function`||typeof r==`symbol`||isNaN(r)?e.removeAttribute(n):e.setAttribute(n,r);break;case`popover`:Q(`beforetoggle`,e),Q(`toggle`,e),Ft(e,`popover`,r);break;case`xlinkActuate`:Lt(e,`http://www.w3.org/1999/xlink`,`xlink:actuate`,r);break;case`xlinkArcrole`:Lt(e,`http://www.w3.org/1999/xlink`,`xlink:arcrole`,r);break;case`xlinkRole`:Lt(e,`http://www.w3.org/1999/xlink`,`xlink:role`,r);break;case`xlinkShow`:Lt(e,`http://www.w3.org/1999/xlink`,`xlink:show`,r);break;case`xlinkTitle`:Lt(e,`http://www.w3.org/1999/xlink`,`xlink:title`,r);break;case`xlinkType`:Lt(e,`http://www.w3.org/1999/xlink`,`xlink:type`,r);break;case`xmlBase`:Lt(e,`http://www.w3.org/XML/1998/namespace`,`xml:base`,r);break;case`xmlLang`:Lt(e,`http://www.w3.org/XML/1998/namespace`,`xml:lang`,r);break;case`xmlSpace`:Lt(e,`http://www.w3.org/XML/1998/namespace`,`xml:space`,r);break;case`is`:Ft(e,`is`,r);break;case`innerText`:case`textContent`:break;default:(!(2<n.length)||n[0]!==`o`&&n[0]!==`O`||n[1]!==`n`&&n[1]!==`N`)&&(n=rn.get(n)||n,Ft(e,n,r))}}function Nd(e,t,n,r,i,a){switch(n){case`style`:tn(e,r,a);break;case`dangerouslySetInnerHTML`:if(r!=null){if(typeof r!=`object`||!(`__html`in r))throw Error(s(61));if(n=r.__html,n!=null){if(i.children!=null)throw Error(s(60));e.innerHTML=n}}break;case`children`:typeof r==`string`?Qt(e,r):(typeof r==`number`||typeof r==`bigint`)&&Qt(e,``+r);break;case`onScroll`:r!=null&&Q(`scroll`,e);break;case`onScrollEnd`:r!=null&&Q(`scrollend`,e);break;case`onClick`:r!=null&&(e.onclick=sn);break;case`suppressContentEditableWarning`:case`suppressHydrationWarning`:case`innerHTML`:case`ref`:break;case`innerText`:case`textContent`:break;default:if(!Ot.hasOwnProperty(n))a:{if(n[0]===`o`&&n[1]===`n`&&(i=n.endsWith(`Capture`),t=n.slice(2,i?n.length-7:void 0),a=e[mt]||null,a=a==null?null:a[n],typeof a==`function`&&e.removeEventListener(t,a,i),typeof r==`function`)){typeof a!=`function`&&a!==null&&(n in e?e[n]=null:e.hasAttribute(n)&&e.removeAttribute(n)),e.addEventListener(t,r,i);break a}n in e?e[n]=r:!0===r?e.setAttribute(n,``):Ft(e,n,r)}}}function Pd(e,t,n){switch(t){case`div`:case`span`:case`svg`:case`path`:case`a`:case`g`:case`p`:case`li`:break;case`img`:Q(`error`,e),Q(`load`,e);var r=!1,i=!1,a;for(a in n)if(n.hasOwnProperty(a)){var o=n[a];if(o!=null)switch(a){case`src`:r=!0;break;case`srcSet`:i=!0;break;case`children`:case`dangerouslySetInnerHTML`:throw Error(s(137,t));default:$(e,t,a,o,n,null)}}i&&$(e,t,`srcSet`,n.srcSet,n,null),r&&$(e,t,`src`,n.src,n,null);return;case`input`:Q(`invalid`,e);var c=a=o=i=null,l=null,u=null;for(r in n)if(n.hasOwnProperty(r)){var d=n[r];if(d!=null)switch(r){case`name`:i=d;break;case`type`:o=d;break;case`checked`:l=d;break;case`defaultChecked`:u=d;break;case`value`:a=d;break;case`defaultValue`:c=d;break;case`children`:case`dangerouslySetInnerHTML`:if(d!=null)throw Error(s(137,t));break;default:$(e,t,r,d,n,null)}}qt(e,a,c,l,u,o,i,!1);return;case`select`:for(i in Q(`invalid`,e),r=o=a=null,n)if(n.hasOwnProperty(i)&&(c=n[i],c!=null))switch(i){case`value`:a=c;break;case`defaultValue`:o=c;break;case`multiple`:r=c;default:$(e,t,i,c,n,null)}t=a,n=o,e.multiple=!!r,t==null?n!=null&&Yt(e,!!r,n,!0):Yt(e,!!r,t,!1);return;case`textarea`:for(o in Q(`invalid`,e),a=i=r=null,n)if(n.hasOwnProperty(o)&&(c=n[o],c!=null))switch(o){case`value`:r=c;break;case`defaultValue`:i=c;break;case`children`:a=c;break;case`dangerouslySetInnerHTML`:if(c!=null)throw Error(s(91));break;default:$(e,t,o,c,n,null)}Zt(e,r,i,a);return;case`option`:for(l in n)if(n.hasOwnProperty(l)&&(r=n[l],r!=null))switch(l){case`selected`:e.selected=r&&typeof r!=`function`&&typeof r!=`symbol`;break;default:$(e,t,l,r,n,null)}return;case`dialog`:Q(`beforetoggle`,e),Q(`toggle`,e),Q(`cancel`,e),Q(`close`,e);break;case`iframe`:case`object`:Q(`load`,e);break;case`video`:case`audio`:for(r=0;r<_d.length;r++)Q(_d[r],e);break;case`image`:Q(`error`,e),Q(`load`,e);break;case`details`:Q(`toggle`,e);break;case`embed`:case`source`:case`link`:Q(`error`,e),Q(`load`,e);case`area`:case`base`:case`br`:case`col`:case`hr`:case`keygen`:case`meta`:case`param`:case`track`:case`wbr`:case`menuitem`:for(u in n)if(n.hasOwnProperty(u)&&(r=n[u],r!=null))switch(u){case`children`:case`dangerouslySetInnerHTML`:throw Error(s(137,t));default:$(e,t,u,r,n,null)}return;default:if(nn(t)){for(d in n)n.hasOwnProperty(d)&&(r=n[d],r!==void 0&&Nd(e,t,d,r,n,void 0));return}}for(c in n)n.hasOwnProperty(c)&&(r=n[c],r!=null&&$(e,t,c,r,n,null))}function Fd(e,t,n,r){switch(t){case`div`:case`span`:case`svg`:case`path`:case`a`:case`g`:case`p`:case`li`:break;case`input`:var i=null,a=null,o=null,c=null,l=null,u=null,d=null;for(m in n){var f=n[m];if(n.hasOwnProperty(m)&&f!=null)switch(m){case`checked`:break;case`value`:break;case`defaultValue`:l=f;default:r.hasOwnProperty(m)||$(e,t,m,null,r,f)}}for(var p in r){var m=r[p];if(f=n[p],r.hasOwnProperty(p)&&(m!=null||f!=null))switch(p){case`type`:a=m;break;case`name`:i=m;break;case`checked`:u=m;break;case`defaultChecked`:d=m;break;case`value`:o=m;break;case`defaultValue`:c=m;break;case`children`:case`dangerouslySetInnerHTML`:if(m!=null)throw Error(s(137,t));break;default:m!==f&&$(e,t,p,m,r,f)}}Kt(e,o,c,l,u,d,a,i);return;case`select`:for(a in m=o=c=p=null,n)if(l=n[a],n.hasOwnProperty(a)&&l!=null)switch(a){case`value`:break;case`multiple`:m=l;default:r.hasOwnProperty(a)||$(e,t,a,null,r,l)}for(i in r)if(a=r[i],l=n[i],r.hasOwnProperty(i)&&(a!=null||l!=null))switch(i){case`value`:p=a;break;case`defaultValue`:c=a;break;case`multiple`:o=a;default:a!==l&&$(e,t,i,a,r,l)}t=c,n=o,r=m,p==null?!!r!=!!n&&(t==null?Yt(e,!!n,n?[]:``,!1):Yt(e,!!n,t,!0)):Yt(e,!!n,p,!1);return;case`textarea`:for(c in m=p=null,n)if(i=n[c],n.hasOwnProperty(c)&&i!=null&&!r.hasOwnProperty(c))switch(c){case`value`:break;case`children`:break;default:$(e,t,c,null,r,i)}for(o in r)if(i=r[o],a=n[o],r.hasOwnProperty(o)&&(i!=null||a!=null))switch(o){case`value`:p=i;break;case`defaultValue`:m=i;break;case`children`:break;case`dangerouslySetInnerHTML`:if(i!=null)throw Error(s(91));break;default:i!==a&&$(e,t,o,i,r,a)}Xt(e,p,m);return;case`option`:for(var h in n)if(p=n[h],n.hasOwnProperty(h)&&p!=null&&!r.hasOwnProperty(h))switch(h){case`selected`:e.selected=!1;break;default:$(e,t,h,null,r,p)}for(l in r)if(p=r[l],m=n[l],r.hasOwnProperty(l)&&p!==m&&(p!=null||m!=null))switch(l){case`selected`:e.selected=p&&typeof p!=`function`&&typeof p!=`symbol`;break;default:$(e,t,l,p,r,m)}return;case`img`:case`link`:case`area`:case`base`:case`br`:case`col`:case`embed`:case`hr`:case`keygen`:case`meta`:case`param`:case`source`:case`track`:case`wbr`:case`menuitem`:for(var g in n)p=n[g],n.hasOwnProperty(g)&&p!=null&&!r.hasOwnProperty(g)&&$(e,t,g,null,r,p);for(u in r)if(p=r[u],m=n[u],r.hasOwnProperty(u)&&p!==m&&(p!=null||m!=null))switch(u){case`children`:case`dangerouslySetInnerHTML`:if(p!=null)throw Error(s(137,t));break;default:$(e,t,u,p,r,m)}return;default:if(nn(t)){for(var _ in n)p=n[_],n.hasOwnProperty(_)&&p!==void 0&&!r.hasOwnProperty(_)&&Nd(e,t,_,void 0,r,p);for(d in r)p=r[d],m=n[d],!r.hasOwnProperty(d)||p===m||p===void 0&&m===void 0||Nd(e,t,d,p,r,m);return}}for(var v in n)p=n[v],n.hasOwnProperty(v)&&p!=null&&!r.hasOwnProperty(v)&&$(e,t,v,null,r,p);for(f in r)p=r[f],m=n[f],!r.hasOwnProperty(f)||p===m||p==null&&m==null||$(e,t,f,p,r,m)}function Id(e){switch(e){case`css`:case`script`:case`font`:case`img`:case`image`:case`input`:case`link`:return!0;default:return!1}}function Ld(){if(typeof performance.getEntriesByType==`function`){for(var e=0,t=0,n=performance.getEntriesByType(`resource`),r=0;r<n.length;r++){var i=n[r],a=i.transferSize,o=i.initiatorType,s=i.duration;if(a&&s&&Id(o)){for(o=0,s=i.responseEnd,r+=1;r<n.length;r++){var c=n[r],l=c.startTime;if(l>s)break;var u=c.transferSize,d=c.initiatorType;u&&Id(d)&&(c=c.responseEnd,o+=u*(c<s?1:(s-l)/(c-l)))}if(--r,t+=8*(a+o)/(i.duration/1e3),e++,10<e)break}}if(0<e)return t/e/1e6}return navigator.connection&&(e=navigator.connection.downlink,typeof e==`number`)?e:5}var Rd=null,zd=null;function Bd(e){return e.nodeType===9?e:e.ownerDocument}function Vd(e){switch(e){case`http://www.w3.org/2000/svg`:return 1;case`http://www.w3.org/1998/Math/MathML`:return 2;default:return 0}}function Hd(e,t){if(e===0)switch(t){case`svg`:return 1;case`math`:return 2;default:return 0}return e===1&&t===`foreignObject`?0:e}function Ud(e,t){return e===`textarea`||e===`noscript`||typeof t.children==`string`||typeof t.children==`number`||typeof t.children==`bigint`||typeof t.dangerouslySetInnerHTML==`object`&&t.dangerouslySetInnerHTML!==null&&t.dangerouslySetInnerHTML.__html!=null}var Wd=null;function Gd(){var e=window.event;return e&&e.type===`popstate`?e===Wd?!1:(Wd=e,!0):(Wd=null,!1)}var Kd=typeof setTimeout==`function`?setTimeout:void 0,qd=typeof clearTimeout==`function`?clearTimeout:void 0,Jd=typeof Promise==`function`?Promise:void 0,Yd=typeof queueMicrotask==`function`?queueMicrotask:Jd===void 0?Kd:function(e){return Jd.resolve(null).then(e).catch(Xd)};function Xd(e){setTimeout(function(){throw e})}function Zd(e){return e===`head`}function Qd(e,t){var n=t,r=0;do{var i=n.nextSibling;if(e.removeChild(n),i&&i.nodeType===8)if(n=i.data,n===`/$`||n===`/&`){if(r===0){e.removeChild(i),Np(t);return}r--}else if(n===`$`||n===`$?`||n===`$~`||n===`$!`||n===`&`)r++;else if(n===`html`)pf(e.ownerDocument.documentElement);else if(n===`head`){n=e.ownerDocument.head,pf(n);for(var a=n.firstChild;a;){var o=a.nextSibling,s=a.nodeName;a[bt]||s===`SCRIPT`||s===`STYLE`||s===`LINK`&&a.rel.toLowerCase()===`stylesheet`||n.removeChild(a),a=o}}else n===`body`&&pf(e.ownerDocument.body);n=i}while(n);Np(t)}function $d(e,t){var n=e;e=0;do{var r=n.nextSibling;if(n.nodeType===1?t?(n._stashedDisplay=n.style.display,n.style.display=`none`):(n.style.display=n._stashedDisplay||``,n.getAttribute(`style`)===``&&n.removeAttribute(`style`)):n.nodeType===3&&(t?(n._stashedText=n.nodeValue,n.nodeValue=``):n.nodeValue=n._stashedText||``),r&&r.nodeType===8)if(n=r.data,n===`/$`){if(e===0)break;e--}else n!==`$`&&n!==`$?`&&n!==`$~`&&n!==`$!`||e++;n=r}while(n)}function ef(e){var t=e.firstChild;for(t&&t.nodeType===10&&(t=t.nextSibling);t;){var n=t;switch(t=t.nextSibling,n.nodeName){case`HTML`:case`HEAD`:case`BODY`:ef(n),xt(n);continue;case`SCRIPT`:case`STYLE`:continue;case`LINK`:if(n.rel.toLowerCase()===`stylesheet`)continue}e.removeChild(n)}}function tf(e,t,n,r){for(;e.nodeType===1;){var i=n;if(e.nodeName.toLowerCase()!==t.toLowerCase()){if(!r&&(e.nodeName!==`INPUT`||e.type!==`hidden`))break}else if(!r)if(t===`input`&&e.type===`hidden`){var a=i.name==null?null:``+i.name;if(i.type===`hidden`&&e.getAttribute(`name`)===a)return e}else return e;else if(!e[bt])switch(t){case`meta`:if(!e.hasAttribute(`itemprop`))break;return e;case`link`:if(a=e.getAttribute(`rel`),a===`stylesheet`&&e.hasAttribute(`data-precedence`)||a!==i.rel||e.getAttribute(`href`)!==(i.href==null||i.href===``?null:i.href)||e.getAttribute(`crossorigin`)!==(i.crossOrigin==null?null:i.crossOrigin)||e.getAttribute(`title`)!==(i.title==null?null:i.title))break;return e;case`style`:if(e.hasAttribute(`data-precedence`))break;return e;case`script`:if(a=e.getAttribute(`src`),(a!==(i.src==null?null:i.src)||e.getAttribute(`type`)!==(i.type==null?null:i.type)||e.getAttribute(`crossorigin`)!==(i.crossOrigin==null?null:i.crossOrigin))&&a&&e.hasAttribute(`async`)&&!e.hasAttribute(`itemprop`))break;return e;default:return e}if(e=cf(e.nextSibling),e===null)break}return null}function nf(e,t,n){if(t===``)return null;for(;e.nodeType!==3;)if((e.nodeType!==1||e.nodeName!==`INPUT`||e.type!==`hidden`)&&!n||(e=cf(e.nextSibling),e===null))return null;return e}function rf(e,t){for(;e.nodeType!==8;)if((e.nodeType!==1||e.nodeName!==`INPUT`||e.type!==`hidden`)&&!t||(e=cf(e.nextSibling),e===null))return null;return e}function af(e){return e.data===`$?`||e.data===`$~`}function of(e){return e.data===`$!`||e.data===`$?`&&e.ownerDocument.readyState!==`loading`}function sf(e,t){var n=e.ownerDocument;if(e.data===`$~`)e._reactRetry=t;else if(e.data!==`$?`||n.readyState!==`loading`)t();else{var r=function(){t(),n.removeEventListener(`DOMContentLoaded`,r)};n.addEventListener(`DOMContentLoaded`,r),e._reactRetry=r}}function cf(e){for(;e!=null;e=e.nextSibling){var t=e.nodeType;if(t===1||t===3)break;if(t===8){if(t=e.data,t===`$`||t===`$!`||t===`$?`||t===`$~`||t===`&`||t===`F!`||t===`F`)break;if(t===`/$`||t===`/&`)return null}}return e}var lf=null;function uf(e){e=e.nextSibling;for(var t=0;e;){if(e.nodeType===8){var n=e.data;if(n===`/$`||n===`/&`){if(t===0)return cf(e.nextSibling);t--}else n!==`$`&&n!==`$!`&&n!==`$?`&&n!==`$~`&&n!==`&`||t++}e=e.nextSibling}return null}function df(e){e=e.previousSibling;for(var t=0;e;){if(e.nodeType===8){var n=e.data;if(n===`$`||n===`$!`||n===`$?`||n===`$~`||n===`&`){if(t===0)return e;t--}else n!==`/$`&&n!==`/&`||t++}e=e.previousSibling}return null}function ff(e,t,n){switch(t=Bd(n),e){case`html`:if(e=t.documentElement,!e)throw Error(s(452));return e;case`head`:if(e=t.head,!e)throw Error(s(453));return e;case`body`:if(e=t.body,!e)throw Error(s(454));return e;default:throw Error(s(451))}}function pf(e){for(var t=e.attributes;t.length;)e.removeAttributeNode(t[0]);xt(e)}var mf=new Map,hf=new Set;function gf(e){return typeof e.getRootNode==`function`?e.getRootNode():e.nodeType===9?e:e.ownerDocument}var _f=D.d;D.d={f:vf,r:yf,D:Sf,C:Cf,L:wf,m:Tf,X:Df,S:Ef,M:Of};function vf(){var e=_f.f(),t=bu();return e||t}function yf(e){var t=Ct(e);t!==null&&t.tag===5&&t.type===`form`?ks(t):_f.r(e)}var bf=typeof document>`u`?null:document;function xf(e,t,n){var r=bf;if(r&&typeof t==`string`&&t){var i=Gt(t);i=`link[rel="`+e+`"][href="`+i+`"]`,typeof n==`string`&&(i+=`[crossorigin="`+n+`"]`),hf.has(i)||(hf.add(i),e={rel:e,crossOrigin:n,href:t},r.querySelector(i)===null&&(t=r.createElement(`link`),Pd(t,`link`,e),Et(t),r.head.appendChild(t)))}}function Sf(e){_f.D(e),xf(`dns-prefetch`,e,null)}function Cf(e,t){_f.C(e,t),xf(`preconnect`,e,t)}function wf(e,t,n){_f.L(e,t,n);var r=bf;if(r&&e&&t){var i=`link[rel="preload"][as="`+Gt(t)+`"]`;t===`image`&&n&&n.imageSrcSet?(i+=`[imagesrcset="`+Gt(n.imageSrcSet)+`"]`,typeof n.imageSizes==`string`&&(i+=`[imagesizes="`+Gt(n.imageSizes)+`"]`)):i+=`[href="`+Gt(e)+`"]`;var a=i;switch(t){case`style`:a=Af(e);break;case`script`:a=Pf(e)}mf.has(a)||(e=h({rel:`preload`,href:t===`image`&&n&&n.imageSrcSet?void 0:e,as:t},n),mf.set(a,e),r.querySelector(i)!==null||t===`style`&&r.querySelector(jf(a))||t===`script`&&r.querySelector(Ff(a))||(t=r.createElement(`link`),Pd(t,`link`,e),Et(t),r.head.appendChild(t)))}}function Tf(e,t){_f.m(e,t);var n=bf;if(n&&e){var r=t&&typeof t.as==`string`?t.as:`script`,i=`link[rel="modulepreload"][as="`+Gt(r)+`"][href="`+Gt(e)+`"]`,a=i;switch(r){case`audioworklet`:case`paintworklet`:case`serviceworker`:case`sharedworker`:case`worker`:case`script`:a=Pf(e)}if(!mf.has(a)&&(e=h({rel:`modulepreload`,href:e},t),mf.set(a,e),n.querySelector(i)===null)){switch(r){case`audioworklet`:case`paintworklet`:case`serviceworker`:case`sharedworker`:case`worker`:case`script`:if(n.querySelector(Ff(a)))return}r=n.createElement(`link`),Pd(r,`link`,e),Et(r),n.head.appendChild(r)}}}function Ef(e,t,n){_f.S(e,t,n);var r=bf;if(r&&e){var i=Tt(r).hoistableStyles,a=Af(e);t||=`default`;var o=i.get(a);if(!o){var s={loading:0,preload:null};if(o=r.querySelector(jf(a)))s.loading=5;else{e=h({rel:`stylesheet`,href:e,"data-precedence":t},n),(n=mf.get(a))&&Rf(e,n);var c=o=r.createElement(`link`);Et(c),Pd(c,`link`,e),c._p=new Promise(function(e,t){c.onload=e,c.onerror=t}),c.addEventListener(`load`,function(){s.loading|=1}),c.addEventListener(`error`,function(){s.loading|=2}),s.loading|=4,Lf(o,t,r)}o={type:`stylesheet`,instance:o,count:1,state:s},i.set(a,o)}}}function Df(e,t){_f.X(e,t);var n=bf;if(n&&e){var r=Tt(n).hoistableScripts,i=Pf(e),a=r.get(i);a||(a=n.querySelector(Ff(i)),a||(e=h({src:e,async:!0},t),(t=mf.get(i))&&zf(e,t),a=n.createElement(`script`),Et(a),Pd(a,`link`,e),n.head.appendChild(a)),a={type:`script`,instance:a,count:1,state:null},r.set(i,a))}}function Of(e,t){_f.M(e,t);var n=bf;if(n&&e){var r=Tt(n).hoistableScripts,i=Pf(e),a=r.get(i);a||(a=n.querySelector(Ff(i)),a||(e=h({src:e,async:!0,type:`module`},t),(t=mf.get(i))&&zf(e,t),a=n.createElement(`script`),Et(a),Pd(a,`link`,e),n.head.appendChild(a)),a={type:`script`,instance:a,count:1,state:null},r.set(i,a))}}function kf(e,t,n,r){var i=(i=A.current)?gf(i):null;if(!i)throw Error(s(446));switch(e){case`meta`:case`title`:return null;case`style`:return typeof n.precedence==`string`&&typeof n.href==`string`?(t=Af(n.href),n=Tt(i).hoistableStyles,r=n.get(t),r||(r={type:`style`,instance:null,count:0,state:null},n.set(t,r)),r):{type:`void`,instance:null,count:0,state:null};case`link`:if(n.rel===`stylesheet`&&typeof n.href==`string`&&typeof n.precedence==`string`){e=Af(n.href);var a=Tt(i).hoistableStyles,o=a.get(e);if(o||(i=i.ownerDocument||i,o={type:`stylesheet`,instance:null,count:0,state:{loading:0,preload:null}},a.set(e,o),(a=i.querySelector(jf(e)))&&!a._p&&(o.instance=a,o.state.loading=5),mf.has(e)||(n={rel:`preload`,as:`style`,href:n.href,crossOrigin:n.crossOrigin,integrity:n.integrity,media:n.media,hrefLang:n.hrefLang,referrerPolicy:n.referrerPolicy},mf.set(e,n),a||Nf(i,e,n,o.state))),t&&r===null)throw Error(s(528,``));return o}if(t&&r!==null)throw Error(s(529,``));return null;case`script`:return t=n.async,n=n.src,typeof n==`string`&&t&&typeof t!=`function`&&typeof t!=`symbol`?(t=Pf(n),n=Tt(i).hoistableScripts,r=n.get(t),r||(r={type:`script`,instance:null,count:0,state:null},n.set(t,r)),r):{type:`void`,instance:null,count:0,state:null};default:throw Error(s(444,e))}}function Af(e){return`href="`+Gt(e)+`"`}function jf(e){return`link[rel="stylesheet"][`+e+`]`}function Mf(e){return h({},e,{"data-precedence":e.precedence,precedence:null})}function Nf(e,t,n,r){e.querySelector(`link[rel="preload"][as="style"][`+t+`]`)?r.loading=1:(t=e.createElement(`link`),r.preload=t,t.addEventListener(`load`,function(){return r.loading|=1}),t.addEventListener(`error`,function(){return r.loading|=2}),Pd(t,`link`,n),Et(t),e.head.appendChild(t))}function Pf(e){return`[src="`+Gt(e)+`"]`}function Ff(e){return`script[async]`+e}function If(e,t,n){if(t.count++,t.instance===null)switch(t.type){case`style`:var r=e.querySelector(`style[data-href~="`+Gt(n.href)+`"]`);if(r)return t.instance=r,Et(r),r;var i=h({},n,{"data-href":n.href,"data-precedence":n.precedence,href:null,precedence:null});return r=(e.ownerDocument||e).createElement(`style`),Et(r),Pd(r,`style`,i),Lf(r,n.precedence,e),t.instance=r;case`stylesheet`:i=Af(n.href);var a=e.querySelector(jf(i));if(a)return t.state.loading|=4,t.instance=a,Et(a),a;r=Mf(n),(i=mf.get(i))&&Rf(r,i),a=(e.ownerDocument||e).createElement(`link`),Et(a);var o=a;return o._p=new Promise(function(e,t){o.onload=e,o.onerror=t}),Pd(a,`link`,r),t.state.loading|=4,Lf(a,n.precedence,e),t.instance=a;case`script`:return a=Pf(n.src),(i=e.querySelector(Ff(a)))?(t.instance=i,Et(i),i):(r=n,(i=mf.get(a))&&(r=h({},n),zf(r,i)),e=e.ownerDocument||e,i=e.createElement(`script`),Et(i),Pd(i,`link`,r),e.head.appendChild(i),t.instance=i);case`void`:return null;default:throw Error(s(443,t.type))}else t.type===`stylesheet`&&!(t.state.loading&4)&&(r=t.instance,t.state.loading|=4,Lf(r,n.precedence,e));return t.instance}function Lf(e,t,n){for(var r=n.querySelectorAll(`link[rel="stylesheet"][data-precedence],style[data-precedence]`),i=r.length?r[r.length-1]:null,a=i,o=0;o<r.length;o++){var s=r[o];if(s.dataset.precedence===t)a=s;else if(a!==i)break}a?a.parentNode.insertBefore(e,a.nextSibling):(t=n.nodeType===9?n.head:n,t.insertBefore(e,t.firstChild))}function Rf(e,t){e.crossOrigin??=t.crossOrigin,e.referrerPolicy??=t.referrerPolicy,e.title??=t.title}function zf(e,t){e.crossOrigin??=t.crossOrigin,e.referrerPolicy??=t.referrerPolicy,e.integrity??=t.integrity}var Bf=null;function Vf(e,t,n){if(Bf===null){var r=new Map,i=Bf=new Map;i.set(n,r)}else i=Bf,r=i.get(n),r||(r=new Map,i.set(n,r));if(r.has(e))return r;for(r.set(e,null),n=n.getElementsByTagName(e),i=0;i<n.length;i++){var a=n[i];if(!(a[bt]||a[pt]||e===`link`&&a.getAttribute(`rel`)===`stylesheet`)&&a.namespaceURI!==`http://www.w3.org/2000/svg`){var o=a.getAttribute(t)||``;o=e+o;var s=r.get(o);s?s.push(a):r.set(o,[a])}}return r}function Hf(e,t,n){e=e.ownerDocument||e,e.head.insertBefore(n,t===`title`?e.querySelector(`head > title`):null)}function Uf(e,t,n){if(n===1||t.itemProp!=null)return!1;switch(e){case`meta`:case`title`:return!0;case`style`:if(typeof t.precedence!=`string`||typeof t.href!=`string`||t.href===``)break;return!0;case`link`:if(typeof t.rel!=`string`||typeof t.href!=`string`||t.href===``||t.onLoad||t.onError)break;switch(t.rel){case`stylesheet`:return e=t.disabled,typeof t.precedence==`string`&&e==null;default:return!0}case`script`:if(t.async&&typeof t.async!=`function`&&typeof t.async!=`symbol`&&!t.onLoad&&!t.onError&&t.src&&typeof t.src==`string`)return!0}return!1}function Wf(e){return!(e.type===`stylesheet`&&!(e.state.loading&3))}function Gf(e,t,n,r){if(n.type===`stylesheet`&&(typeof r.media!=`string`||!1!==matchMedia(r.media).matches)&&!(n.state.loading&4)){if(n.instance===null){var i=Af(r.href),a=t.querySelector(jf(i));if(a){t=a._p,typeof t==`object`&&t&&typeof t.then==`function`&&(e.count++,e=Jf.bind(e),t.then(e,e)),n.state.loading|=4,n.instance=a,Et(a);return}a=t.ownerDocument||t,r=Mf(r),(i=mf.get(i))&&Rf(r,i),a=a.createElement(`link`),Et(a);var o=a;o._p=new Promise(function(e,t){o.onload=e,o.onerror=t}),Pd(a,`link`,r),n.instance=a}e.stylesheets===null&&(e.stylesheets=new Map),e.stylesheets.set(n,t),(t=n.state.preload)&&!(n.state.loading&3)&&(e.count++,n=Jf.bind(e),t.addEventListener(`load`,n),t.addEventListener(`error`,n))}}var Kf=0;function qf(e,t){return e.stylesheets&&e.count===0&&Xf(e,e.stylesheets),0<e.count||0<e.imgCount?function(n){var r=setTimeout(function(){if(e.stylesheets&&Xf(e,e.stylesheets),e.unsuspend){var t=e.unsuspend;e.unsuspend=null,t()}},6e4+t);0<e.imgBytes&&Kf===0&&(Kf=62500*Ld());var i=setTimeout(function(){if(e.waitingForImages=!1,e.count===0&&(e.stylesheets&&Xf(e,e.stylesheets),e.unsuspend)){var t=e.unsuspend;e.unsuspend=null,t()}},(e.imgBytes>Kf?50:800)+t);return e.unsuspend=n,function(){e.unsuspend=null,clearTimeout(r),clearTimeout(i)}}:null}function Jf(){if(this.count--,this.count===0&&(this.imgCount===0||!this.waitingForImages)){if(this.stylesheets)Xf(this,this.stylesheets);else if(this.unsuspend){var e=this.unsuspend;this.unsuspend=null,e()}}}var Yf=null;function Xf(e,t){e.stylesheets=null,e.unsuspend!==null&&(e.count++,Yf=new Map,t.forEach(Zf,e),Yf=null,Jf.call(e))}function Zf(e,t){if(!(t.state.loading&4)){var n=Yf.get(e);if(n)var r=n.get(null);else{n=new Map,Yf.set(e,n);for(var i=e.querySelectorAll(`link[data-precedence],style[data-precedence]`),a=0;a<i.length;a++){var o=i[a];(o.nodeName===`LINK`||o.getAttribute(`media`)!==`not all`)&&(n.set(o.dataset.precedence,o),r=o)}r&&n.set(null,r)}i=t.instance,o=i.getAttribute(`data-precedence`),a=n.get(o)||r,a===r&&n.set(null,i),n.set(o,i),this.count++,r=Jf.bind(this),i.addEventListener(`load`,r),i.addEventListener(`error`,r),a?a.parentNode.insertBefore(i,a.nextSibling):(e=e.nodeType===9?e.head:e,e.insertBefore(i,e.firstChild)),t.state.loading|=4}}var Qf={$$typeof:S,Provider:null,Consumer:null,_currentValue:ue,_currentValue2:ue,_threadCount:0};function $f(e,t,n,r,i,a,o,s,c){this.tag=1,this.containerInfo=e,this.pingCache=this.current=this.pendingChildren=null,this.timeoutHandle=-1,this.callbackNode=this.next=this.pendingContext=this.context=this.cancelPendingCommit=null,this.callbackPriority=0,this.expirationTimes=nt(-1),this.entangledLanes=this.shellSuspendCounter=this.errorRecoveryDisabledLanes=this.expiredLanes=this.warmLanes=this.pingedLanes=this.suspendedLanes=this.pendingLanes=0,this.entanglements=nt(0),this.hiddenUpdates=nt(null),this.identifierPrefix=r,this.onUncaughtError=i,this.onCaughtError=a,this.onRecoverableError=o,this.pooledCache=null,this.pooledCacheLanes=0,this.formState=c,this.incompleteTransitions=new Map}function ep(e,t,n,r,i,a,o,s,c,l,u,d){return e=new $f(e,t,n,o,c,l,u,d,s),t=1,!0===a&&(t|=24),a=hi(3,null,null,t),e.current=a,a.stateNode=e,t=pa(),t.refCount++,e.pooledCache=t,t.refCount++,a.memoizedState={element:r,isDehydrated:n,cache:t},Ka(a),e}function tp(e){return e?(e=pi,e):pi}function np(e,t,n,r,i,a){i=tp(i),r.context===null?r.context=i:r.pendingContext=i,r=Ja(t),r.payload={element:n},a=a===void 0?null:a,a!==null&&(r.callback=a),n=Ya(e,r,t),n!==null&&(hu(n,e,t),Xa(n,e,t))}function rp(e,t){if(e=e.memoizedState,e!==null&&e.dehydrated!==null){var n=e.retryLane;e.retryLane=n!==0&&n<t?n:t}}function ip(e,t){rp(e,t),(e=e.alternate)&&rp(e,t)}function ap(e){if(e.tag===13||e.tag===31){var t=ui(e,67108864);t!==null&&hu(t,e,67108864),ip(e,67108864)}}function op(e){if(e.tag===13||e.tag===31){var t=pu();t=ct(t);var n=ui(e,t);n!==null&&hu(n,e,t),ip(e,t)}}var sp=!0;function cp(e,t,n,r){var i=E.T;E.T=null;var a=D.p;try{D.p=2,up(e,t,n,r)}finally{D.p=a,E.T=i}}function lp(e,t,n,r){var i=E.T;E.T=null;var a=D.p;try{D.p=8,up(e,t,n,r)}finally{D.p=a,E.T=i}}function up(e,t,n,r){if(sp){var i=dp(r);if(i===null)wd(e,t,r,fp,n),Cp(e,r);else if(Tp(i,e,t,n,r))r.stopPropagation();else if(Cp(e,r),t&4&&-1<Sp.indexOf(e)){for(;i!==null;){var a=Ct(i);if(a!==null)switch(a.tag){case 3:if(a=a.stateNode,a.current.memoizedState.isDehydrated){var o=Ze(a.pendingLanes);if(o!==0){var s=a;for(s.pendingLanes|=2,s.entangledLanes|=2;o;){var c=1<<31-We(o);s.entanglements[1]|=c,o&=~c}rd(a),!(G&6)&&(tu=Me()+500,id(0,!1))}}break;case 31:case 13:s=ui(a,2),s!==null&&hu(s,a,2),bu(),ip(a,2)}if(a=dp(r),a===null&&wd(e,t,r,fp,n),a===i)break;i=a}i!==null&&r.stopPropagation()}else wd(e,t,r,null,n)}}function dp(e){return e=ln(e),pp(e)}var fp=null;function pp(e){if(fp=null,e=St(e),e!==null){var t=l(e);if(t===null)e=null;else{var n=t.tag;if(n===13){if(e=u(t),e!==null)return e;e=null}else if(n===31){if(e=d(t),e!==null)return e;e=null}else if(n===3){if(t.stateNode.current.memoizedState.isDehydrated)return t.tag===3?t.stateNode.containerInfo:null;e=null}else t!==e&&(e=null)}}return fp=e,null}function mp(e){switch(e){case`beforetoggle`:case`cancel`:case`click`:case`close`:case`contextmenu`:case`copy`:case`cut`:case`auxclick`:case`dblclick`:case`dragend`:case`dragstart`:case`drop`:case`focusin`:case`focusout`:case`input`:case`invalid`:case`keydown`:case`keypress`:case`keyup`:case`mousedown`:case`mouseup`:case`paste`:case`pause`:case`play`:case`pointercancel`:case`pointerdown`:case`pointerup`:case`ratechange`:case`reset`:case`resize`:case`seeked`:case`submit`:case`toggle`:case`touchcancel`:case`touchend`:case`touchstart`:case`volumechange`:case`change`:case`selectionchange`:case`textInput`:case`compositionstart`:case`compositionend`:case`compositionupdate`:case`beforeblur`:case`afterblur`:case`beforeinput`:case`blur`:case`fullscreenchange`:case`focus`:case`hashchange`:case`popstate`:case`select`:case`selectstart`:return 2;case`drag`:case`dragenter`:case`dragexit`:case`dragleave`:case`dragover`:case`mousemove`:case`mouseout`:case`mouseover`:case`pointermove`:case`pointerout`:case`pointerover`:case`scroll`:case`touchmove`:case`wheel`:case`mouseenter`:case`mouseleave`:case`pointerenter`:case`pointerleave`:return 8;case`message`:switch(Ne()){case Pe:return 2;case Fe:return 8;case Ie:case Le:return 32;case Re:return 268435456;default:return 32}default:return 32}}var hp=!1,gp=null,_p=null,vp=null,yp=new Map,bp=new Map,xp=[],Sp=`mousedown mouseup touchcancel touchend touchstart auxclick dblclick pointercancel pointerdown pointerup dragend dragstart drop compositionend compositionstart keydown keypress keyup input textInput copy cut paste click change contextmenu reset`.split(` `);function Cp(e,t){switch(e){case`focusin`:case`focusout`:gp=null;break;case`dragenter`:case`dragleave`:_p=null;break;case`mouseover`:case`mouseout`:vp=null;break;case`pointerover`:case`pointerout`:yp.delete(t.pointerId);break;case`gotpointercapture`:case`lostpointercapture`:bp.delete(t.pointerId)}}function wp(e,t,n,r,i,a){return e===null||e.nativeEvent!==a?(e={blockedOn:t,domEventName:n,eventSystemFlags:r,nativeEvent:a,targetContainers:[i]},t!==null&&(t=Ct(t),t!==null&&ap(t)),e):(e.eventSystemFlags|=r,t=e.targetContainers,i!==null&&t.indexOf(i)===-1&&t.push(i),e)}function Tp(e,t,n,r,i){switch(t){case`focusin`:return gp=wp(gp,e,t,n,r,i),!0;case`dragenter`:return _p=wp(_p,e,t,n,r,i),!0;case`mouseover`:return vp=wp(vp,e,t,n,r,i),!0;case`pointerover`:var a=i.pointerId;return yp.set(a,wp(yp.get(a)||null,e,t,n,r,i)),!0;case`gotpointercapture`:return a=i.pointerId,bp.set(a,wp(bp.get(a)||null,e,t,n,r,i)),!0}return!1}function Ep(e){var t=St(e.target);if(t!==null){var n=l(t);if(n!==null){if(t=n.tag,t===13){if(t=u(n),t!==null){e.blockedOn=t,dt(e.priority,function(){op(n)});return}}else if(t===31){if(t=d(n),t!==null){e.blockedOn=t,dt(e.priority,function(){op(n)});return}}else if(t===3&&n.stateNode.current.memoizedState.isDehydrated){e.blockedOn=n.tag===3?n.stateNode.containerInfo:null;return}}}e.blockedOn=null}function Dp(e){if(e.blockedOn!==null)return!1;for(var t=e.targetContainers;0<t.length;){var n=dp(e.nativeEvent);if(n===null){n=e.nativeEvent;var r=new n.constructor(n.type,n);cn=r,n.target.dispatchEvent(r),cn=null}else return t=Ct(n),t!==null&&ap(t),e.blockedOn=n,!1;t.shift()}return!0}function Op(e,t,n){Dp(e)&&n.delete(t)}function kp(){hp=!1,gp!==null&&Dp(gp)&&(gp=null),_p!==null&&Dp(_p)&&(_p=null),vp!==null&&Dp(vp)&&(vp=null),yp.forEach(Op),bp.forEach(Op)}function Ap(e,n){e.blockedOn===n&&(e.blockedOn=null,hp||(hp=!0,t.unstable_scheduleCallback(t.unstable_NormalPriority,kp)))}var jp=null;function Mp(e){jp!==e&&(jp=e,t.unstable_scheduleCallback(t.unstable_NormalPriority,function(){jp===e&&(jp=null);for(var t=0;t<e.length;t+=3){var n=e[t],r=e[t+1],i=e[t+2];if(typeof r!=`function`){if(pp(r||n)===null)continue;break}var a=Ct(n);a!==null&&(e.splice(t,3),t-=3,Ds(a,{pending:!0,data:i,method:n.method,action:r},r,i))}}))}function Np(e){function t(t){return Ap(t,e)}gp!==null&&Ap(gp,e),_p!==null&&Ap(_p,e),vp!==null&&Ap(vp,e),yp.forEach(t),bp.forEach(t);for(var n=0;n<xp.length;n++){var r=xp[n];r.blockedOn===e&&(r.blockedOn=null)}for(;0<xp.length&&(n=xp[0],n.blockedOn===null);)Ep(n),n.blockedOn===null&&xp.shift();if(n=(e.ownerDocument||e).$$reactFormReplay,n!=null)for(r=0;r<n.length;r+=3){var i=n[r],a=n[r+1],o=i[mt]||null;if(typeof a==`function`)o||Mp(n);else if(o){var s=null;if(a&&a.hasAttribute(`formAction`)){if(i=a,o=a[mt]||null)s=o.formAction;else if(pp(i)!==null)continue}else s=o.action;typeof s==`function`?n[r+1]=s:(n.splice(r,3),r-=3),Mp(n)}}}function Pp(){function e(e){e.canIntercept&&e.info===`react-transition`&&e.intercept({handler:function(){return new Promise(function(e){return i=e})},focusReset:`manual`,scroll:`manual`})}function t(){i!==null&&(i(),i=null),r||setTimeout(n,20)}function n(){if(!r&&!navigation.transition){var e=navigation.currentEntry;e&&e.url!=null&&navigation.navigate(e.url,{state:e.getState(),info:`react-transition`,history:`replace`})}}if(typeof navigation==`object`){var r=!1,i=null;return navigation.addEventListener(`navigate`,e),navigation.addEventListener(`navigatesuccess`,t),navigation.addEventListener(`navigateerror`,t),setTimeout(n,100),function(){r=!0,navigation.removeEventListener(`navigate`,e),navigation.removeEventListener(`navigatesuccess`,t),navigation.removeEventListener(`navigateerror`,t),i!==null&&(i(),i=null)}}}function Fp(e){this._internalRoot=e}Ip.prototype.render=Fp.prototype.render=function(e){var t=this._internalRoot;if(t===null)throw Error(s(409));var n=t.current;np(n,pu(),e,t,null,null)},Ip.prototype.unmount=Fp.prototype.unmount=function(){var e=this._internalRoot;if(e!==null){this._internalRoot=null;var t=e.containerInfo;np(e.current,2,null,e,null,null),bu(),t[ht]=null}};function Ip(e){this._internalRoot=e}Ip.prototype.unstable_scheduleHydration=function(e){if(e){var t=ut();e={blockedOn:null,target:e,priority:t};for(var n=0;n<xp.length&&t!==0&&t<xp[n].priority;n++);xp.splice(n,0,e),n===0&&Ep(e)}};var Lp=r.version;if(Lp!==`19.2.6`)throw Error(s(527,Lp,`19.2.6`));D.findDOMNode=function(e){var t=e._reactInternals;if(t===void 0)throw typeof e.render==`function`?Error(s(188)):(e=Object.keys(e).join(`,`),Error(s(268,e)));return e=p(t),e=e===null?null:m(e),e=e===null?null:e.stateNode,e};var Rp={bundleType:0,version:`19.2.6`,rendererPackageName:`react-dom`,currentDispatcherRef:E,reconcilerVersion:`19.2.6`};if(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__<`u`){var zp=__REACT_DEVTOOLS_GLOBAL_HOOK__;if(!zp.isDisabled&&zp.supportsFiber)try{Ve=zp.inject(Rp),He=zp}catch{}}e.createRoot=function(e,t){if(!c(e))throw Error(s(299));var n=!1,r=``,i=Xs,a=Zs,o=Qs;return t!=null&&(!0===t.unstable_strictMode&&(n=!0),t.identifierPrefix!==void 0&&(r=t.identifierPrefix),t.onUncaughtError!==void 0&&(i=t.onUncaughtError),t.onCaughtError!==void 0&&(a=t.onCaughtError),t.onRecoverableError!==void 0&&(o=t.onRecoverableError)),t=ep(e,1,!1,null,null,n,r,null,i,a,o,Pp),e[ht]=t.current,Sd(e),new Fp(t)}})),c=e(((e,t)=>{function n(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>`u`||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!=`function`))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(n)}catch(e){console.error(e)}}n(),t.exports=s()})),l=n(),u=c(),d=`[
   {
     "id": "J01",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
     "points": 10,
@@ -27,7 +27,7 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J02",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
     "points": 10,
@@ -45,7 +45,7 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J03",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
     "points": 10,
@@ -63,10 +63,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J04",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の友だちに「初めまして」と伝えたいとき、近い表現はどれでしょう？",
     "choices": [
       "你好",
@@ -81,10 +81,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J05",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
-    "points": 10,
+    "points": 20,
     "question": "台湾華語で「ごめんなさい」に近い表現はどれでしょう？",
     "choices": [
       "對不起",
@@ -99,10 +99,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J06",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の小学校は、基本的に何年間でしょう？",
     "choices": [
       "4年間",
@@ -117,10 +117,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J07",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 0,
+    "points": 30,
     "question": "台湾で、火事があった時などに消防を呼ぶ番号は何番でしょうか？",
     "choices": [
       "110",
@@ -135,10 +135,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J08",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "hard",
-    "points": 20,
+    "points": 30,
     "question": "台湾で使われる「注音符号」は、どの役割に近いでしょう？",
     "choices": [
       "タブレットなどで音量を表す記号",
@@ -153,10 +153,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J09",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾の学校で使われる「下課」は、どの意味に近いでしょう？",
     "choices": [
       "宿題を出す",
@@ -171,10 +171,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J10",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の学校で使われる「上課」は、どの意味に近いでしょう？",
     "choices": [
       "家に帰る",
@@ -189,10 +189,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J11",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾のレシート（発票）には、ある特徴があります。なんでしょうか？",
     "choices": [
       "レシートの上が「宝くじ（たからくじ）」になっている。",
@@ -207,7 +207,7 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J12",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "hard",
     "points": 20,
@@ -225,10 +225,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J13",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾には「TSMC」という日本のトヨタを超える超大企業があります(熊本に工場ができたことで有名です)。この会社は、何を作っている会社でしょうか？",
     "choices": [
       "空を飛んで荷物を運んだり、人を助けたりする「未来のAIドローン」",
@@ -243,10 +243,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J14",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
-    "points": 10,
+    "points": 30,
     "question": "台湾のお金の単位は正式には「新台湾ドル」と言います。では、台湾のお店などで現地の人が普段の会話で一番よく使っている「お金の数え方の単位」はどれでしょうか？",
     "choices": [
       "円",
@@ -261,10 +261,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J15",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾の「中秋節」に関係が深い食べ物として知られているものはどれでしょう？",
     "choices": [
       "粽子（ちまき）",
@@ -279,10 +279,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J16",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の漢字で「壁虎」と書く動物がいます。この動物はなんでしょうか？",
     "choices": [
       "クモ",
@@ -297,10 +297,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J17",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "hard",
-    "points": 20,
+    "points": 30,
     "question": "日本では、朝決まったゴミ置き場にゴミを置いておけば、ゴミ収集車が回収してくれます。では、台湾のゴミ収集の仕組みはどうなっているでしょうか？",
     "choices": [
       "ゴミ置き場はなく、夕方に音楽を鳴らしてやってくるゴミ収集車を待ち伏せし、自分で車にゴミを投げ込む。",
@@ -315,10 +315,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J18",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾にある高層ビル「台北101」の名前の「101」は、何を表しているでしょう？",
     "choices": [
       "台北市ができて101周年の時に建てられた",
@@ -333,10 +333,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J19",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の小学校で、昼食のあとに毎日必ずすることはどれでしょうか？",
     "choices": [
       "子どもたちの体力をつけるため15分間走る「ランニングの時間」",
@@ -351,10 +351,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "J20",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 10,
     "question": "台湾の友だちに「何の楽器を演奏しますか？」と聞きたいとき、使いやすい英語はどれでしょう？",
     "choices": [
       "What colour is your euphonium?",
@@ -369,10 +369,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C01",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "石橋小學的校歌第一段裡，同一個詞彙重複出現多次。這個詞的意思是什麼？「滿出來的歌聲是〇〇〇〇〇」",
     "choices": [
       "讓心平靜下來",
@@ -387,10 +387,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C02",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "石橋小學六年級有一個叫「臨海學舍」的活動。這是怎麼樣的活動呢？",
     "choices": [
       "在海裡全員一直游800公尺等長距離",
@@ -398,17 +398,17 @@ Error generating stack: `+e.message+`
       "關於海洋環境與生物的特別授課",
       "去靠近海邊的學校上誦"
     ],
-    "answerIndex": 3,
+    "answerIndex": 0,
     "explanation": "臨海学舎は、海の近くの施設に泊まり込みで行く行事です。石橋小学校では、海で長距離を泳ぐことを目標に活動します。",
     "translationText": "石橋小学校には６年生で「臨海学舎」というイベントがあります。このイベントはどのようなイベントでしょうか。\\nA. 海で全員が800mなどの長距離をひたすら泳ぐ\\nB. 船で海に出て、みんなで魚を釣り、その魚を調理して食べる。\\nC. 海の環境や生物に関する勉強を行う特別授業\\nD. 海に近い学校に行き、授業を受ける",
     "translationExplanation": "臨海學舍是前往海邊附近的設施進行住宿型的活動。石橋小學以「在海中游長距離」為目標進行活動。"
   },
   {
     "id": "C03",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "在日本，吃給食之前會說「いただきます」。這句話的意思是什麼？",
     "choices": [
       "去山裡拿取蒙受生命、以及對製作人的感謝之意",
@@ -423,10 +423,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C04",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "日本學校最長的假期，是從几月到几月呢？",
     "choices": [
       "1月到2月",
@@ -441,10 +441,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C05",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "石橋小學的中庭裡，有一個用土堆起來的建築物。這是用來做什麼的？",
     "choices": [
       "大家一起吃便當的地方",
@@ -459,10 +459,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C06",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "日本有一套叫「收音機體操（ラジオ体操）」的運動。這個體操的最後一個動作是什麼？",
     "choices": [
       "擺出姿勢",
@@ -477,10 +477,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C07",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "從前從前，在某個地方住著一對老爷爷和老奶奶。有一天老爷爷上山去〇〇，老奶奶去河邊洗衣服。請問老爷爷是去做什麼？（日本人都知道！）",
     "choices": [
       "修行瀑布修行",
@@ -488,17 +488,17 @@ Error generating stack: `+e.message+`
       "採蘑菇",
       "去刈柴"
     ],
-    "answerIndex": 2,
+    "answerIndex": 3,
     "explanation": "「桃太郎」や「かぐや姫」など、昔話の出だしとして有名な「おじいさんは山へ柴刈りに、おばあさんは川へ洗濯に」というフレーズです。柴（しば）とは火を焼くための小さな枝のことです。",
     "translationText": "昔々あるところに、おじいさんとおばあさんが住んでいました。ある日おじいさんは山へ〇〇へ、おばあさんは川へ洗濯へ行きました。さて、おじいさんはどこへ行った？（日本人なら知っています）\\nA. 滝修行\\nB. 熊退治\\nC. きのこを取りに\\nD. 柴刈り(しばかり)に",
     "translationExplanation": "「桃太郎」、「輝夜姫」等日本古老故事的開場白裡有名的一句是「老爷爷上山砍柴，老奶奶去河邊洗衣服」。柴（しば）是指炸火用的小枝。"
   },
   {
     "id": "C08",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "音樂專科、同時也是吹奏樂社顧問的井上老師，在家使用的柔軟精是哪一個？",
     "choices": [
       "金紡",
@@ -513,10 +513,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C09",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級3班導師遠藤老師的出身地是哪裡？",
     "choices": [
       "福島縣",
@@ -531,10 +531,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C10",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "英語專科的松尾老師，去年為止以專科身份負責的是哪一門科目？",
     "choices": [
       "英語",
@@ -549,10 +549,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C11",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級4班導師壁谷老師學生時則所做的運動是以下哪一項？",
     "choices": [
       "棒球",
@@ -560,35 +560,35 @@ Error generating stack: `+e.message+`
       "躲避球",
       "羽毛球"
     ],
-    "answerIndex": 2,
+    "answerIndex": 1,
     "explanation": "6年4組の壁谷先生は、学生の頃「バレーボール」をしていました。",
     "translationText": "6年4組の壁谷先生が学生の頃していたスポーツは次のうちどれでしょう？\\nA. 野球\\nB. バレーボール\\nC. ドッジボール\\nD. バドミントン",
     "translationExplanation": "6年級4班的壁谷老師學生時代是打「排球」的。"
   },
   {
     "id": "C12",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級1班導師田中老師，在石橋小學當過多少次六年級的導師？",
     "choices": [
-      "2次",
+      "8次",
       "3次",
-      "5次",
+      "4次",
       "1次 今年是第一次"
     ],
-    "answerIndex": 3,
+    "answerIndex": 2,
     "explanation": "6年1組の田中先生は、石橋小学校でこれまで3回6年生を担任しています。しかも、その3回は連続で、すべて6年1組の担任です。",
-    "translationText": "6年1組の田中先生は、石橋小学校でこれまで何回6年生を担任しているでしょうか？\\nA. 2回\\nB. 3回\\nC. 5回\\nD. 1回 今年が初めて",
+    "translationText": "6年1組の田中先生は、石橋小学校でこれまで何回6年生を担任しているでしょうか？\\nA. 8回\\nB. 3回\\nC. 4回\\nD. 1回 今年が初めて",
     "translationExplanation": "6年級1班的田中老師在石橋小學至今担任過3次六年級。而且這三次是連續的，全都是6年級1班的導師。"
   },
   {
     "id": "C13",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級2班導師大江老師最喜歡的角色是以下哪一個？",
     "choices": [
       "脈脈（ミャクミャク、2025年万國博覽會的名險人物）",
@@ -603,10 +603,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C14",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "日本有一道菜叫「きつねうどん（狐狸烏龍麵）」。這道菜的特色是什麼？",
     "choices": [
       "裡面加了用甜辣醒燉的狐狸肉",
@@ -621,10 +621,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C15",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "在日本，發生事故或事件時，報警要撥哪個號碼？",
     "choices": [
       "110",
@@ -639,10 +639,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C16",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "2025年日本舉辦世博。主辦城市是哪裡？",
     "choices": [
       "東京",
@@ -657,10 +657,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C17",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "日本有一道菜叫「ひやしちゅうか」（冷中華）。這是什麼樣的料理？",
     "choices": [
       "其實是指杏仁豆腐",
@@ -675,10 +675,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C18",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "以下哪一項不是日本的飲食文化？",
     "choices": [
       "生吃馬肉",
@@ -693,10 +693,10 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C19",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "以下哪一項不是日本過年的習俗（文化）？",
     "choices": [
       "去神社或寺廟參拜，祈求新的一年平安順利",
@@ -711,7 +711,7 @@ Error generating stack: `+e.message+`
   },
   {
     "id": "C20",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
     "points": 10,
@@ -726,78 +726,6 @@ Error generating stack: `+e.message+`
     "explanation": "日本の学校は「４月」から始まります。桜の花が咲く頃に入学式や始業式が行われます。",
     "translationText": "日本の学校(学年)が始まるのは、何月ですか？\\nA. 9月\\nB. 1月\\nC. 3月\\nD. 4月",
     "translationExplanation": "日本的學校是從「4月」開始。樱花盛開時，就會舉行入學典禮與開學典禮。"
-  },
-  {
-    "id": "J21",
-    "side": "Japan",
-    "language": "ja",
-    "difficulty": "easy",
-    "points": 10,
-    "question": "台湾の行政・交通の中心として知られる都市はどこですか？",
-    "choices": [
-      "台北",
-      "台南",
-      "台中",
-      "高雄"
-    ],
-    "answerIndex": 0,
-    "explanation": "台北は台湾北部にあり、行政機関や交通網が集まる中心都市です。",
-    "translationText": "哪一個城市被稱為台灣的行政與交通中心？\\nA. 台北\\nB. 台南\\nC. 台中\\nD. 高雄",
-    "translationExplanation": "台北位於台灣北部，是行政機關與交通網路集中的中心都市。"
-  },
-  {
-    "id": "J22",
-    "side": "Japan",
-    "language": "ja",
-    "difficulty": "normal",
-    "points": 15,
-    "question": "台湾で広く使われているIC交通カードの名前として正しいものはどれですか？",
-    "choices": [
-      "Octopus",
-      "T-money",
-      "Suica",
-      "悠遊カード"
-    ],
-    "answerIndex": 3,
-    "explanation": "悠遊カードは台湾の公共交通や買い物で使える代表的なICカードです。",
-    "translationText": "以下哪一個是在台灣廣泛使用的IC交通卡名稱？\\nA. Octopus\\nB. T-money\\nC. Suica\\nD. 悠遊卡",
-    "translationExplanation": "悠遊卡是可用於台灣大眾運輸與購物的代表性IC卡。"
-  },
-  {
-    "id": "C21",
-    "side": "Culture",
-    "language": "zh-Hant",
-    "difficulty": "easy",
-    "points": 10,
-    "question": "在日本的小學，學生中午常常一起吃的學校餐叫做什麼？",
-    "choices": [
-      "早餐店",
-      "夜市",
-      "學校午餐",
-      "茶會"
-    ],
-    "answerIndex": 2,
-    "explanation": "在日本，很多小學會讓學生一起吃學校午餐，這也是學校生活的一部分。",
-    "translationText": "日本の小学校で、児童が昼に一緒に食べる学校の食事を何と呼びますか？\\nA. 朝食店\\nB. 夜市\\nC. 学校給食\\nD. 茶会",
-    "translationExplanation": "日本では、多くの小学校で生徒が一緒に給食を食べ、これも学校生活の一部となっています。"
-  },
-  {
-    "id": "C22",
-    "side": "Culture",
-    "language": "zh-Hant",
-    "difficulty": "normal",
-    "points": 15,
-    "question": "台灣常見的飲料「珍珠奶茶」裡面通常有什麼？",
-    "choices": [
-      "玉米",
-      "紅豆",
-      "冰淇淋",
-      "粉圓"
-    ],
-    "answerIndex": 3,
-    "explanation": "珍珠奶茶通常會加入粉圓，也就是日本常說的タピオカ。",
-    "translationText": "台湾でよく見られる飲み物「珍珠奶茶」には、ふつう何が入っていますか？\\nA. とうもろこし\\nB. あずき\\nC. アイスクリーム\\nD. タピオカ",
-    "translationExplanation": "タピオカミルクティーには通常タピオカ（台湾語で「粉圓」）が入っています。"
   }
 ]
 `,f=`taiwan-exchange-rally:v1`;function p(e,t=20){return{teamName:``,totalScore:0,answerHistory:[],answeredQuestionIds:[],questionSetSignature:e,translationKeysRemaining:3,translationKeysUsedQuestionIds:[],claimedTreasureIds:[],timerStartedAt:null,timeLimitMinutes:t}}function m(e){if(!_())return p(e);try{let t=window.localStorage.getItem(f);if(!t)return p(e);let n=JSON.parse(t);if(n.questionSetSignature!==e)return p(e);let r=Array.isArray(n.answerHistory)?x(n.answerHistory.filter(S)):[],i=Array.isArray(n.translationKeysUsedQuestionIds)?y(n.translationKeysUsedQuestionIds):[],a=Array.isArray(n.claimedTreasureIds)?y(n.claimedTreasureIds):[],o=typeof n.timeLimitMinutes==`number`&&Number.isFinite(n.timeLimitMinutes)&&n.timeLimitMinutes>0?n.timeLimitMinutes:20;return{teamName:typeof n.teamName==`string`?n.teamName:``,totalScore:r.reduce((e,t)=>e+t.pointsEarned,0),answerHistory:r,answeredQuestionIds:v(r),questionSetSignature:e,translationKeysRemaining:b(i,a),translationKeysUsedQuestionIds:i,claimedTreasureIds:a,timerStartedAt:typeof n.timerStartedAt==`string`?n.timerStartedAt:null,timeLimitMinutes:o}}catch{return p(e)}}function h(e){if(!_())return!1;try{return window.localStorage.setItem(f,JSON.stringify(e)),!0}catch{return!1}}function g(){if(!_())return!1;try{return window.localStorage.removeItem(f),!0}catch{return!1}}function _(){if(typeof window>`u`)return!1;try{return window.localStorage!==void 0}catch{return!1}}function v(e){return Array.from(new Set(e.map(e=>e.questionId)))}function y(e){return Array.from(new Set(e.filter(ee)))}function b(e,t){return Math.max(0,3+t.length-e.length)}function x(e){let t=new Set,n=[];for(let r of e)t.has(r.questionId)||(t.add(r.questionId),n.push(r));return n}function ee(e){return typeof e==`string`}function S(e){if(!e||typeof e!=`object`)return!1;let t=e;return typeof t.questionId==`string`&&typeof t.selectedIndex==`number`&&typeof t.correctIndex==`number`&&typeof t.isCorrect==`boolean`&&typeof t.pointsEarned==`number`&&typeof t.answeredAt==`string`&&typeof t.question==`string`&&typeof t.choice==`string`&&typeof t.correctChoice==`string`&&typeof t.explanation==`string`&&(t.translationExplanation===void 0||typeof t.translationExplanation==`string`)}var C=`taiwan-rally-2026`;function w(e){let t=new Map;for(let n of e){let e=te(n.id),r=2;for(;t.has(e)&&t.get(e)!==n.id;)e=`${te(n.id)}${r}`,r+=1;t.set(e,n.id)}return t}function te(e){let t=2166136261,n=`${C}:${e.trim().toUpperCase()}`;for(let e=0;e<n.length;e+=1)t^=n.charCodeAt(e),t=Math.imul(t,16777619);return`r${(t>>>0).toString(36).padStart(7,`0`)}`}var ne=e((e=>{var t=Symbol.for(`react.transitional.element`),n=Symbol.for(`react.fragment`);function r(e,n,r){var i=null;if(r!==void 0&&(i=``+r),n.key!==void 0&&(i=``+n.key),`key`in n)for(var a in r={},n)a!==`key`&&(r[a]=n[a]);else r=n;return n=r.ref,{$$typeof:t,type:e,key:i,ref:n===void 0?null:n,props:r}}e.Fragment=n,e.jsx=r,e.jsxs=r})),T=e(((e,t)=>{t.exports=ne()}))(),re=`Japan–Taiwan School Discovery Rally`,ie=`台湾交流会 校内QRクイズラリー / 臺灣交流會 校園QR問答闖關`,ae=`この端末では保存に失敗しました。先生に知らせてください。／此裝置儲存失敗，請告訴老師。`,oe=`翻訳の鍵はもう残っていません。／翻譯鑰匙已經用完了。`,se=20,ce=300*1e3,le=JSON.parse(d),E=new Map(le.map(e=>[e.id,e])),D=w(le),ue=be(d),de=[{id:`T01`},{id:`T02`}],fe=de.map(e=>e.id),pe=w(de),O=`/taiwan-exchange-rally/`,k=`__unknown_question__:`,me=`__unknown_treasure__:`;function he(e){return`${O}${e.replace(/^\//,``)}`}function A({ja:e,zh:t}){return(0,T.jsxs)(`span`,{className:`bilingual-text`,children:[(0,T.jsx)(`span`,{children:e}),(0,T.jsx)(`span`,{className:`zh-line`,children:t})]})}function ge({text:e}){let{bodyLines:t,choiceLines:n}=_e(e);return(0,T.jsxs)(`div`,{className:`translation-content`,children:[t.map(e=>(0,T.jsx)(`p`,{children:e},e)),n.length>0&&(0,T.jsx)(`ul`,{className:`translation-choice-list`,children:n.map(e=>(0,T.jsxs)(`li`,{children:[(0,T.jsxs)(`span`,{children:[e.label,`.`]}),(0,T.jsx)(`strong`,{children:e.text})]},`${e.label}-${e.text}`))})]})}function _e(e){let t=[],n=[];for(let r of e.split(/\r?\n/)){let e=r.trim();if(!e)continue;let i=/^([A-D])[\u002e\uff0e]\s*(.+)$/i.exec(e);if(i){n.push({label:i[1].toUpperCase(),text:i[2]});continue}t.push(e)}return{bodyLines:t,choiceLines:n}}function ve(e){let t=Math.max(0,Math.ceil(e/1e3));return`${Math.floor(t/60)}:${(t%60).toString().padStart(2,`0`)}`}function ye(e){let t=Number(e);return!Number.isInteger(t)||t<5||t>120?null:t}function be(e){let t=2166136261;for(let n=0;n<e.length;n+=1)t^=e.charCodeAt(n),t=Math.imul(t,16777619);return`v1-${e.length}-${(t>>>0).toString(16)}`}function xe(){let e=new URLSearchParams(window.location.search).get(`q`)?.trim();if(!e)return null;let t=e.toUpperCase();return(E.has(t)?t:void 0)??D.get(e.toLowerCase())??`${k}${e}`}function Se(e){return e?.startsWith(k)?e.slice(21):e}function Ce(){let e=new URLSearchParams(window.location.search).get(`treasure`)?.trim();if(!e)return null;let t=e.toUpperCase();return(fe.includes(t)?t:void 0)??pe.get(e.toLowerCase())??`${me}${e}`}function we(){let e=new URL(window.location.href);e.searchParams.delete(`q`),e.searchParams.delete(`treasure`),window.history.replaceState(null,``,`${e.pathname}${e.search}${e.hash}`)}function Te(e){return fe.includes(e)}function Ee(e){return e?e.startsWith(me)?e.slice(21):e:`Unknown`}function De(e){return new Intl.DateTimeFormat(`ja-JP`,{month:`numeric`,day:`numeric`,hour:`2-digit`,minute:`2-digit`}).format(new Date(e))}function j(e){return e.reduce((e,t)=>e+t.pointsEarned,0)}function Oe(e){return Array.from(new Set(e.map(e=>e.questionId)))}function ke(e){return Array.from(new Set(e))}function Ae(e,t){return Math.max(0,3+t.length-e.length)}function je(e,t){let n=new Set,r=[];for(let i of[...e,...t])n.has(i.questionId)||(n.add(i.questionId),r.push(i));return r}function Me(e,t,n=e.translationKeysUsedQuestionIds,r=e.claimedTreasureIds){let i=ke(n),a=ke(r);return{...e,totalScore:j(t),answerHistory:t,answeredQuestionIds:Oe(t),questionSetSignature:ue,translationKeysRemaining:Ae(i,a),translationKeysUsedQuestionIds:i,claimedTreasureIds:a,timerStartedAt:e.timerStartedAt,timeLimitMinutes:e.timeLimitMinutes||se}}function Ne(e,t){return Me({...e,teamName:e.teamName||t.teamName,timerStartedAt:e.timerStartedAt||t.timerStartedAt,timeLimitMinutes:e.timeLimitMinutes||t.timeLimitMinutes||se},je(e.answerHistory,t.answerHistory),[...e.translationKeysUsedQuestionIds,...t.translationKeysUsedQuestionIds],[...e.claimedTreasureIds,...t.claimedTreasureIds])}function Pe(){let[e,t]=(0,l.useState)(()=>m(ue)),[n,r]=(0,l.useState)(e.teamName),[i,a]=(0,l.useState)(``),[o,s]=(0,l.useState)(``),[c,u]=(0,l.useState)(`home`),[d,f]=(0,l.useState)(()=>xe()),[_,v]=(0,l.useState)(()=>Ce()),[y,b]=(0,l.useState)(null),[x,ee]=(0,l.useState)(null),[S,C]=(0,l.useState)(null),[w,te]=(0,l.useState)(null),[ne,D]=(0,l.useState)(``),[de,fe]=(0,l.useState)(()=>Date.now()),[pe,O]=(0,l.useState)(!1),[k,me]=(0,l.useState)(()=>String(e.timeLimitMinutes||se)),[_e,be]=(0,l.useState)(``),j=d?E.get(d):void 0,Oe=_&&Te(_)?_:void 0,ke=Oe?x??(e.claimedTreasureIds.includes(Oe)?`already-claimed`:`pending`):`invalid`,Ae=(0,l.useMemo)(()=>j?e.answerHistory.find(e=>e.questionId===j.id):void 0,[j,e.answerHistory]),je=j?e.translationKeysUsedQuestionIds.includes(j.id):!1,Pe=j?.translationText?.trim()??``,Fe=Pe.length>0,Ie=Fe&&je,Le=e.teamName.trim().length>0,Re=e.timerStartedAt?Date.parse(e.timerStartedAt):NaN,ze=Number.isFinite(Re),Be=(e.timeLimitMinutes||se)*60*1e3,Ve=ze?Math.max(0,Re+Be-de):Be,He=Le&&ze&&Ve<=0,Ue=Le&&ze&&Ve>0&&Ve<=ce,We=!!j&&!Ae&&He,Ge=Le?c===`answer-result`&&w?`answer-result`:c===`result`?`result`:_?`treasure`:d?`question`:`home`:`start`,Ke=e.answerHistory.filter(e=>e.isCorrect).length,qe=(0,l.useCallback)(e=>{t(e);let n=h(e);return s(n?``:ae),n},[]);(0,l.useEffect)(()=>{let e=()=>{f(xe()),v(Ce()),b(null),ee(null),u(`home`),C(null),te(null),D(``)};return window.addEventListener(`popstate`,e),()=>window.removeEventListener(`popstate`,e)},[]),(0,l.useEffect)(()=>{let e=e=>{if(e.key!==null&&e.key!==`taiwan-exchange-rally:v1`)return;let n=m(ue);t(n),r(n.teamName),me(String(n.timeLimitMinutes||se)),s(``);let i=xe();te(n.answerHistory.find(e=>e.questionId===i)??null)};return window.addEventListener(`storage`,e),()=>window.removeEventListener(`storage`,e)},[]),(0,l.useEffect)(()=>{if(!Le||!e.timerStartedAt)return;let t=window.setInterval(()=>fe(Date.now()),1e3);return()=>window.clearInterval(t)},[Le,e.timerStartedAt]),(0,l.useEffect)(()=>{if(!Le||e.timerStartedAt)return;let n=window.setTimeout(()=>{let n=Ne(m(ue),e);if(n.timerStartedAt){t(n);return}qe({...n,timerStartedAt:new Date().toISOString(),timeLimitMinutes:n.timeLimitMinutes||se})},0);return()=>window.clearTimeout(n)},[Le,qe,e]),(0,l.useEffect)(()=>{if(!Le||!_||y===_)return;let n=window.setTimeout(()=>{if(!Te(_)){ee(`invalid`),b(_);return}let n=Ne(m(ue),e);if(n.claimedTreasureIds.includes(_)){t(n),r(n.teamName),s(``),ee(`already-claimed`),b(_);return}qe(Me(n,n.answerHistory,n.translationKeysUsedQuestionIds,[...n.claimedTreasureIds,_])),ee(`claimed`),b(_)},0);return()=>window.clearTimeout(n)},[Le,qe,y,e,_]);let Je=t=>{t.preventDefault();let i=n.trim();if(!i){a(`班名を入力してください。／請輸入隊名。`);return}let o=Ne(m(ue),e);qe({...o,teamName:i,timerStartedAt:o.timerStartedAt??new Date().toISOString(),timeLimitMinutes:o.timeLimitMinutes||se}),r(i),a(``),u(`home`)},Ye=()=>{we(),f(null),v(null),b(null),ee(null),u(`home`),C(null),te(null),D(``)};return(0,T.jsxs)(`main`,{className:`app-shell`,children:[o&&(0,T.jsx)(`p`,{className:`storage-warning`,role:`alert`,children:o}),Ge===`start`&&(0,T.jsxs)(`section`,{className:`start-screen`,"aria-labelledby":`start-title`,children:[(0,T.jsxs)(`div`,{className:`hero-copy`,children:[(0,T.jsx)(`p`,{className:`eyebrow`,children:ie}),(0,T.jsx)(`h1`,{id:`start-title`,children:re}),(0,T.jsx)(`p`,{className:`lead`,children:(0,T.jsx)(A,{ja:`班名を入力して、校内のQRポイントを回りながらクイズに挑戦します。`,zh:`請輸入隊名，掃描校園裡的QR點，挑戰問答闖關。`})}),(0,T.jsxs)(`div`,{className:`hero-assets`,"aria-hidden":`true`,children:[(0,T.jsx)(`img`,{src:he(`assets/noto-emoji/cherry-blossom.svg`),alt:``}),(0,T.jsx)(`img`,{src:he(`assets/noto-emoji/school.svg`),alt:``}),(0,T.jsx)(`img`,{src:he(`assets/noto-emoji/sparkles.svg`),alt:``})]})]}),(0,T.jsxs)(`form`,{className:`start-form`,onSubmit:Je,children:[(0,T.jsx)(`label`,{htmlFor:`team-name`,children:(0,T.jsx)(A,{ja:`班名`,zh:`隊名`})}),(0,T.jsx)(`input`,{id:`team-name`,type:`text`,value:n,onChange:e=>r(e.target.value),placeholder:`例: 3班 / 例如: 第3隊`,autoComplete:`off`}),i&&(0,T.jsx)(`p`,{className:`form-error`,children:i}),(0,T.jsx)(`button`,{type:`submit`,className:`primary-button`,children:(0,T.jsx)(A,{ja:`Start`,zh:`開始`})})]}),(0,T.jsxs)(`section`,{className:`time-settings`,children:[(0,T.jsx)(`button`,{type:`button`,className:`secondary-button time-settings-toggle`,onClick:()=>{O(e=>!e),be(``)},children:(0,T.jsx)(A,{ja:`時間設定（現在: ${e.timeLimitMinutes||se}分）`,zh:`時間設定（目前: ${e.timeLimitMinutes||se}分鐘）`})}),pe&&(0,T.jsxs)(`div`,{className:`time-settings-panel`,children:[(0,T.jsxs)(`div`,{children:[(0,T.jsx)(`h2`,{children:(0,T.jsx)(A,{ja:`制限時間設定`,zh:`時間限制設定`})}),(0,T.jsx)(`p`,{children:(0,T.jsx)(A,{ja:`授業時間に合わせて、Start前にこの端末の制限時間を変更できます。`,zh:`可以依照課程時間，在開始前調整這台裝置的時間限制。`})})]}),(0,T.jsx)(`label`,{htmlFor:`time-limit-minutes`,children:(0,T.jsx)(A,{ja:`制限時間（分）`,zh:`時間限制（分鐘）`})}),(0,T.jsx)(`input`,{id:`time-limit-minutes`,type:`number`,min:`5`,max:`120`,step:`1`,value:k,onChange:e=>{me(e.target.value),be(``)}}),(0,T.jsx)(`div`,{className:`quick-time-buttons`,"aria-label":`時間候補`,children:[15,20,30,40].map(e=>(0,T.jsx)(`button`,{type:`button`,className:`secondary-button`,onClick:()=>{me(String(e)),be(``)},children:(0,T.jsx)(A,{ja:`${e}分`,zh:`${e}分鐘`})},e))}),(0,T.jsx)(`button`,{type:`button`,className:`primary-button`,onClick:()=>{let t=ye(k);if(t===null){be(`5〜120分の整数で入力してください。／請輸入5到120分鐘的整數。`);return}let n=Ne(m(ue),e);qe({...n,timeLimitMinutes:t,timerStartedAt:n.teamName?n.timerStartedAt:null}),me(String(t)),be(`制限時間を${t}分にしました。／時間限制已設定為${t}分鐘。`)},children:(0,T.jsx)(A,{ja:`時間を保存`,zh:`儲存時間`})}),_e&&(0,T.jsx)(`p`,{className:`time-settings-message`,children:_e})]})]})]}),Ge===`home`&&(0,T.jsxs)(`section`,{className:`home-screen`,"aria-labelledby":`home-title`,children:[(0,T.jsxs)(`div`,{className:`top-bar home-hero`,children:[(0,T.jsxs)(`div`,{children:[(0,T.jsx)(`p`,{className:`eyebrow`,children:ie}),(0,T.jsx)(`h1`,{id:`home-title`,children:re}),(0,T.jsx)(`p`,{className:`team-name-label`,children:e.teamName})]}),(0,T.jsxs)(`div`,{className:`home-assets`,"aria-hidden":`true`,children:[(0,T.jsx)(`img`,{src:he(`assets/noto-emoji/cherry-blossom.svg`),alt:``}),(0,T.jsx)(`img`,{src:he(`assets/noto-emoji/school.svg`),alt:``})]}),(0,T.jsx)(`button`,{type:`button`,className:`secondary-button`,onClick:()=>u(`result`),children:(0,T.jsx)(A,{ja:`Result`,zh:`結果`})})]}),(0,T.jsxs)(`div`,{className:`score-band`,"aria-label":`現在の成績`,children:[(0,T.jsxs)(`div`,{children:[(0,T.jsx)(`span`,{children:(0,T.jsx)(A,{ja:`合計点`,zh:`總分`})}),(0,T.jsx)(`strong`,{children:e.totalScore})]}),(0,T.jsxs)(`div`,{children:[(0,T.jsx)(`span`,{children:(0,T.jsx)(A,{ja:`回答済み`,zh:`已作答`})}),(0,T.jsxs)(`strong`,{children:[e.answeredQuestionIds.length,`/`,le.length]})]}),(0,T.jsxs)(`div`,{children:[(0,T.jsx)(`span`,{children:(0,T.jsx)(A,{ja:`翻訳の鍵`,zh:`翻譯鑰匙`})}),(0,T.jsx)(`strong`,{children:(0,T.jsx)(A,{ja:`残り: ${e.translationKeysRemaining}`,zh:`剩下: ${e.translationKeysRemaining}`})})]})]}),(0,T.jsxs)(`section`,{className:Ue||He?`timer-panel urgent`:`timer-panel`,"aria-live":`polite`,children:[(0,T.jsxs)(`div`,{children:[(0,T.jsx)(`p`,{className:`eyebrow`,children:(0,T.jsx)(A,{ja:`制限時間`,zh:`時間限制`})}),(0,T.jsx)(`strong`,{children:ve(Ve)})]}),(0,T.jsx)(`p`,{children:He?(0,T.jsx)(A,{ja:`時間終了です。新しい問題には回答できません。`,zh:`時間已到，不能回答新的題目。`}):Ue?(0,T.jsx)(A,{ja:`残り5分を切りました。急いで集合場所へ戻りましょう。`,zh:`剩下不到5分鐘。請盡快回到集合地點。`}):(0,T.jsx)(A,{ja:`タイマーはStart時に始まります。`,zh:`計時器會從開始時啟動。`})})]}),(0,T.jsxs)(`section`,{className:`info-grid`,"aria-label":`ラリー案内`,children:[(0,T.jsxs)(`article`,{children:[(0,T.jsx)(`span`,{className:`card-icon`,"aria-hidden":`true`,children:`QR`}),(0,T.jsx)(`h2`,{children:(0,T.jsx)(A,{ja:`QR案内`,zh:`QR說明`})}),(0,T.jsx)(`p`,{children:(0,T.jsx)(A,{ja:`iPadの標準カメラでQRコードを読み取り、Safariで開いてください。画面に表示された問題を選んで回答します。`,zh:`請用iPad內建相機掃描QR碼，並用Safari開啟。看畫面上的題目後選擇答案。`})})]}),(0,T.jsxs)(`article`,{className:`safety-card`,children:[(0,T.jsx)(`span`,{className:`card-icon image-icon`,"aria-hidden":`true`,children:(0,T.jsx)(`img`,{src:he(`assets/noto-emoji/sparkles.svg`),alt:``})}),(0,T.jsx)(`h2`,{children:(0,T.jsx)(A,{ja:`安全注意`,zh:`安全提醒`})}),(0,T.jsx)(`p`,{children:(0,T.jsx)(A,{ja:`廊下では走らず、周りを見ながら移動してください。QRポイントの前では立ち止まり、通行のじゃまにならない場所で操作します。`,zh:`走廊上不要奔跑，移動時請注意周圍。在QR點前請停下來，站在不妨礙通行的地方操作。`})})]})]})]}),Ge===`question`&&(0,T.jsxs)(`section`,{className:`question-screen`,"aria-labelledby":`question-title`,children:[(0,T.jsxs)(`div`,{className:`top-bar`,children:[(0,T.jsxs)(`div`,{children:[(0,T.jsx)(`p`,{className:`eyebrow`,children:e.teamName}),(0,T.jsx)(`h1`,{id:`question-title`,children:(0,T.jsx)(A,{ja:`Question`,zh:`題目`})})]}),(0,T.jsx)(`button`,{type:`button`,className:`secondary-button`,onClick:Ye,children:(0,T.jsx)(A,{ja:`Home`,zh:`首頁`})})]}),!j&&(0,T.jsxs)(`section`,{className:`notice-panel`,children:[(0,T.jsx)(`h2`,{children:(0,T.jsx)(A,{ja:`問題が見つかりません`,zh:`找不到題目`})}),(0,T.jsx)(`p`,{children:(0,T.jsx)(A,{ja:`URLの問題ID「${Se(d)}」に対応する問題データがありません。`,zh:`沒有找到URL題目ID「${Se(d)}」的題目資料。`})})]}),j&&We&&(0,T.jsxs)(`section`,{className:`notice-panel time-up-panel`,children:[(0,T.jsx)(`h2`,{children:(0,T.jsx)(A,{ja:`時間終了`,zh:`時間已到`})}),(0,T.jsx)(`p`,{children:(0,T.jsx)(A,{ja:`制限時間が終了したため、新しい問題には回答できません。Homeに戻ってResultを確認してください。`,zh:`因為時間已到，不能回答新的題目。請回到首頁查看結果。`})}),(0,T.jsx)(`button`,{type:`button`,className:`primary-button`,onClick:Ye,children:(0,T.jsx)(A,{ja:`Homeへ戻る`,zh:`回首頁`})})]}),j&&!We&&(0,T.jsxs)(T.Fragment,{children:[(0,T.jsxs)(`section`,{className:`question-meta`,"aria-label":`問題情報`,children:[(0,T.jsx)(`span`,{children:j.id}),(0,T.jsx)(`span`,{children:j.side}),(0,T.jsx)(`span`,{children:j.language}),(0,T.jsx)(`span`,{children:j.difficulty}),(0,T.jsxs)(`span`,{children:[j.points,`点`]})]}),(0,T.jsxs)(`section`,{className:`question-panel`,children:[(0,T.jsx)(`p`,{className:`question-text`,children:j.question}),(0,T.jsx)(`div`,{className:`choices`,role:`radiogroup`,"aria-label":`選択肢`,children:j.choices.map((e,t)=>(0,T.jsxs)(`label`,{className:S===t?`choice selected`:`choice`,children:[(0,T.jsx)(`input`,{type:`radio`,name:`choice`,value:t,checked:S===t,disabled:!!Ae,onChange:()=>C(t)}),(0,T.jsx)(`span`,{children:e})]},`${j.id}-${t}`))}),(0,T.jsx)(`button`,{type:`button`,className:`primary-button`,disabled:S===null||!!Ae,onClick:()=>{if(!j||S===null)return;if(Ae){te(Ae),u(`answer-result`);return}if(He){window.alert(`制限時間が終了しました。新しい問題には回答できません。／時間已到，不能回答新的題目。`);return}let n=j.choices[S];if(!window.confirm(`「${n}」で回答します。送信後は変更できません。よろしいですか？\n要送出「${n}」嗎？送出後不能修改。`))return;let i=m(ue),a=i.answerHistory.find(e=>e.questionId===j.id);if(a){t(i),r(i.teamName),s(``),te(a),u(`answer-result`);return}let o=Ne(i,e),c=o.answerHistory.find(e=>e.questionId===j.id);if(c){qe(o),te(c),u(`answer-result`);return}let l=S===j.answerIndex,d=l?j.points:0,f={questionId:j.id,selectedIndex:S,correctIndex:j.answerIndex,isCorrect:l,pointsEarned:d,answeredAt:new Date().toISOString(),question:j.question,choice:n,correctChoice:j.choices[j.answerIndex],explanation:j.explanation,translationExplanation:j.translationExplanation};qe(Me(o,[...o.answerHistory,f])),te(f),u(`answer-result`)},children:(0,T.jsx)(A,{ja:`回答する`,zh:`送出答案`})})]}),Fe&&(0,T.jsxs)(`section`,{className:`translation-panel`,children:[(0,T.jsx)(`p`,{className:`translation-guidance`,children:(0,T.jsx)(A,{ja:`まずはチームの友だちに聞いてみましょう。どうしても分からないときに使えます。`,zh:`請先問問隊友。真的不懂時，可以使用翻譯鑰匙。`})}),!je&&(0,T.jsxs)(T.Fragment,{children:[(0,T.jsx)(`button`,{type:`button`,className:`translation-button`,disabled:e.translationKeysRemaining<=0,onClick:()=>{if(!j?.translationText)return;let n=Ne(m(ue),e);if(n.translationKeysUsedQuestionIds.includes(j.id)){qe(n),D(``);return}if(n.translationKeysRemaining<=0){t(n),D(oe);return}window.confirm(`翻訳の鍵を1つ使って、この問題の翻訳を表示します。よろしいですか？
