@@ -562,6 +562,35 @@ function App() {
   }, [hasTeamName, rallyState.timerStartedAt])
 
   useEffect(() => {
+    if (!canUseDemoNavigation || hasTeamName) {
+      return undefined
+    }
+
+    const timer = window.setTimeout(() => {
+      const latestState = loadRallyState(questionSetSignature, activeStorageKey)
+
+      if (latestState.teamName.trim()) {
+        setRallyState(latestState)
+        setTeamNameInput(latestState.teamName)
+        setTimeLimitInput(
+          String(latestState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES),
+        )
+        return
+      }
+
+      persistState({
+        ...latestState,
+        teamName: DEMO_TEAM_NAME,
+        timerStartedAt: new Date().toISOString(),
+        timeLimitMinutes:
+          latestState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES,
+      })
+    }, 0)
+
+    return () => window.clearTimeout(timer)
+  }, [activeStorageKey, canUseDemoNavigation, hasTeamName, persistState])
+
+  useEffect(() => {
     if (!hasTeamName || rallyState.timerStartedAt) {
       return undefined
     }
@@ -651,7 +680,7 @@ function App() {
     const nextState = {
       ...mergedState,
       teamName: nextTeamName,
-      timerStartedAt: mergedState.timerStartedAt ?? new Date().toISOString(),
+      timerStartedAt: new Date().toISOString(),
       timeLimitMinutes:
         mergedState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES,
     }

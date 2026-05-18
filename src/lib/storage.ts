@@ -87,9 +87,11 @@ export function loadRallyState(
         ? parsedValue.timeLimitMinutes
         : DEFAULT_TIME_LIMIT_MINUTES
 
+    const teamName =
+      typeof parsedValue.teamName === 'string' ? parsedValue.teamName : ''
+
     return {
-      teamName:
-        typeof parsedValue.teamName === 'string' ? parsedValue.teamName : '',
+      teamName,
       totalScore: answerHistory.reduce(
         (total, record) => total + record.pointsEarned,
         0,
@@ -104,7 +106,7 @@ export function loadRallyState(
       translationKeysUsedQuestionIds,
       claimedTreasureIds,
       timerStartedAt:
-        typeof parsedValue.timerStartedAt === 'string'
+        teamName.trim() && typeof parsedValue.timerStartedAt === 'string'
           ? parsedValue.timerStartedAt
           : null,
       timeLimitMinutes,
