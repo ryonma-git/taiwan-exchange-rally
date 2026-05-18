@@ -9,6 +9,7 @@ import debugQuestionsRaw from './data/debugQuestions.json?raw'
 import questionsRaw from './data/questions.json?raw'
 import {
   INITIAL_TRANSLATION_KEYS,
+  DEMO_STORAGE_KEY,
   STORAGE_KEY,
   clearRallyState,
   createEmptyRallyState,
@@ -47,6 +48,7 @@ const STORAGE_ERROR_MESSAGE =
   'この端末では保存に失敗しました。先生に知らせてください。／此裝置儲存失敗，請告訴老師。'
 const NO_TRANSLATION_KEYS_MESSAGE =
   '翻訳の鍵はもう残っていません。／翻譯鑰匙已經用完了。'
+const DEMO_TEAM_NAME = 'デモ班'
 const RALLY_TIME_LIMIT_MINUTES = DEFAULT_TIME_LIMIT_MINUTES
 const WARNING_REMAINING_MS = 5 * 60 * 1000
 const RALLY_UNLOCK_AT_MS = Date.parse('2026-05-19T14:00:00+09:00')
@@ -220,6 +222,10 @@ function isDemoQuestionAccess(questionId: string | null) {
   )
 }
 
+function getRallyStorageKey(isDemo: boolean) {
+  return isDemo ? DEMO_STORAGE_KEY : STORAGE_KEY
+}
+
 function getQuestionDisplayCode(questionId: string | null) {
   return questionId?.startsWith(UNKNOWN_QUESTION_PREFIX)
     ? questionId.slice(UNKNOWN_QUESTION_PREFIX.length)
@@ -372,7 +378,10 @@ function mergeRallyStates(latestState: RallyState, currentState: RallyState) {
 
 function App() {
   const [rallyState, setRallyState] = useState<RallyState>(() =>
-    loadRallyState(questionSetSignature),
+    loadRallyState(
+      questionSetSignature,
+      getRallyStorageKey(isDemoQuestionAccess(readQuestionIdFromUrl())),
+    ),
   )
   const [teamNameInput, setTeamNameInput] = useState(rallyState.teamName)
   const [teamNameError, setTeamNameError] = useState('')
@@ -406,6 +415,7 @@ function App() {
   const activeQuestion = questionId ? questionMap.get(questionId) : undefined
   const isActiveDemoQuestion = isDemoQuestionAccess(questionId)
   const canUseDemoNavigation = isDemoAccess || isActiveDemoQuestion
+  const activeStorageKey = getRallyStorageKey(canUseDemoNavigation)
   const activeTreasureId =
     treasureId && isAllowedTreasureId(treasureId) ? treasureId : undefined
   const currentTreasureStatus = !activeTreasureId
@@ -423,7 +433,7 @@ function App() {
         : undefined,
     [activeQuestion, rallyState.answerHistory],
   )
-  const answeredRecord = isActiveDemoQuestion ? undefined : savedAnsweredRecord
+  const answeredRecord = savedAnsweredRecord
   const hasUsedTranslationKey = isActiveDemoQuestion
     ? true
     : activeQuestion
@@ -477,16 +487,26 @@ function App() {
 
   const persistState = useCallback((nextState: RallyState) => {
     setRallyState(nextState)
-    const wasSaved = saveRallyState(nextState)
+    const wasSaved = saveRallyState(nextState, activeStorageKey)
     setStorageWarning(wasSaved ? '' : STORAGE_ERROR_MESSAGE)
     return wasSaved
-  }, [])
+  }, [activeStorageKey])
 
   useEffect(() => {
     const handlePopState = () => {
       const nextQuestionId = readQuestionIdFromUrl()
+      const nextIsDemoAccess = isDemoQuestionAccess(nextQuestionId)
+      const nextState = loadRallyState(
+        questionSetSignature,
+        getRallyStorageKey(nextIsDemoAccess),
+      )
       setQuestionId(nextQuestionId)
-      setIsDemoAccess(isDemoQuestionAccess(nextQuestionId))
+      setIsDemoAccess(nextIsDemoAccess)
+      setRallyState(nextState)
+      setTeamNameInput(nextState.teamName)
+      setTimeLimitInput(
+        String(nextState.timeLimitMinutes || RALLY_TIME_LIMIT_MINUTES),
+      )
       setTreasureId(readTreasureIdFromUrl())
       setProcessedTreasureId(null)
       setTreasureStatus(null)
@@ -511,11 +531,11 @@ function App() {
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
-      if (event.key !== null && event.key !== STORAGE_KEY) {
+      if (event.key !== null && event.key !== activeStorageKey) {
         return
       }
 
-      const nextState = loadRallyState(questionSetSignature)
+      const nextState = loadRallyState(questionSetSignature, activeStorageKey)
       setRallyState(nextState)
       setTeamNameInput(nextState.teamName)
       setTimeLimitInput(
@@ -532,7 +552,7 @@ function App() {
 
     window.addEventListener('storage', handleStorage)
     return () => window.removeEventListener('storage', handleStorage)
-  }, [])
+  }, [activeStorageKey])
 
   useEffect(() => {
     if (!hasTeamName || !rallyState.timerStartedAt) {
@@ -549,7 +569,7 @@ function App() {
     }
 
     const timer = window.setTimeout(() => {
-      const latestState = loadRallyState(questionSetSignature)
+      const latestState = loadRallyState(questionSetSignature, activeStorageKey)
       const baseState = mergeRallyStates(latestState, rallyState)
 
       if (baseState.timerStartedAt) {
@@ -565,7 +585,7 @@ function App() {
     }, 0)
 
     return () => window.clearTimeout(timer)
-  }, [hasTeamName, persistState, rallyState])
+  }, [activeStorageKey, hasTeamName, persistState, rallyState])
 
   useEffect(() => {
     if (
@@ -584,7 +604,7 @@ function App() {
         return
       }
 
-      const latestState = loadRallyState(questionSetSignature)
+      const latestState = loadRallyState(questionSetSignature, activeStorageKey)
       const baseState = mergeRallyStates(latestState, rallyState)
 
       if (baseState.claimedTreasureIds.includes(treasureId)) {
@@ -611,6 +631,7 @@ function App() {
     return () => window.clearTimeout(timer)
   }, [
     hasTeamName,
+    activeStorageKey,
     isBeforeRallyLaunch,
     persistState,
     processedTreasureId,
@@ -627,7 +648,7 @@ function App() {
       return
     }
 
-    const latestState = loadRallyState(questionSetSignature)
+    const latestState = loadRallyState(questionSetSignature, activeStorageKey)
     const mergedState = mergeRallyStates(latestState, rallyState)
     const nextState = {
       ...mergedState,
@@ -669,7 +690,7 @@ function App() {
       return
     }
 
-    const latestState = loadRallyState(questionSetSignature)
+    const latestState = loadRallyState(questionSetSignature, activeStorageKey)
     const baseState = mergeRallyStates(latestState, rallyState)
     const nextState: RallyState = {
       ...baseState,
@@ -712,8 +733,7 @@ function App() {
     }
 
     const isCorrect = selectedIndex === activeQuestion.answerIndex
-    const pointsEarned =
-      isCorrect && !isActiveDemoQuestion ? activeQuestion.points : 0
+    const pointsEarned = isCorrect ? activeQuestion.points : 0
     const record: AnswerRecord = {
       questionId: activeQuestion.id,
       selectedIndex,
@@ -728,13 +748,7 @@ function App() {
       translationExplanation: activeQuestion.translationExplanation,
     }
 
-    if (isActiveDemoQuestion) {
-      setFeedback(record)
-      setScreenMode('answer-result')
-      return
-    }
-
-    const latestState = loadRallyState(questionSetSignature)
+    const latestState = loadRallyState(questionSetSignature, activeStorageKey)
     const latestAnsweredRecord = latestState.answerHistory.find(
       (record) => record.questionId === activeQuestion.id,
     )
@@ -749,19 +763,23 @@ function App() {
     }
 
     const baseState = mergeRallyStates(latestState, rallyState)
-    const alreadyMergedRecord = baseState.answerHistory.find(
+    const answerBaseState =
+      isActiveDemoQuestion && !baseState.teamName.trim()
+        ? { ...baseState, teamName: DEMO_TEAM_NAME }
+        : baseState
+    const alreadyMergedRecord = answerBaseState.answerHistory.find(
       (record) => record.questionId === activeQuestion.id,
     )
 
     if (alreadyMergedRecord) {
-      persistState(baseState)
+      persistState(answerBaseState)
       setFeedback(alreadyMergedRecord)
       setScreenMode('answer-result')
       return
     }
 
-    const nextHistory = [...baseState.answerHistory, record]
-    const nextState = rebuildRallyState(baseState, nextHistory)
+    const nextHistory = [...answerBaseState.answerHistory, record]
+    const nextState = rebuildRallyState(answerBaseState, nextHistory)
 
     persistState(nextState)
     setFeedback(record)
@@ -773,7 +791,7 @@ function App() {
       return
     }
 
-    const latestState = loadRallyState(questionSetSignature)
+    const latestState = loadRallyState(questionSetSignature, activeStorageKey)
     const baseState = mergeRallyStates(latestState, rallyState)
 
     if (baseState.translationKeysUsedQuestionIds.includes(activeQuestion.id)) {
@@ -824,7 +842,7 @@ function App() {
       return
     }
 
-    const wasCleared = clearRallyState()
+    const wasCleared = clearRallyState(activeStorageKey)
     const emptyState = createEmptyRallyState(questionSetSignature)
     setRallyState(emptyState)
     setTeamNameInput('')

@@ -1,4 +1,5 @@
 export const STORAGE_KEY = 'taiwan-exchange-rally:v1'
+export const DEMO_STORAGE_KEY = 'taiwan-exchange-rally:demo:v1'
 export const INITIAL_TRANSLATION_KEYS = 3
 export const DEFAULT_TIME_LIMIT_MINUTES = 20
 
@@ -47,13 +48,16 @@ export function createEmptyRallyState(
   }
 }
 
-export function loadRallyState(questionSetSignature: string): RallyState {
+export function loadRallyState(
+  questionSetSignature: string,
+  storageKey = STORAGE_KEY,
+): RallyState {
   if (!canUseLocalStorage()) {
     return createEmptyRallyState(questionSetSignature)
   }
 
   try {
-    const rawValue = window.localStorage.getItem(STORAGE_KEY)
+    const rawValue = window.localStorage.getItem(storageKey)
 
     if (!rawValue) {
       return createEmptyRallyState(questionSetSignature)
@@ -110,26 +114,29 @@ export function loadRallyState(questionSetSignature: string): RallyState {
   }
 }
 
-export function saveRallyState(state: RallyState): boolean {
+export function saveRallyState(
+  state: RallyState,
+  storageKey = STORAGE_KEY,
+): boolean {
   if (!canUseLocalStorage()) {
     return false
   }
 
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    window.localStorage.setItem(storageKey, JSON.stringify(state))
     return true
   } catch {
     return false
   }
 }
 
-export function clearRallyState(): boolean {
+export function clearRallyState(storageKey = STORAGE_KEY): boolean {
   if (!canUseLocalStorage()) {
     return false
   }
 
   try {
-    window.localStorage.removeItem(STORAGE_KEY)
+    window.localStorage.removeItem(storageKey)
     return true
   } catch {
     return false
