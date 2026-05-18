@@ -150,10 +150,13 @@ function parseTranslationText(value: string) {
 
 function formatRemainingTime(remainingMs: number) {
   const totalSeconds = Math.max(0, Math.ceil(remainingMs / 1000))
-  const minutes = Math.floor(totalSeconds / 60)
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
   const seconds = totalSeconds % 60
 
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`
+  return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds
+    .toString()
+    .padStart(2, '0')}`
 }
 
 function parseTimeLimitMinutes(value: string) {
@@ -182,7 +185,7 @@ function createQuestionSetSignature(value: string) {
 }
 
 function readQuestionIdFromUrl() {
-  const value = new URLSearchParams(window.location.search).get('q')?.trim()
+  const value = readQuestionParamFromUrl()
 
   if (!value) {
     return null
@@ -195,6 +198,25 @@ function readQuestionIdFromUrl() {
     questionIdByPublicCode.get(value.toLowerCase()) ??
     debugQuestionIdByPublicCode.get(value.toLowerCase()) ??
     `${UNKNOWN_QUESTION_PREFIX}${value}`
+  )
+}
+
+function readQuestionParamFromUrl() {
+  return new URLSearchParams(window.location.search).get('q')?.trim() ?? ''
+}
+
+function isDirectQuestionIdAccess(questionId: string | null) {
+  if (!questionId || !questionMap.has(questionId)) {
+    return false
+  }
+
+  return readQuestionParamFromUrl().toUpperCase() === questionId
+}
+
+function isDemoQuestionAccess(questionId: string | null) {
+  return (
+    Boolean(questionId && debugQuestionMap.has(questionId)) ||
+    isDirectQuestionIdAccess(questionId)
   )
 }
 
@@ -359,6 +381,9 @@ function App() {
   const [questionId, setQuestionId] = useState<string | null>(() =>
     readQuestionIdFromUrl(),
   )
+  const [isDemoAccess, setIsDemoAccess] = useState(() =>
+    isDemoQuestionAccess(readQuestionIdFromUrl()),
+  )
   const [treasureId, setTreasureId] = useState<string | null>(() =>
     readTreasureIdFromUrl(),
   )
@@ -379,9 +404,8 @@ function App() {
   const [timeLimitMessage, setTimeLimitMessage] = useState('')
 
   const activeQuestion = questionId ? questionMap.get(questionId) : undefined
-  const isActiveDebugQuestion = questionId
-    ? debugQuestionMap.has(questionId)
-    : false
+  const isActiveDemoQuestion = isDemoQuestionAccess(questionId)
+  const canUseDemoNavigation = isDemoAccess || isActiveDemoQuestion
   const activeTreasureId =
     treasureId && isAllowedTreasureId(treasureId) ? treasureId : undefined
   const currentTreasureStatus = !activeTreasureId
@@ -390,7 +414,7 @@ function App() {
       (rallyState.claimedTreasureIds.includes(activeTreasureId)
         ? 'already-claimed'
         : 'pending')
-  const answeredRecord = useMemo(
+  const savedAnsweredRecord = useMemo(
     () =>
       activeQuestion
         ? rallyState.answerHistory.find(
@@ -399,7 +423,8 @@ function App() {
         : undefined,
     [activeQuestion, rallyState.answerHistory],
   )
-  const hasUsedTranslationKey = isActiveDebugQuestion
+  const answeredRecord = isActiveDemoQuestion ? undefined : savedAnsweredRecord
+  const hasUsedTranslationKey = isActiveDemoQuestion
     ? true
     : activeQuestion
     ? rallyState.translationKeysUsedQuestionIds.includes(activeQuestion.id)
@@ -427,15 +452,15 @@ function App() {
   const isQrEntryLocked =
     Boolean(questionId || treasureId) &&
     isBeforeRallyLaunch &&
-    !isActiveDebugQuestion
+    !isActiveDemoQuestion
   const isQuestionBlocked =
     Boolean(activeQuestion) &&
     !answeredRecord &&
     isTimeExpired &&
-    !isActiveDebugQuestion
+    !isActiveDemoQuestion
   const screen = isQrEntryLocked
     ? 'launch-wait'
-    : !hasTeamName && !isActiveDebugQuestion
+    : !hasTeamName && !canUseDemoNavigation
     ? 'start'
     : screenMode === 'answer-result' && feedback
       ? 'answer-result'
@@ -459,7 +484,9 @@ function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setQuestionId(readQuestionIdFromUrl())
+      const nextQuestionId = readQuestionIdFromUrl()
+      setQuestionId(nextQuestionId)
+      setIsDemoAccess(isDemoQuestionAccess(nextQuestionId))
       setTreasureId(readTreasureIdFromUrl())
       setProcessedTreasureId(null)
       setTreasureStatus(null)
@@ -668,7 +695,7 @@ function App() {
       return
     }
 
-    if (isTimeExpired && !isActiveDebugQuestion) {
+    if (isTimeExpired && !isActiveDemoQuestion) {
       window.alert(
         '制限時間が終了しました。新しい問題には回答できません。／時間已到，不能回答新的題目。',
       )
@@ -686,7 +713,7 @@ function App() {
 
     const isCorrect = selectedIndex === activeQuestion.answerIndex
     const pointsEarned =
-      isCorrect && !isActiveDebugQuestion ? activeQuestion.points : 0
+      isCorrect && !isActiveDemoQuestion ? activeQuestion.points : 0
     const record: AnswerRecord = {
       questionId: activeQuestion.id,
       selectedIndex,
@@ -701,7 +728,7 @@ function App() {
       translationExplanation: activeQuestion.translationExplanation,
     }
 
-    if (isActiveDebugQuestion) {
+    if (isActiveDemoQuestion) {
       setFeedback(record)
       setScreenMode('answer-result')
       return
@@ -804,6 +831,7 @@ function App() {
     setStorageWarning(wasCleared ? '' : STORAGE_ERROR_MESSAGE)
     setScreenMode('home')
     setQuestionId(null)
+    setIsDemoAccess(false)
     setTreasureId(null)
     setProcessedTreasureId(null)
     setTreasureStatus(null)
@@ -1105,7 +1133,7 @@ function App() {
               </h1>
             </div>
             <RallyLogo compact className="top-logo" />
-            {isActiveDebugQuestion && (
+            {canUseDemoNavigation && (
               <button
                 type="button"
                 className="secondary-button"
