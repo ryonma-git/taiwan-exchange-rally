@@ -434,9 +434,7 @@ function App() {
     [activeQuestion, rallyState.answerHistory],
   )
   const answeredRecord = savedAnsweredRecord
-  const hasUsedTranslationKey = isActiveDemoQuestion
-    ? true
-    : activeQuestion
+  const hasUsedTranslationKey = activeQuestion
     ? rallyState.translationKeysUsedQuestionIds.includes(activeQuestion.id)
     : false
   const activeTranslationText = activeQuestion?.translationText?.trim() ?? ''
