@@ -127,7 +127,7 @@ function createQrRows(items) {
 }
 
 function createQrTitle(question) {
-  return `${question.id} ${question.side ?? 'Question'} QR`
+  return String(question.side ?? '').trim() || 'Question QR'
 }
 
 function createTreasureTitle(treasure) {
@@ -245,12 +245,22 @@ function drawQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc.fillColor(accent).fontSize(52).text(row.id, x + 30, y + 72)
   doc
     .fillColor(COLORS.navy)
-    .fontSize(22)
+    .fontSize(17)
     .text(row.title, x + 30, y + 134, {
       width: qrX - x - 54,
-      height: 62,
+      height: 36,
     })
-  doc.fillColor(COLORS.muted).fontSize(15).text(row.points, x + 30, y + 200)
+  doc
+    .roundedRect(x + 30, y + 182, 150, 54, 12)
+    .fill('#fff8f0')
+    .stroke(accent)
+  doc
+    .fillColor(accent)
+    .fontSize(34)
+    .text(row.points, x + 42, y + 192, {
+      width: 126,
+      align: 'center',
+    })
 
   // If a custom card mock image is added later, keep this QR box as the swap target.
   doc.roundedRect(qrX - 10, qrY - 10, qrSize + 20, qrSize + 20, 10).fill(COLORS.white)

@@ -1,7 +1,7 @@
 [
   {
     "id": "J01",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
     "points": 10,
@@ -19,7 +19,7 @@
   },
   {
     "id": "J02",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
     "points": 10,
@@ -37,7 +37,7 @@
   },
   {
     "id": "J03",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
     "points": 10,
@@ -55,10 +55,10 @@
   },
   {
     "id": "J04",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の友だちに「初めまして」と伝えたいとき、近い表現はどれでしょう？",
     "choices": [
       "你好",
@@ -73,10 +73,10 @@
   },
   {
     "id": "J05",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
-    "points": 10,
+    "points": 20,
     "question": "台湾華語で「ごめんなさい」に近い表現はどれでしょう？",
     "choices": [
       "對不起",
@@ -91,10 +91,10 @@
   },
   {
     "id": "J06",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の小学校は、基本的に何年間でしょう？",
     "choices": [
       "4年間",
@@ -109,10 +109,10 @@
   },
   {
     "id": "J07",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 0,
+    "points": 30,
     "question": "台湾で、火事があった時などに消防を呼ぶ番号は何番でしょうか？",
     "choices": [
       "110",
@@ -127,10 +127,10 @@
   },
   {
     "id": "J08",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "hard",
-    "points": 20,
+    "points": 30,
     "question": "台湾で使われる「注音符号」は、どの役割に近いでしょう？",
     "choices": [
       "タブレットなどで音量を表す記号",
@@ -145,10 +145,10 @@
   },
   {
     "id": "J09",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾の学校で使われる「下課」は、どの意味に近いでしょう？",
     "choices": [
       "宿題を出す",
@@ -163,10 +163,10 @@
   },
   {
     "id": "J10",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の学校で使われる「上課」は、どの意味に近いでしょう？",
     "choices": [
       "家に帰る",
@@ -181,10 +181,10 @@
   },
   {
     "id": "J11",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾のレシート（発票）には、ある特徴があります。なんでしょうか？",
     "choices": [
       "レシートの上が「宝くじ（たからくじ）」になっている。",
@@ -199,7 +199,7 @@
   },
   {
     "id": "J12",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "hard",
     "points": 20,
@@ -217,10 +217,10 @@
   },
   {
     "id": "J13",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾には「TSMC」という日本のトヨタを超える超大企業があります(熊本に工場ができたことで有名です)。この会社は、何を作っている会社でしょうか？",
     "choices": [
       "空を飛んで荷物を運んだり、人を助けたりする「未来のAIドローン」",
@@ -235,10 +235,10 @@
   },
   {
     "id": "J14",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "easy",
-    "points": 10,
+    "points": 30,
     "question": "台湾のお金の単位は正式には「新台湾ドル」と言います。では、台湾のお店などで現地の人が普段の会話で一番よく使っている「お金の数え方の単位」はどれでしょうか？",
     "choices": [
       "円",
@@ -253,10 +253,10 @@
   },
   {
     "id": "J15",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾の「中秋節」に関係が深い食べ物として知られているものはどれでしょう？",
     "choices": [
       "粽子（ちまき）",
@@ -271,10 +271,10 @@
   },
   {
     "id": "J16",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の漢字で「壁虎」と書く動物がいます。この動物はなんでしょうか？",
     "choices": [
       "クモ",
@@ -289,10 +289,10 @@
   },
   {
     "id": "J17",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "hard",
-    "points": 20,
+    "points": 30,
     "question": "日本では、朝決まったゴミ置き場にゴミを置いておけば、ゴミ収集車が回収してくれます。では、台湾のゴミ収集の仕組みはどうなっているでしょうか？",
     "choices": [
       "ゴミ置き場はなく、夕方に音楽を鳴らしてやってくるゴミ収集車を待ち伏せし、自分で車にゴミを投げ込む。",
@@ -307,10 +307,10 @@
   },
   {
     "id": "J18",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 30,
     "question": "台湾にある高層ビル「台北101」の名前の「101」は、何を表しているでしょう？",
     "choices": [
       "台北市ができて101周年の時に建てられた",
@@ -325,10 +325,10 @@
   },
   {
     "id": "J19",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 20,
     "question": "台湾の小学校で、昼食のあとに毎日必ずすることはどれでしょうか？",
     "choices": [
       "子どもたちの体力をつけるため15分間走る「ランニングの時間」",
@@ -343,10 +343,10 @@
   },
   {
     "id": "J20",
-    "side": "Taiwan",
+    "side": "台湾について",
     "language": "ja",
     "difficulty": "normal",
-    "points": 15,
+    "points": 10,
     "question": "台湾の友だちに「何の楽器を演奏しますか？」と聞きたいとき、使いやすい英語はどれでしょう？",
     "choices": [
       "What colour is your euphonium?",
@@ -361,10 +361,10 @@
   },
   {
     "id": "C01",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "石橋小學的校歌第一段裡，同一個詞彙重複出現多次。這個詞的意思是什麼？「滿出來的歌聲是〇〇〇〇〇」",
     "choices": [
       "讓心平靜下來",
@@ -379,10 +379,10 @@
   },
   {
     "id": "C02",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "石橋小學六年級有一個叫「臨海學舍」的活動。這是怎麼樣的活動呢？",
     "choices": [
       "在海裡全員一直游800公尺等長距離",
@@ -390,17 +390,17 @@
       "關於海洋環境與生物的特別授課",
       "去靠近海邊的學校上誦"
     ],
-    "answerIndex": 3,
+    "answerIndex": 0,
     "explanation": "臨海学舎は、海の近くの施設に泊まり込みで行く行事です。石橋小学校では、海で長距離を泳ぐことを目標に活動します。",
     "translationText": "石橋小学校には６年生で「臨海学舎」というイベントがあります。このイベントはどのようなイベントでしょうか。\nA. 海で全員が800mなどの長距離をひたすら泳ぐ\nB. 船で海に出て、みんなで魚を釣り、その魚を調理して食べる。\nC. 海の環境や生物に関する勉強を行う特別授業\nD. 海に近い学校に行き、授業を受ける",
     "translationExplanation": "臨海學舍是前往海邊附近的設施進行住宿型的活動。石橋小學以「在海中游長距離」為目標進行活動。"
   },
   {
     "id": "C03",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "在日本，吃給食之前會說「いただきます」。這句話的意思是什麼？",
     "choices": [
       "去山裡拿取蒙受生命、以及對製作人的感謝之意",
@@ -415,10 +415,10 @@
   },
   {
     "id": "C04",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "日本學校最長的假期，是從几月到几月呢？",
     "choices": [
       "1月到2月",
@@ -433,10 +433,10 @@
   },
   {
     "id": "C05",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "石橋小學的中庭裡，有一個用土堆起來的建築物。這是用來做什麼的？",
     "choices": [
       "大家一起吃便當的地方",
@@ -451,10 +451,10 @@
   },
   {
     "id": "C06",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "日本有一套叫「收音機體操（ラジオ体操）」的運動。這個體操的最後一個動作是什麼？",
     "choices": [
       "擺出姿勢",
@@ -469,10 +469,10 @@
   },
   {
     "id": "C07",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "從前從前，在某個地方住著一對老爷爷和老奶奶。有一天老爷爷上山去〇〇，老奶奶去河邊洗衣服。請問老爷爷是去做什麼？（日本人都知道！）",
     "choices": [
       "修行瀑布修行",
@@ -480,17 +480,17 @@
       "採蘑菇",
       "去刈柴"
     ],
-    "answerIndex": 2,
+    "answerIndex": 3,
     "explanation": "「桃太郎」や「かぐや姫」など、昔話の出だしとして有名な「おじいさんは山へ柴刈りに、おばあさんは川へ洗濯に」というフレーズです。柴（しば）とは火を焼くための小さな枝のことです。",
     "translationText": "昔々あるところに、おじいさんとおばあさんが住んでいました。ある日おじいさんは山へ〇〇へ、おばあさんは川へ洗濯へ行きました。さて、おじいさんはどこへ行った？（日本人なら知っています）\nA. 滝修行\nB. 熊退治\nC. きのこを取りに\nD. 柴刈り(しばかり)に",
     "translationExplanation": "「桃太郎」、「輝夜姫」等日本古老故事的開場白裡有名的一句是「老爷爷上山砍柴，老奶奶去河邊洗衣服」。柴（しば）是指炸火用的小枝。"
   },
   {
     "id": "C08",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "音樂專科、同時也是吹奏樂社顧問的井上老師，在家使用的柔軟精是哪一個？",
     "choices": [
       "金紡",
@@ -505,10 +505,10 @@
   },
   {
     "id": "C09",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級3班導師遠藤老師的出身地是哪裡？",
     "choices": [
       "福島縣",
@@ -523,10 +523,10 @@
   },
   {
     "id": "C10",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "英語專科的松尾老師，去年為止以專科身份負責的是哪一門科目？",
     "choices": [
       "英語",
@@ -541,10 +541,10 @@
   },
   {
     "id": "C11",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級4班導師壁谷老師學生時則所做的運動是以下哪一項？",
     "choices": [
       "棒球",
@@ -552,35 +552,35 @@
       "躲避球",
       "羽毛球"
     ],
-    "answerIndex": 2,
+    "answerIndex": 1,
     "explanation": "6年4組の壁谷先生は、学生の頃「バレーボール」をしていました。",
     "translationText": "6年4組の壁谷先生が学生の頃していたスポーツは次のうちどれでしょう？\nA. 野球\nB. バレーボール\nC. ドッジボール\nD. バドミントン",
     "translationExplanation": "6年級4班的壁谷老師學生時代是打「排球」的。"
   },
   {
     "id": "C12",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級1班導師田中老師，在石橋小學當過多少次六年級的導師？",
     "choices": [
-      "2次",
+      "8次",
       "3次",
-      "5次",
+      "4次",
       "1次 今年是第一次"
     ],
-    "answerIndex": 3,
+    "answerIndex": 2,
     "explanation": "6年1組の田中先生は、石橋小学校でこれまで3回6年生を担任しています。しかも、その3回は連続で、すべて6年1組の担任です。",
-    "translationText": "6年1組の田中先生は、石橋小学校でこれまで何回6年生を担任しているでしょうか？\nA. 2回\nB. 3回\nC. 5回\nD. 1回 今年が初めて",
+    "translationText": "6年1組の田中先生は、石橋小学校でこれまで何回6年生を担任しているでしょうか？\nA. 8回\nB. 3回\nC. 4回\nD. 1回 今年が初めて",
     "translationExplanation": "6年級1班的田中老師在石橋小學至今担任過3次六年級。而且這三次是連續的，全都是6年級1班的導師。"
   },
   {
     "id": "C13",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "6年級2班導師大江老師最喜歡的角色是以下哪一個？",
     "choices": [
       "脈脈（ミャクミャク、2025年万國博覽會的名險人物）",
@@ -595,10 +595,10 @@
   },
   {
     "id": "C14",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "日本有一道菜叫「きつねうどん（狐狸烏龍麵）」。這道菜的特色是什麼？",
     "choices": [
       "裡面加了用甜辣醒燉的狐狸肉",
@@ -613,10 +613,10 @@
   },
   {
     "id": "C15",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "在日本，發生事故或事件時，報警要撥哪個號碼？",
     "choices": [
       "110",
@@ -631,10 +631,10 @@
   },
   {
     "id": "C16",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "2025年日本舉辦世博。主辦城市是哪裡？",
     "choices": [
       "東京",
@@ -649,10 +649,10 @@
   },
   {
     "id": "C17",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 20,
     "question": "日本有一道菜叫「ひやしちゅうか」（冷中華）。這是什麼樣的料理？",
     "choices": [
       "其實是指杏仁豆腐",
@@ -667,10 +667,10 @@
   },
   {
     "id": "C18",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "以下哪一項不是日本的飲食文化？",
     "choices": [
       "生吃馬肉",
@@ -685,10 +685,10 @@
   },
   {
     "id": "C19",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
-    "points": 10,
+    "points": 30,
     "question": "以下哪一項不是日本過年的習俗（文化）？",
     "choices": [
       "去神社或寺廟參拜，祈求新的一年平安順利",
@@ -703,7 +703,7 @@
   },
   {
     "id": "C20",
-    "side": "Culture",
+    "side": "日本について",
     "language": "zh-Hant",
     "difficulty": "placeholder",
     "points": 10,
@@ -718,77 +718,5 @@
     "explanation": "日本の学校は「４月」から始まります。桜の花が咲く頃に入学式や始業式が行われます。",
     "translationText": "日本の学校(学年)が始まるのは、何月ですか？\nA. 9月\nB. 1月\nC. 3月\nD. 4月",
     "translationExplanation": "日本的學校是從「4月」開始。樱花盛開時，就會舉行入學典禮與開學典禮。"
-  },
-  {
-    "id": "J21",
-    "side": "Japan",
-    "language": "ja",
-    "difficulty": "easy",
-    "points": 10,
-    "question": "台湾の行政・交通の中心として知られる都市はどこですか？",
-    "choices": [
-      "台北",
-      "台南",
-      "台中",
-      "高雄"
-    ],
-    "answerIndex": 0,
-    "explanation": "台北は台湾北部にあり、行政機関や交通網が集まる中心都市です。",
-    "translationText": "哪一個城市被稱為台灣的行政與交通中心？\nA. 台北\nB. 台南\nC. 台中\nD. 高雄",
-    "translationExplanation": "台北位於台灣北部，是行政機關與交通網路集中的中心都市。"
-  },
-  {
-    "id": "J22",
-    "side": "Japan",
-    "language": "ja",
-    "difficulty": "normal",
-    "points": 15,
-    "question": "台湾で広く使われているIC交通カードの名前として正しいものはどれですか？",
-    "choices": [
-      "Octopus",
-      "T-money",
-      "Suica",
-      "悠遊カード"
-    ],
-    "answerIndex": 3,
-    "explanation": "悠遊カードは台湾の公共交通や買い物で使える代表的なICカードです。",
-    "translationText": "以下哪一個是在台灣廣泛使用的IC交通卡名稱？\nA. Octopus\nB. T-money\nC. Suica\nD. 悠遊卡",
-    "translationExplanation": "悠遊卡是可用於台灣大眾運輸與購物的代表性IC卡。"
-  },
-  {
-    "id": "C21",
-    "side": "Culture",
-    "language": "zh-Hant",
-    "difficulty": "easy",
-    "points": 10,
-    "question": "在日本的小學，學生中午常常一起吃的學校餐叫做什麼？",
-    "choices": [
-      "早餐店",
-      "夜市",
-      "學校午餐",
-      "茶會"
-    ],
-    "answerIndex": 2,
-    "explanation": "在日本，很多小學會讓學生一起吃學校午餐，這也是學校生活的一部分。",
-    "translationText": "日本の小学校で、児童が昼に一緒に食べる学校の食事を何と呼びますか？\nA. 朝食店\nB. 夜市\nC. 学校給食\nD. 茶会",
-    "translationExplanation": "日本では、多くの小学校で生徒が一緒に給食を食べ、これも学校生活の一部となっています。"
-  },
-  {
-    "id": "C22",
-    "side": "Culture",
-    "language": "zh-Hant",
-    "difficulty": "normal",
-    "points": 15,
-    "question": "台灣常見的飲料「珍珠奶茶」裡面通常有什麼？",
-    "choices": [
-      "玉米",
-      "紅豆",
-      "冰淇淋",
-      "粉圓"
-    ],
-    "answerIndex": 3,
-    "explanation": "珍珠奶茶通常會加入粉圓，也就是日本常說的タピオカ。",
-    "translationText": "台湾でよく見られる飲み物「珍珠奶茶」には、ふつう何が入っていますか？\nA. とうもろこし\nB. あずき\nC. アイスクリーム\nD. タピオカ",
-    "translationExplanation": "タピオカミルクティーには通常タピオカ（台湾語で「粉圓」）が入っています。"
   }
 ]
