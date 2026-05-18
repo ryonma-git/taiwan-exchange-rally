@@ -48,6 +48,8 @@ const NO_TRANSLATION_KEYS_MESSAGE =
   '翻訳の鍵はもう残っていません。／翻譯鑰匙已經用完了。'
 const RALLY_TIME_LIMIT_MINUTES = DEFAULT_TIME_LIMIT_MINUTES
 const WARNING_REMAINING_MS = 5 * 60 * 1000
+const RALLY_UNLOCK_AT_MS = Date.parse('2026-05-19T14:00:00+09:00')
+const RALLY_UNLOCK_LABEL = '2026年5月19日 14:00'
 const questions = JSON.parse(questionsRaw) as Question[]
 const questionMap = new Map(questions.map((question) => [question.id, question]))
 const questionIdByPublicCode = createQuestionCodeMap(questions)
@@ -390,9 +392,13 @@ function App() {
     hasActiveTimer &&
     remainingMs > 0 &&
     remainingMs <= WARNING_REMAINING_MS
+  const isBeforeRallyLaunch = nowMs < RALLY_UNLOCK_AT_MS
+  const isQrEntryLocked = Boolean(questionId || treasureId) && isBeforeRallyLaunch
   const isQuestionBlocked =
     Boolean(activeQuestion) && !answeredRecord && isTimeExpired
-  const screen = !hasTeamName
+  const screen = isQrEntryLocked
+    ? 'launch-wait'
+    : !hasTeamName
     ? 'start'
     : screenMode === 'answer-result' && feedback
       ? 'answer-result'
@@ -429,6 +435,15 @@ function App() {
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
+
+  useEffect(() => {
+    if (!isBeforeRallyLaunch) {
+      return undefined
+    }
+
+    const timer = window.setInterval(() => setNowMs(Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  }, [isBeforeRallyLaunch])
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
@@ -489,7 +504,12 @@ function App() {
   }, [hasTeamName, persistState, rallyState])
 
   useEffect(() => {
-    if (!hasTeamName || !treasureId || processedTreasureId === treasureId) {
+    if (
+      isBeforeRallyLaunch ||
+      !hasTeamName ||
+      !treasureId ||
+      processedTreasureId === treasureId
+    ) {
       return undefined
     }
 
@@ -525,7 +545,14 @@ function App() {
     }, 0)
 
     return () => window.clearTimeout(timer)
-  }, [hasTeamName, persistState, processedTreasureId, rallyState, treasureId])
+  }, [
+    hasTeamName,
+    isBeforeRallyLaunch,
+    persistState,
+    processedTreasureId,
+    rallyState,
+    treasureId,
+  ])
 
   const handleStart = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -747,6 +774,44 @@ function App() {
         <p className="storage-warning" role="alert">
           {storageWarning}
         </p>
+      )}
+
+      {screen === 'launch-wait' && (
+        <section className="launch-wait-screen" aria-labelledby="launch-wait-title">
+          <div className="launch-wait-card">
+            <div className="launch-wait-icons" aria-hidden="true">
+              <img src={getAssetUrl('assets/noto-emoji/sparkles.svg')} alt="" />
+              <img src={getAssetUrl('assets/noto-emoji/cherry-blossom.svg')} alt="" />
+              <img src={getAssetUrl('assets/noto-emoji/school.svg')} alt="" />
+            </div>
+            <p className="eyebrow">{EVENT_NAME}</p>
+            <h1 id="launch-wait-title">
+              <BilingualText
+                ja="台湾交流会クイズラリーは6時間目です。楽しみにね！"
+                zh="臺灣交流會問答闖關在第6節課。敬請期待！"
+              />
+            </h1>
+            <p className="lead">
+              <BilingualText
+                ja={`${RALLY_UNLOCK_LABEL}からQRを開けるようになります。`}
+                zh="QR將於2026年5月19日14:00開放。"
+              />
+            </p>
+            <p className="launch-countdown">
+              <BilingualText
+                ja={`開始まで ${formatRemainingTime(RALLY_UNLOCK_AT_MS - nowMs)}`}
+                zh={`距離開始還有 ${formatRemainingTime(RALLY_UNLOCK_AT_MS - nowMs)}`}
+              />
+            </p>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={handleGoHome}
+            >
+              <BilingualText ja="トップへ戻る" zh="回到首頁" />
+            </button>
+          </div>
+        </section>
       )}
 
       {screen === 'start' && (
