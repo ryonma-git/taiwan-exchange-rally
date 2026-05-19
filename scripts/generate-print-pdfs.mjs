@@ -267,32 +267,39 @@ function drawQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc.image(qrBuffer, qrX, qrY, { width: qrSize, height: qrSize })
   doc
     .fillColor(COLORS.navy)
-    .fontSize(13)
-    .text('Scan with iPad Camera / Safari', qrX - 4, qrY + qrSize + 8, {
+    .fontSize(10.5)
+    .text('iPad標準カメラ → Safari', qrX - 4, qrY + qrSize + 7, {
+      width: qrSize + 8,
+      align: 'center',
+    })
+  doc
+    .fillColor(COLORS.navy)
+    .fontSize(9.5)
+    .text('請用iPad內建相機 → Safari', qrX - 4, qrY + qrSize + 22, {
       width: qrSize + 8,
       align: 'center',
     })
   doc
     .fillColor(COLORS.red)
-    .fontSize(8.8)
-    .text('Do not use Control Center QR Reader', qrX - 4, qrY + qrSize + 25, {
+    .fontSize(7.8)
+    .text('QRコードリーダーは使わない / 不要使用控制中心QR掃描器', qrX - 4, qrY + qrSize + 37, {
       width: qrSize + 8,
       align: 'center',
     })
   doc
     .fillColor(COLORS.muted)
     .fontSize(8.5)
-    .text(row.url, qrX - 12, qrY + qrSize + 42, {
+    .text(row.url, qrX - 12, qrY + qrSize + 54, {
       width: qrSize + 24,
-      height: 28,
+      height: 22,
       align: 'center',
     })
 }
 
 function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
-  const qrSize = 232
+  const qrSize = 220
   const qrX = x + width - qrSize - 30
-  const qrY = y + 56
+  const qrY = y + 44
   const leftWidth = qrX - x - 44
 
   doc
@@ -318,16 +325,19 @@ function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc.fillColor(COLORS.muted).fontSize(11).text('翻譯鑰匙 +1', x + 34, y + 168, {
     width: leftWidth,
   })
-  doc.fillColor(COLORS.muted).fontSize(12).text('見つけたらiPadカメラでスキャン', x + 34, y + 190, {
+  doc.fillColor(COLORS.muted).fontSize(12).text('iPad標準カメラで読み、Safariで開く', x + 34, y + 190, {
     width: leftWidth,
   })
-  doc.fillColor(COLORS.muted).fontSize(10).text('控制中心QR掃描器不可', x + 34, y + 208, {
+  doc.fillColor(COLORS.muted).fontSize(10).text('請用iPad內建相機，並用Safari開啟', x + 34, y + 208, {
+    width: leftWidth,
+  })
+  doc.fillColor(COLORS.red).fontSize(9).text('QRコードリーダー不可 / 不要使用控制中心QR掃描器', x + 34, y + 224, {
     width: leftWidth,
   })
 
-  doc.image(treasureChestPath, x + 50, y + 206, {
-    width: 148,
-    height: 148,
+  doc.image(treasureChestPath, x + 58, y + 238, {
+    width: 126,
+    height: 126,
   })
 
   doc
@@ -336,24 +346,31 @@ function drawTreasureQrCard(doc, row, qrBuffer, x, y, width, height) {
   doc.image(qrBuffer, qrX, qrY, { width: qrSize, height: qrSize })
   doc
     .fillColor(COLORS.navy)
-    .fontSize(13)
-    .text('Scan with iPad Camera / Safari', qrX - 4, qrY + qrSize + 8, {
+    .fontSize(10.5)
+    .text('iPad標準カメラ → Safari', qrX - 4, qrY + qrSize + 24, {
+      width: qrSize + 8,
+      align: 'center',
+    })
+  doc
+    .fillColor(COLORS.navy)
+    .fontSize(9.5)
+    .text('請用iPad內建相機 → Safari', qrX - 4, qrY + qrSize + 39, {
       width: qrSize + 8,
       align: 'center',
     })
   doc
     .fillColor(COLORS.red)
-    .fontSize(8.8)
-    .text('Do not use Control Center QR Reader', qrX - 4, qrY + qrSize + 25, {
+    .fontSize(7.8)
+    .text('QRコードリーダーは使わない / 不要使用控制中心QR掃描器', qrX - 4, qrY + qrSize + 54, {
       width: qrSize + 8,
       align: 'center',
     })
   doc
     .fillColor(COLORS.muted)
     .fontSize(8.5)
-    .text(row.url, qrX - 12, qrY + qrSize + 42, {
+    .text(row.url, qrX - 12, qrY + qrSize + 69, {
       width: qrSize + 24,
-      height: 28,
+      height: 22,
       align: 'center',
     })
 }

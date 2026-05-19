@@ -397,7 +397,8 @@ h2 .bilingual-text,
   font-weight: 700;
 }
 
-.storage-warning {
+.storage-warning,
+.environment-warning {
   margin-bottom: 16px;
   padding: 14px 16px;
   border: 1px solid rgba(214, 69, 69, 0.35);
@@ -407,6 +408,13 @@ h2 .bilingual-text,
   color: var(--primary-dark);
   font-weight: 800;
   line-height: 1.5;
+}
+
+.environment-warning {
+  background: #fff4d6;
+  border-color: rgba(242, 184, 68, 0.55);
+  border-left-color: var(--gold);
+  color: #6c3f00;
 }
 
 .top-bar {

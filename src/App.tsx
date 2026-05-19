@@ -41,11 +41,23 @@ type TranslationChoiceLine = {
   label: string
   text: string
 }
+type EnvironmentWarning = {
+  ja: string
+  zh: string
+}
 
 const EVENT_NAME = 'Japan–Taiwan School Discovery Rally'
 const EVENT_SUBTITLE = '台湾交流会 校内QRクイズラリー / 臺灣交流會 校園QR問答闖關'
 const STORAGE_ERROR_MESSAGE =
   'この端末では保存に失敗しました。先生に知らせてください。／此裝置儲存失敗，請告訴老師。'
+const SAFARI_WARNING_MESSAGE = {
+  ja: 'iPadの標準カメラでQRを読み取り、Safariで開いてください。コントロールセンターのQRコードリーダーやSafari以外のアプリでは、点数が保存されないことがあります。',
+  zh: '請用iPad內建相機掃描QR，並用Safari開啟。不要使用控制中心的QR掃描器；若用Safari以外的App開啟，分數可能不會被儲存。',
+} satisfies EnvironmentWarning
+const STORAGE_UNAVAILABLE_WARNING_MESSAGE = {
+  ja: 'このブラウザでは点数の保存確認に失敗しました。先生に知らせて、Safariで開き直してください。',
+  zh: '這個瀏覽器無法確認分數儲存功能。請告訴老師，並改用Safari重新開啟。',
+} satisfies EnvironmentWarning
 const NO_TRANSLATION_KEYS_MESSAGE =
   '翻訳の鍵はもう残っていません。／翻譯鑰匙已經用完了。'
 const DEMO_TEAM_NAME = 'デモ班'
@@ -173,6 +185,53 @@ function parseTimeLimitMinutes(value: string) {
   }
 
   return parsedValue
+}
+
+function getEnvironmentWarningMessage(): EnvironmentWarning | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  if (!canPersistInLocalStorage()) {
+    return STORAGE_UNAVAILABLE_WARNING_MESSAGE
+  }
+
+  if (isIOSDevice() && !isLikelySafari()) {
+    return SAFARI_WARNING_MESSAGE
+  }
+
+  return null
+}
+
+function canPersistInLocalStorage() {
+  try {
+    const testKey = '__taiwan_rally_storage_test__'
+    window.localStorage.setItem(testKey, 'ok')
+    const savedValue = window.localStorage.getItem(testKey)
+    window.localStorage.removeItem(testKey)
+    return savedValue === 'ok'
+  } catch {
+    return false
+  }
+}
+
+function isIOSDevice() {
+  return (
+    /iPad|iPhone|iPod/.test(window.navigator.userAgent) ||
+    (window.navigator.platform === 'MacIntel' &&
+      window.navigator.maxTouchPoints > 1)
+  )
+}
+
+function isLikelySafari() {
+  const userAgent = window.navigator.userAgent
+  const vendor = window.navigator.vendor
+
+  return (
+    /Safari/i.test(userAgent) &&
+    /Apple/i.test(vendor) &&
+    !/CriOS|FxiOS|EdgiOS|OPiOS|GSA|Line|Instagram|FBAN|FBAV/i.test(userAgent)
+  )
 }
 
 function createQuestionSetSignature(value: string) {
@@ -386,6 +445,9 @@ function App() {
   const [teamNameInput, setTeamNameInput] = useState(rallyState.teamName)
   const [teamNameError, setTeamNameError] = useState('')
   const [storageWarning, setStorageWarning] = useState('')
+  const [environmentWarning] = useState<EnvironmentWarning | null>(() =>
+    getEnvironmentWarningMessage(),
+  )
   const [screenMode, setScreenMode] = useState<ScreenMode>('home')
   const [questionId, setQuestionId] = useState<string | null>(() =>
     readQuestionIdFromUrl(),
@@ -891,6 +953,14 @@ function App() {
       {storageWarning && (
         <p className="storage-warning" role="alert">
           {storageWarning}
+        </p>
+      )}
+      {environmentWarning && (
+        <p className="environment-warning" role="alert">
+          <BilingualText
+            ja={environmentWarning.ja}
+            zh={environmentWarning.zh}
+          />
         </p>
       )}
 
