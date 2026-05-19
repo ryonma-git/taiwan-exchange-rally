@@ -16,6 +16,7 @@
 
 この活動は、班ごとに学校の中を回って、QRコードを探すクイズラリーです。  
 QRコードを見つけたら、班のiPadのカメラで読み取って、Safariで開きます。するとクイズが出てくるので、班のみんなで相談して、4つの答えの中から1つを選びます。
+このとき、iPadのコントロールセンターにあるQRリーダーは使いません。標準のカメラアプリでQRを読み取って、Safariで開いてください。
 
 正解すると、その班のiPadの中に点数がたまっていきます。  
 最後に、いちばん点数の高かった班が勝ちです。
@@ -68,6 +69,7 @@ I will explain the rules of the Japan-Taiwan School Discovery Rally.
 
 This is a quiz rally. Each team will walk around the school and look for QR codes.  
 When you find a QR code, scan it with the iPad camera and open it in Safari. A quiz question will appear. Talk with your teammates and choose one answer from four choices.
+Do not use the QR Code Reader from Control Center. Please use the normal iPad Camera app and open the page in Safari.
 
 If your answer is correct, your team gets points on the iPad.  
 At the end, the team with the highest score wins.
@@ -110,4 +112,3 @@ This is a scoring game, but the most important thing is communication.
 Use Japanese, Chinese, and English. Ask your teammates. Teach your teammates. Help each other.
 
 Now, work together with your team and enjoy the 20-minute quiz rally.
-

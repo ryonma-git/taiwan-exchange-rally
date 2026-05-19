@@ -192,6 +192,7 @@ npm run generate:pdf -- --base https://deployed-url.example/taiwan-rally
 - SafariでデプロイURLが開ける。
 - iPad標準カメラで問題QRを読み取り、Safariで `?q=r15hn85q` のようなURLが開く。
 - iPad標準カメラで宝箱QRを読み取り、Safariで `?treasure=r16izxik` のようなURLが開く。
+- コントロールセンターのQRリーダーではなく、標準カメラからSafariへ開くことを確認する。
 - 班名入力、回答、Result表示ができる。
 - 翻訳の鍵が使える。
 - 同じ問題に再回答できない。
@@ -201,6 +202,7 @@ npm run generate:pdf -- --base https://deployed-url.example/taiwan-rally
 
 - 1班1台で使います。途中で端末やブラウザを変えないでください。
 - QR読み取りはアプリ内では行いません。iPad標準カメラで読み取り、Safariで開きます。
+- iOSのコントロールセンターQRリーダーは使わないでください。Safari本体と保存領域が分かれ、点数が記録されないことがあります。
 - 成績はLocalStorageに保存されます。
 - タイマーはStart時に始まります。デフォルトは20分です。Start画面の時間設定で端末ごとに変更できます。
 - 時間切れ後は新しい未回答問題には回答できません。

@@ -1142,8 +1142,8 @@ function App() {
               </h2>
               <p>
                 <BilingualText
-                  ja="iPadの標準カメラでQRコードを読み取り、Safariで開いてください。画面に表示された問題を選んで回答します。"
-                  zh="請用iPad內建相機掃描QR碼，並用Safari開啟。看畫面上的題目後選擇答案。"
+                  ja="iPadの標準カメラでQRコードを読み取り、Safariで開いてください。コントロールセンターのQRリーダーは使いません。"
+                  zh="請用iPad內建相機掃描QR碼，並用Safari開啟。不要使用控制中心的QR掃描器。"
                 />
               </p>
             </article>

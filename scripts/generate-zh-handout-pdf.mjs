@@ -110,7 +110,7 @@ function drawHeader(doc) {
     .fillColor(colors.navy)
     .fontSize(12.5)
     .text(
-      '每一隊使用一台 iPad，在指定區域尋找QR碼。掃描後開啟題目，和隊友討論，再從四個選項中選出答案。',
+      '每一隊使用一台 iPad，在指定區域尋找QR碼。請用內建相機掃描，並用 Safari 開啟。不要使用控制中心QR掃描器。',
       62,
       140,
       { width: 459, lineGap: 3 },
@@ -121,7 +121,7 @@ function drawFlow(doc) {
   const steps = [
     ['1', '輸入隊名，按 Start'],
     ['2', '尋找QR碼'],
-    ['3', '掃描並討論作答'],
+    ['3', '用相機掃描並作答'],
     ['4', '回體育館，截圖提交'],
   ]
   const x0 = 48
