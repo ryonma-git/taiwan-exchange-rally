@@ -14,6 +14,7 @@
     "generate:pdf": "node scripts/generate-print-pdfs.mjs",
     "generate:print": "node scripts/generate-print.mjs",
     "generate:briefing": "node scripts/generate-briefing-deck.mjs",
+    "generate:ai-deck": "node scripts/generate-ai-development-deck.mjs",
     "generate:zh-handout": "node scripts/generate-zh-handout-pdf.mjs"
   },
   "dependencies": {
